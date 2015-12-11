@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dsn="http://schemas.android.com/apk/com.dasinong.app"
+    android:id="@+id/ll_all"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/color_FFFFFF"
+    android:orientation="vertical" >
+
+    <com.dasinong.farmerclub.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.dasinong.farmerclub.ui.view.AddFieldTabView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        dsn:tvLocationColor="@color/color_2BAD2A" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="95dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginTop="45dp" >
+
+        <ImageView
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:src="@drawable/thinking" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="我猜猜..."
+                android:textColor="@color/color_333333"
+                android:textSize="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="你的农田是不是在..."
+                android:textColor="@color/color_333333"
+                android:textSize="16dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <com.dasinong.farmerclub.ui.view.ExpandTabView
+        android:id="@+id/etv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp" />
+
+    <Button
+        android:id="@+id/btn_sure_location"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/green_button_selector"
+        android:text="确定"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="16sp" />
+
+</LinearLayout>

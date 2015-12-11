@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dsn="http://schemas.android.com/apk/com.dasinong.app"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/color_FFFFFF"
+    android:orientation="vertical" >
+
+    <com.dasinong.farmerclub.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.dasinong.farmerclub.ui.view.AddFieldTabView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        dsn:ivOneColor="@drawable/green_round"
+        dsn:ivTwoColor="@drawable/green_round"
+        dsn:tvInfoColor="@color/color_2BAD2A"
+        dsn:tvLocationColor="@color/color_2BAD2A"
+        dsn:tvVarietyColor="@color/color_2BAD2A"
+        dsn:viewOneColor="@color/color_2BAD2A"
+        dsn:viewTwoColor="@color/color_2BAD2A" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="95dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginTop="45dp"
+        android:layout_marginRight="25dp" >
+
+        <ImageView
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:src="@drawable/closeeyesmile" />
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="25dp"
+            android:gravity="center_vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="你的种植方式是？"
+                android:textColor="@color/color_333333"
+                android:textSize="16dp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/btn_direct_seeding"
+            android:layout_width="145dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/gray_button_selector"
+            android:text="直播"
+            android:textColor="@color/color_666666"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_transplanting"
+            android:layout_width="145dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/green_button_selector"
+            android:text="移栽"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.bingoogolapple.refreshlayout.BGARefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rl_modulename_refresh"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/home_w_white" >
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" >
+
+            <com.dasinong.farmerclub.components.home.view.HomeTopView
+                android:id="@+id/home_top_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+                <com.dasinong.farmerclub.components.home.view.BannerView
+                    android:id="@+id/home_banner"
+                    android:layout_width="match_parent"
+                    android:layout_height="116dp"
+                    android:background="#FFFEDA" />
+
+            <com.dasinong.farmerclub.components.home.view.HomeWeatherView
+                android:id="@+id/weather"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </ScrollView>
+
+</cn.bingoogolapple.refreshlayout.BGARefreshLayout>

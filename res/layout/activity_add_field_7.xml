@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dsn="http://schemas.android.com/apk/com.dasinong.app"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" 
+    android:background="@color/color_FFFFFF" >
+
+    <com.dasinong.farmerclub.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <com.dasinong.farmerclub.ui.view.AddFieldTabView
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        dsn:ivOneColor="@drawable/green_round"
+        dsn:ivThreeColor="@drawable/green_round"
+        dsn:ivTwoColor="@drawable/green_round"
+        dsn:tvDataColor="@color/color_2BAD2A"
+        dsn:tvInfoColor="@color/color_2BAD2A"
+        dsn:tvLocationColor="@color/color_2BAD2A"
+        dsn:tvVarietyColor="@color/color_2BAD2A"
+        dsn:viewOneColor="@color/color_2BAD2A"
+        dsn:viewThreeColor="@color/color_2BAD2A"
+        dsn:viewTwoColor="@color/color_2BAD2A" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="95dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="45dp"
+        android:gravity="center_horizontal" >
+        
+
+        <ImageView
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:src="@drawable/stand_happy_cheers" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="25dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/tv_user_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="从今天起,记得每天打开App,查查今天适宜的农事,并给出反馈,我们会不断优化你的种植方案。"
+                android:textColor="@color/color_333333"
+                android:textSize="16dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="45dp"
+        android:orientation="horizontal"
+        android:gravity="center_horizontal" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="本季目标产量："
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/et_target_production"
+            android:layout_width="100dp"
+            android:layout_height="45dp"
+            android:background="@drawable/text_bg"
+            android:inputType="numberDecimal" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:text="斤/亩" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_finish_add_field"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/green_button_selector"
+        android:text="马上开启增产模式吧!"
+        android:textColor="@color/color_FFFFFF"
+        android:textSize="16sp" />
+
+</LinearLayout>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/vp_pic"
+            android:layout_width="match_parent"
+            android:layout_height="220dp" />
+
+        <ImageButton
+            android:id="@+id/left_button"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:background="@color/color_99666666"
+            android:src="@drawable/left_arrow" />
+
+        <ImageButton
+            android:id="@+id/right_button"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_gravity="right|center_vertical"
+            android:background="@color/color_99666666"
+            android:src="@drawable/right_arrow" />
+
+        <TextView
+            android:id="@+id/tv_show_position"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@color/color_99666666"
+            android:gravity="right"
+            android:paddingRight="10dp"
+            android:textColor="@color/white"
+            android:textSize="16dp" />
+    </FrameLayout>
+
+    <com.dasinong.farmerclub.ui.view.MyTabView
+        android:id="@+id/mtv_variety"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/tabview_bg" />
+
+    <com.dasinong.farmerclub.ui.view.MyTextView
+        android:id="@+id/tv_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="5dp"
+		android:layout_margin="20dp"
+        android:textSize="16sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/color_E9E9E9" />
+
+</LinearLayout>

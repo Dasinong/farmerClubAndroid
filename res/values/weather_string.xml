@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="weeks">
+        <item>周日</item>
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+
+    </string-array>
+
+
+
+    <string-array name="winddirect">
+        <item>无持续风向</item>
+        <item>东北风</item>
+        <item>东风</item>
+        <item>东南风</item>
+        <item>南风</item>
+        <item>西南风</item>
+        <item>西风</item>
+        <item>西北风</item>
+        <item>北风</item>
+        <item>旋转风</item>
+
+    </string-array>
+
+    <string-array name="wind">
+        <item>微风</item>
+        <item>风3-4级</item>
+        <item>风4-5级</item>
+        <item>风5-6级</item>
+        <item>风6-7级</item>
+        <item>风7-8级</item>
+        <item>风8-9级</item>
+        <item>风9-10级</item>
+        <item>风10-11级</item>
+        <item>风11-12级</item>
+
+    </string-array>
+</resources>

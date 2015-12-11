@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/button_white_bg_selector"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/ll_title"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:text="治疗方法"
+            android:textColor="@color/color_666666"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/small_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_E9E9E9" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp" >
+
+        <TextView
+            android:id="@+id/tv_method_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="防治方案A"
+            android:textColor="@color/color_333333"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/tv_crop_stage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/crop_stage_bg"
+            android:gravity="center"
+            android:text="种子阶段,种子阶段,种子阶段,种子阶段,种子阶段,"
+            android:maxWidth="140dp"
+            android:lines="1"
+            android:ellipsize="end"
+            android:textColor="@android:color/white"
+            android:paddingBottom="5dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_provider"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="8dp"
+        android:text="防止中心提供"
+        android:textColor="@color/color_999999"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/tv_content"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="15dp"
+        android:ellipsize="end"
+        android:lineSpacingExtra="11dp"
+        android:maxLines="3"
+        android:text="我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，我是测试文字，"
+        android:textColor="@color/color_333333"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tv_drug"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="15dp"
+        android:ellipsize="end"
+        android:textColor="@color/color_999999"
+        android:textSize="16sp"
+        android:text="我是药物，我是药物，我是药物，我是药物，我是药物，我是药物，我是药物，我是药物"
+        android:maxLines="1" />
+
+    <View
+        android:id="@+id/big_line"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/color_E9E9E9" />
+
+</LinearLayout>

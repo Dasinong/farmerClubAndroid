@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableRow xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/home_w_white"
+                android:gravity="center_vertical"
+              android:orientation="vertical"
+                android:paddingBottom="0dp">
+
+
+
+    <TextView
+        android:id="@+id/tvItemDay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="@dimen/home_dimen_30"
+        android:layout_marginTop="@dimen/home_dimen_30"
+        android:text="周五"
+        android:textColor="#999999"
+        android:textSize="@dimen/home_text_size_32"/>
+
+
+    <ImageView
+        android:id="@+id/ivItemWind"
+        android:layout_width="@dimen/home_dimen_50"
+        android:layout_height="@dimen/home_dimen_50"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/home_dimen_55"
+        android:layout_toRightOf="@id/tvItemDay"
+        android:src="@drawable/ic_weather_dafeng"/>
+
+    <TextView
+        android:id="@+id/tvItemWeather"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="@dimen/home_dimen_20"
+        android:layout_toRightOf="@id/ivItemWind"
+        android:text="晴转多云"
+        android:textColor="#999999"
+        android:textSize="@dimen/home_text_size_28"/>
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:layout_toLeftOf="@+id/tvItemWindSpeed"
+        android:layout_toRightOf="@+id/tvItemWeather"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:id="@+id/tvItemTempHight"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:text="18~"
+            android:textColor="#666666"
+            android:textSize="@dimen/home_text_size_36"/>
+
+        <TextView
+            android:id="@+id/tvItemTempLow"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+
+            android:text="8℃"
+            android:textColor="#86a4ff"
+            android:textSize="@dimen/home_text_size_36"/>
+
+    </LinearLayout>
+
+
+    <TextView
+
+        android:layout_marginLeft="5dp"
+        android:id="@+id/tvItemWindSpeed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="right"
+        android:text="3~4级"
+        android:textColor="#999999"
+        android:textSize="@dimen/home_text_size_32"/>
+
+
+
+</TableRow>
+
+
+
