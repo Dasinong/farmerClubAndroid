@@ -59,9 +59,10 @@ public class ContactUsActivity extends BaseActivity {
 				} else {
 					Intent intent = new Intent();
 					//这个意图就是调用系统的拨打活动
-					intent.setAction(Intent.ACTION_CALL);
+					intent.setAction(Intent.ACTION_DIAL);
 					//设置要拨打的电话号号码
 					intent.setData(Uri.parse("tel:4000556050"));//uriString的格式为“tel:电话号码”
+					intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					//开始调整到打电话的活动
 					startActivity(intent);
 				}

@@ -132,7 +132,7 @@ public class NetConfig {
 		/** 按照id搜索品种 */
 		public static final String GET_VARIETY_BAIKE_BY_ID = "getVarietyBaiKeById";
 		/** 按照id搜索农药 */
-		public static final String GET_CPPRODUCT_BY_ID = "getCPProductById";
+		public static final String GET_CPPRODUCT_BY_ID = "getFormattedCPProductById";
 		/** 按照id搜索病虫草害 */
 		public static final String GET_PETDISSPEC_BAIKE_BY_ID = "getPetDisSpecBaiKeById";
 		/** 提交 查看 删除关注作物 */
@@ -141,12 +141,10 @@ public class NetConfig {
 		public static final String INSTITUTIONS = "institutions";
 		/** 提交 查看 删除关注天气地区 */
 		public static final String WEATHER_SUBSCRIPTIONS = "weatherSubscriptions";
-		
+
 		public static final String LOAD_WEATHER = "loadWeather";
-		
+
 		public static final String GET_BANNER = "laonongs";
-		
-		
 
 	}
 
@@ -234,8 +232,7 @@ public class NetConfig {
 	 * @param address
 	 * @return 注册
 	 */
-	public static Map<String, String> getRegisterParams(String userName, String password, String cellPhone, String address, String channel,
-			String institutionId) {
+	public static Map<String, String> getRegisterParams(String userName, String password, String cellPhone, String address, String channel, String institutionId) {
 		Map<String, String> paramsMap = getBaseParams(true, getTokenParams(Params.username, userName), getTokenParams(Params.password, password),
 				getTokenParams(Params.cellphone, cellPhone), getTokenParams(Params.address, address));
 		paramsMap.put(Params.username, userName);
@@ -354,7 +351,11 @@ public class NetConfig {
 		if (isNeedAuthToken) {
 			token = AccountManager.getAuthToken(DsnApplication.getContext());
 			paramsMap.put(Params.token, token);
-		} else {
+		}
+
+		int version = AppInfoUtils.getVersionCode(DsnApplication.getContext());
+		if (version <= 0) {
+			version = 1;
 		}
 
 		String product = android.os.Build.PRODUCT;
@@ -363,6 +364,7 @@ public class NetConfig {
 		paramsMap.put(Params.deviceType, product);
 		paramsMap.put(Params.deviceId, deviceId);
 		paramsMap.put(Params.appId, DsnApplication.APP_ID);
+		paramsMap.put(Params.version, String.valueOf(version));
 
 		return paramsMap;
 	}
@@ -511,8 +513,8 @@ public class NetConfig {
 		return getBaseParams(true, paramsMap);
 	}
 
-	public static Map<String, String> getCreateFieldParams(String isActive, String seedingortransplant, String area, String startDate,
-			String locationId, String varietyId, String currentStageId, String yield) {
+	public static Map<String, String> getCreateFieldParams(String isActive, String seedingortransplant, String area, String startDate, String locationId,
+			String varietyId, String currentStageId, String yield) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.isActive, isActive);
 		paramsMap.put(Params.seedingortransplant, seedingortransplant);
@@ -620,17 +622,18 @@ public class NetConfig {
 		paramsMap.put(Params.id, id);
 		return getBaseParams(true, paramsMap);
 	}
-	
+
 	public static Map<String, String> getGetPetDisSpecBaiKeByIdParams(String id) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.id, id);
 		return getBaseParams(true, paramsMap);
 	}
+
 	public static Map<String, String> getCropSubscriptionsParams(List<String> cropIds) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		String strCropIds = "";
 		for (String cropId : cropIds) {
-			if(cropIds.indexOf(cropId) == cropIds.size() - 1){
+			if (cropIds.indexOf(cropId) == cropIds.size() - 1) {
 				strCropIds = strCropIds + cropId;
 			} else {
 				strCropIds = strCropIds + cropId + ",";
@@ -639,12 +642,14 @@ public class NetConfig {
 		paramsMap.put(Params.cropId, strCropIds);
 		return getBaseParams(true, paramsMap);
 	}
+
 	public static Map<String, String> getWeatherSubscriptionsParams(String id) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.locationId, id);
 		return getBaseParams(true, paramsMap);
 	}
-	public static Map<String, String> getLoadWeatherParams(String monitorLocationId,String lat,String lon) {
+
+	public static Map<String, String> getLoadWeatherParams(String monitorLocationId, String lat, String lon) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.monitorLocationId, monitorLocationId);
 		paramsMap.put(Params.latitude, lat);

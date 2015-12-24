@@ -257,7 +257,7 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getGetVarietyBaiKeByIdParams(id);
 		new NetRequest(context).get(RequestCode.GET_VARIETY_BAIKE_BY_ID, params, SubUrl.GET_VARIETY_BAIKE_BY_ID, callBack, clazz);
 	}
-	public void getCPProductById(Context context, String id, Class<? extends BaseEntity> clazz, RequestListener callBack){
+	public void getFormattedCPProductById(Context context, String id, Class<? extends BaseEntity> clazz, RequestListener callBack){
 		Map<String, String> params = NetConfig.getGetCPProductByIdParams(id);
 		new NetRequest(context).get(RequestCode.GET_CPPRODUCT_BY_ID, params, SubUrl.GET_CPPRODUCT_BY_ID, callBack, clazz);
 	}
