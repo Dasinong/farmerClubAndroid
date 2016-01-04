@@ -12,7 +12,6 @@ public class InstitutionCropEntity extends BaseEntity {
 	public class Crop {
 		public int cropId;
 		public String cropName;
-		public int id;
-		public int userId;
+		public String type;
 	}
 }

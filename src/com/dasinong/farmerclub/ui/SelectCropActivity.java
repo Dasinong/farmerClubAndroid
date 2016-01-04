@@ -47,8 +47,7 @@ public class SelectCropActivity extends BaseActivity {
 	private void queryCrop() {
 		
 		startLoadingDialog();
-		int institutionId = SharedPreferencesHelper.getInt(this, Field.INSTITUTIONID, 1);
-		RequestService.getInstance().institutions(this, institutionId, InstitutionCropEntity.class, new RequestListener() {
+		RequestService.getInstance().getSubscriableCrops(this,InstitutionCropEntity.class, new RequestListener() {
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				if (resultData.isOk()) {
@@ -63,11 +62,10 @@ public class SelectCropActivity extends BaseActivity {
 					} else {
 						showToast(R.string.please_check_netword);
 					}
-					dismissLoadingDialog();
 				} else {
 					showToast(R.string.please_check_netword);
-					dismissLoadingDialog();
 				}
+				dismissLoadingDialog();
 			}
 
 			@Override

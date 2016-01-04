@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dasinong.farmerclub"
-    android:versionCode="2"
-    android:versionName="1.01" >
+    android:versionCode="3"
+    android:versionName="1.02-build1" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -141,6 +141,12 @@
         <activity
             android:name=".ui.RecommendRegistActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.dasinong.farmerclub.ui.SelectUserTypeActivity"
+            android:screenOrientation="portrait" />
+        <activity 
+            android:name="com.dasinong.farmerclub.ui.SubmitBusinessmanInfo"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.NotFarmWorkActivity"
             android:screenOrientation="portrait" >

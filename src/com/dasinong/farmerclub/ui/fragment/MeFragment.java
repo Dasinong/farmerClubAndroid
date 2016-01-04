@@ -23,8 +23,10 @@ import com.dasinong.farmerclub.ui.RecommendActivity;
 import com.dasinong.farmerclub.ui.RecommendRegistActivity;
 import com.dasinong.farmerclub.ui.RegisterPasswordActivity;
 import com.dasinong.farmerclub.ui.RegisterPhoneActivity;
+import com.dasinong.farmerclub.ui.SelectCropActivity;
 import com.dasinong.farmerclub.ui.SmsSettingActivity;
 import com.dasinong.farmerclub.ui.SmsSubscribeActivity;
+import com.dasinong.farmerclub.ui.SubmitBusinessmanInfo;
 import com.dasinong.farmerclub.ui.TaskDetailsActivity;
 import com.dasinong.farmerclub.ui.WebBrowserActivity;
 import com.dasinong.farmerclub.ui.manager.AccountManager;
@@ -178,9 +180,6 @@ public class MeFragment extends Fragment implements OnClickListener {
 			helpIntent.putExtra("url", "file:///android_asset/HelpCenter.html");
 			helpIntent.putExtra("title", "帮助中心");
 			startActivity(helpIntent);
-
-//			Intent loginIntent = new Intent(getActivity(), RegisterPhoneActivity.class);
-//			getActivity().startActivity(loginIntent);
 			break;
 		case R.id.layout_use:// 使用教程
 

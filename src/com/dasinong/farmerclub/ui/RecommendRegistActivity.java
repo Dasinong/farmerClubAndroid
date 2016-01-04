@@ -68,14 +68,14 @@ public class RecommendRegistActivity extends BaseActivity implements OnClickList
 							
 							SharedPreferencesHelper.setInt(RecommendRegistActivity.this, Field.REFUID, entity.getData().getRefuid());
 							SharedPreferencesHelper.setInt(RecommendRegistActivity.this, Field.INSTITUTIONID, entity.getData().getInstitutionId());
-							Class clazz = null;
-							if(entity.getData().getInstitutionId() == 0){
-								clazz = AddCropActivity.class;
-							} else {
-								clazz = SelectCropActivity.class;
-							}
+//							Class clazz = null;
+//							if(entity.getData().getInstitutionId() == 0){
+//								clazz = AddCropActivity.class;
+//							} else {
+//								clazz = SelectCropActivity.class;
+//							}
 							
-							Intent selectIntent = new Intent(RecommendRegistActivity.this, clazz);
+							Intent selectIntent = new Intent(RecommendRegistActivity.this, SelectUserTypeActivity.class);
 							RecommendRegistActivity.this.startActivity(selectIntent);
 
 						} else {
@@ -95,7 +95,7 @@ public class RecommendRegistActivity extends BaseActivity implements OnClickList
 			}
 			break;
 		case R.id.tv_skip:
-			Intent addCropIntrent = new Intent(this, AddCropActivity.class);
+			Intent addCropIntrent = new Intent(this, SelectUserTypeActivity.class);
 			startActivity(addCropIntrent);
 			break;
 		}

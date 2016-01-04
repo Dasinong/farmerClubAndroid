@@ -116,4 +116,11 @@ public final class RequestCode {
 	public static final int LOAD_WEATHER = WEATHER_SUBSCRIPTIONS + 1;
 	/** 加载老农 */
 	public static final int GET_BANNER = LOAD_WEATHER + 1;
+	/** 申请农资店 */
+	public static final int STORES = GET_BANNER + 1;
+	/** 设置用户类型 */
+	public static final int SET_USER_TYPE = STORES + 1;
+	/** 新获取可以关注作物列表 */
+	public static final int GET_SUBSCRIABLE_CROPS = SET_USER_TYPE + 1;
+	
 }

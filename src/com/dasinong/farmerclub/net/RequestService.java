@@ -294,4 +294,16 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getLoadWeatherParams(monitorLocationId, lat, lon);
 		new NetRequest(context).get(RequestCode.GET_BANNER, params, SubUrl.GET_BANNER, callBack, clazz);
 	}
+	public void stores(Context context,String name,String desc, String locationId,String streetAndNumber,String latitude, String longitude,String contactName,String phone, String type,String source, Class<? extends BaseEntity> clazz, RequestListener callBack){
+		Map<String, String> params = NetConfig.getStoresParams(name, desc, locationId,streetAndNumber,latitude,longitude,contactName,phone,type,source);
+		new NetRequest(context).requestPost(RequestCode.STORES, params, SubUrl.STORES, callBack, clazz);
+	}
+	public void setUserType(Context context, String type,Class<? extends BaseEntity> clazz, RequestListener callBack){
+		Map<String, String> params = NetConfig.getSetUserTypeParams(type);
+		new NetRequest(context).requestPost(RequestCode.SET_USER_TYPE, params, SubUrl.SET_USER_TYPE, callBack, clazz);
+	}
+	public void getSubscriableCrops(Context context,Class<? extends BaseEntity> clazz, RequestListener callBack){
+		Map<String, String> params = NetConfig.getDefaultParams();
+		new NetRequest(context).get(RequestCode.GET_SUBSCRIABLE_CROPS, params, SubUrl.GET_SUBSCRIABLE_CROPS, callBack, clazz);
+	}
 }

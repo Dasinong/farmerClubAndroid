@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.widget.LinearLayout;
 
 public class SelectCropAdapter extends MyBaseAdapter<String> {
 
@@ -25,17 +26,20 @@ public class SelectCropAdapter extends MyBaseAdapter<String> {
 			holder = new ViewHolder();
 			view = View.inflate(context, R.layout.checkbox_crop, null);
 			holder.checkBox = (CheckBox) view.findViewById(R.id.cb_crop);
+			holder.linearLayout = (LinearLayout) view.findViewById(R.id.ll_add_crop);
 			view.setTag(holder);
 		} else {
 			holder = (ViewHolder) view.getTag();
 		}
 
 		holder.checkBox.setText(list.get(pos));
+		holder.linearLayout.setVisibility(View.GONE);
 		return view;
 	}
 
 	public static class ViewHolder {
 		CheckBox checkBox;
+		LinearLayout linearLayout;
 	}
 
 }

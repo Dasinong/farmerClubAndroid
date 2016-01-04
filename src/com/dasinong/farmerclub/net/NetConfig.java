@@ -146,6 +146,11 @@ public class NetConfig {
 
 		public static final String GET_BANNER = "laonongs";
 
+		public static final String STORES = "stores";
+
+		public static final String SET_USER_TYPE = "setUserType";
+		
+		public static final String GET_SUBSCRIABLE_CROPS = "getSubscriableCrops";
 	}
 
 	public static String getRequestUrl(String subUrl) {
@@ -161,8 +166,8 @@ public class NetConfig {
 		public static final String cellphone = "cellphone";
 		public static final String userName = "userName";
 		public static final String address = "address";
-		public static final String latitude = "lat";
-		public static final String longitude = "lon";
+		public static final String lat = "lat";
+		public static final String lon = "lon";
 		public static final String mprovince = "province";
 		public static final String mcity = "city";
 		public static final String mdistrict = "country";
@@ -217,6 +222,14 @@ public class NetConfig {
 		public static final String version = "version";
 		public static final String institutionId = "institutionId";
 		public static final String appId = "appId";
+		public static final String desc = "desc";
+		public static final String streetAndNumber = "streetAndNumber";
+		public static final String latitude = "latitude";
+		public static final String longitude = "longitude";
+		public static final String contactName = "contactName";
+		public static final String phone = "phone";
+		public static final String source = "source";
+
 	}
 
 	public static class ResponseCode {
@@ -384,10 +397,10 @@ public class NetConfig {
 	}
 
 	public static Map<String, String> getSearchLocationParams(String latitude, String longitude, String mprovince, String mcity, String mdistrict) {
-		Map<String, String> paramsMap = getBaseParams(true, getTokenParams(Params.latitude, latitude), getTokenParams(Params.longitude, longitude),
+		Map<String, String> paramsMap = getBaseParams(true, getTokenParams(Params.lat, latitude), getTokenParams(Params.lon, longitude),
 				getTokenParams(Params.mprovince, mprovince), getTokenParams(Params.mcity, mcity), getTokenParams(Params.mdistrict, mdistrict));
-		paramsMap.put(Params.latitude, latitude);
-		paramsMap.put(Params.longitude, longitude);
+		paramsMap.put(Params.lat, latitude);
+		paramsMap.put(Params.lon, longitude);
 		paramsMap.put(Params.mprovince, mprovince);
 		paramsMap.put(Params.mcity, mcity);
 		paramsMap.put(Params.mdistrict, mdistrict);
@@ -412,9 +425,9 @@ public class NetConfig {
 	}
 
 	public static Map<String, String> getSearchNearUserParams(String latitude, String longitude) {
-		Map<String, String> paramsMap = getBaseParams(true, getTokenParams(Params.latitude, latitude), getTokenParams(Params.longitude, longitude));
-		paramsMap.put(Params.latitude, latitude);
-		paramsMap.put(Params.longitude, longitude);
+		Map<String, String> paramsMap = getBaseParams(true, getTokenParams(Params.lat, latitude), getTokenParams(Params.lon, longitude));
+		paramsMap.put(Params.lat, latitude);
+		paramsMap.put(Params.lon, longitude);
 		return paramsMap;
 	}
 
@@ -652,8 +665,30 @@ public class NetConfig {
 	public static Map<String, String> getLoadWeatherParams(String monitorLocationId, String lat, String lon) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.monitorLocationId, monitorLocationId);
-		paramsMap.put(Params.latitude, lat);
-		paramsMap.put(Params.longitude, lon);
+		paramsMap.put(Params.lat, lat);
+		paramsMap.put(Params.lon, lon);
+		return getBaseParams(true, paramsMap);
+	}
+
+	public static Map<String, String> getStoresParams(String name, String desc, String locationId, String streetAndNumber, String latitude, String longitude,
+			String contactName, String phone, String type, String source) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.name, name);
+		paramsMap.put(Params.desc, desc);
+		paramsMap.put(Params.locationId, locationId);
+		paramsMap.put(Params.streetAndNumber, streetAndNumber);
+		paramsMap.put(Params.latitude, latitude);
+		paramsMap.put(Params.longitude, longitude);
+		paramsMap.put(Params.contactName, contactName);
+		paramsMap.put(Params.phone, phone);
+		paramsMap.put(Params.type, type);
+		paramsMap.put(Params.source, source);
+		return getBaseParams(true, paramsMap);
+	}
+
+	public static Map<String, String> getSetUserTypeParams(String type) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.type, type);
 		return getBaseParams(true, paramsMap);
 	}
 }
