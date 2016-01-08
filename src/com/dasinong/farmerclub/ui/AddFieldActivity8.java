@@ -49,7 +49,7 @@ public class AddFieldActivity8 extends MyBaseActivity implements OnClickListener
 			SharedPreferencesHelper.setString(this, Field.SEEDING_METHOD, "false");
 			break;
 		}
-		Intent intent = new Intent(this, AddFieldActivity5.class);
+		Intent intent = new Intent(this, SelectSubStageActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
 		overridePendingTransition(0, 0);

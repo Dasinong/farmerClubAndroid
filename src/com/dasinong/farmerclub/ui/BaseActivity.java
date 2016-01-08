@@ -14,7 +14,10 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class BaseActivity extends FragmentActivity {
@@ -29,8 +32,8 @@ public class BaseActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		PushAgent.getInstance(this).onAppStart();
 	}
-	
-	//友盟统计，页面可见
+
+	// 友盟统计，页面可见
 	@Override
 	public void onResume() {
 		super.onResume();
@@ -113,7 +116,7 @@ public class BaseActivity extends FragmentActivity {
 			mDialog.dismiss();
 		}
 	}
-	
+
 	// 友盟统计页面不可见
 	@Override
 	public void onPause() {
@@ -141,6 +144,44 @@ public class BaseActivity extends FragmentActivity {
 	@Override
 	protected void onStop() {
 		super.onStop();
+	}
+
+	public void showRemindDialog(String title, String content, String sureButton, String cancelButton, final MyDialogClickListener dialogClickListener) {
+		final Dialog dialog = new Dialog(this, R.style.CommonDialog);
+		dialog.setContentView(R.layout.confirm_gps_network_dialog);
+		TextView tv = (TextView) dialog.findViewById(R.id.tv_dialog_hint);
+		TextView tv_title = (TextView) dialog.findViewById(R.id.tv_dialog_title);
+
+		tv_title.setText(title);
+		tv.setTextSize(22);
+
+		tv.setText(content);
+		tv.setTextSize(18);
+
+		Button waitBtn = (Button) dialog.findViewById(R.id.btn_dialog_ok);
+		waitBtn.setText(cancelButton);
+		waitBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				dialogClickListener.onCancelButtonClick();
+				dialog.dismiss();
+			}
+		});
+		Button backBtn = (Button) dialog.findViewById(R.id.btn_dialog_cancel);
+		backBtn.setText(sureButton);
+		backBtn.setOnClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				dialogClickListener.onSureButtonClick();
+				dialog.dismiss();
+			}
+		});
+		dialog.setCanceledOnTouchOutside(true);
+		dialog.show();
+	}
+
+	public interface MyDialogClickListener {
+		public void onSureButtonClick();
+
+		public void onCancelButtonClick();
 	}
 
 }

@@ -18,6 +18,7 @@ import com.dasinong.farmerclub.ui.manager.AccountManager;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
+import com.dasinong.farmerclub.utils.AppInfoUtils;
 
 public class RecommendRegistActivity extends BaseActivity implements OnClickListener {
 
@@ -30,7 +31,16 @@ public class RecommendRegistActivity extends BaseActivity implements OnClickList
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_regist_recommend);
-
+		
+		int appInstitutionId = AppInfoUtils.getInstitutionId(this);
+		
+		if(appInstitutionId != 0){
+			Intent addCropIntrent = new Intent(this, SelectUserTypeActivity.class);
+			startActivity(addCropIntrent);
+			finish();
+			return;
+		}
+		
 		initView();
 		initTopBar();
 	}
@@ -86,7 +96,6 @@ public class RecommendRegistActivity extends BaseActivity implements OnClickList
 
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
-						showToast(R.string.please_check_netword);
 						RecommendRegistActivity.this.dismissLoadingDialog();
 					}
 				});

@@ -80,6 +80,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	private TextView mCallPhoneText;
 
 	private int securityCode;
+	private int appInstitutionId;
 
 	private static String APPKEY = "cfd11b1a46d0";
 	private static String APPSECRET = "14e21ee1b68ff5529799b688a932ab7e";
@@ -107,6 +108,8 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		initData();
 
 		SMSSDK.initSDK(this, APPKEY, APPSECRET);
+		
+		appInstitutionId = AppInfoUtils.getInstitutionId(this);
 
 		mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
 		mTopbarView.setCenterText("填写验证码");
@@ -312,7 +315,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 					if (entity.getData().getRefuid() > 0 || entity.getData().getInstitutionId() > 0) {
 						clazz = MainTabActivity.class;
-					} else {
+					} else  {
 						clazz = RecommendRegistActivity.class;
 					}
 
@@ -333,7 +336,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});
@@ -409,7 +411,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				((BaseActivity) AuthCodeActivity.this).dismissLoadingDialog();
 
 			}
@@ -473,7 +474,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});
@@ -546,7 +546,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	private void loginRegister(String cellphone) {
 		startLoadingDialog();
 		String channel = AppInfoUtils.getChannelCode(this);
-		int appInstitutionId = AppInfoUtils.getInstitutionId(this);
 		RequestService.getInstance().authcodeLoginReg(this, cellphone, channel, appInstitutionId + "", LoginRegEntity.class, new RequestListener() {
 
 			@Override
@@ -559,7 +558,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 					Class clazz = null;
 					boolean isFirst = SharedPreferencesHelper.getBoolean(AuthCodeActivity.this, Field.IS_SELECT_CROP, true);
-					System.out.println(isFirst + "authcodeActivity");
 
 					if (isFirst) {
 						clazz = RecommendRegistActivity.class;
@@ -578,7 +576,6 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});

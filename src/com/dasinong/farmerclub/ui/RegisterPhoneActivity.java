@@ -363,7 +363,6 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});
@@ -383,7 +382,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 					boolean isFirst = SharedPreferencesHelper.getBoolean(RegisterPhoneActivity.this, Field.IS_SELECT_CROP, true);
 					if(isFirst){
 						clazz = RecommendRegistActivity.class;
-					} else {
+					} else  {
 						clazz = MainTabActivity.class;
 					}
 					
@@ -397,7 +396,6 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});
@@ -647,7 +645,6 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				((BaseActivity) RegisterPhoneActivity.this).dismissLoadingDialog();
 
 			}
@@ -686,7 +683,6 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});

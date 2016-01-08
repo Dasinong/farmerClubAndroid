@@ -8,6 +8,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_soil_base">SoilBaseActivity</string>
+    <string name="please_select_substage"> 请选择生长周期 </string>
 
     <!-- 上传图片 -->
     <string name="finish">完成</string>

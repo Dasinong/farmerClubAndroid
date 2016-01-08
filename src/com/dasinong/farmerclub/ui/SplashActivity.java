@@ -46,7 +46,11 @@ public class SplashActivity extends BaseActivity {
 		} else if(appInstitutionId == 1 || serverInstitutionId == 1) {
 			splash_iv.setImageResource(R.drawable.splash_image_taoshi_club);
 			setUserTag("陶氏");
-		} 
+		} else if (appInstitutionId == 3 || serverInstitutionId == 3){
+			splash_iv.setImageResource(R.drawable.splash_image_basf_club);
+			setUserTag("巴斯夫");
+		}
+		
 
 		if (!TextUtils.isEmpty(versionName)) {
 			tv_version.setText("当前版本：" + versionName);

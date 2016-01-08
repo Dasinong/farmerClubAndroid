@@ -183,7 +183,6 @@ public class AddPlaceActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});
@@ -264,7 +263,6 @@ public class AddPlaceActivity extends BaseActivity implements OnClickListener {
 				
 				@Override
 				public void onFailed(int requestCode, Exception error, String msg) {
-					showToast(R.string.please_check_netword);
 					dismissLoadingDialog();
 				}
 			});

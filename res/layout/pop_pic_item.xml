@@ -14,7 +14,7 @@
             android:id="@+id/iv"
             android:layout_width="match_parent"
             android:layout_height="249dp"
-            android:scaleType="fitXY" />
+            android:scaleType="fitCenter" />
     </LinearLayout>
 
 </LinearLayout>

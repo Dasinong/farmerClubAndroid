@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:dsn="http://schemas.android.com/apk/com.dasinong.app"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/color_FFFFFF"
+    android:orientation="vertical" >
+
+    <com.dasinong.farmerclub.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="95dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:layout_marginTop="45dp" >
+
+        <ImageView
+            android:layout_width="95dp"
+            android:layout_height="95dp"
+            android:src="@drawable/relax" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_marginLeft="25dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="这可是我的拿手活,现"
+                android:textColor="@color/color_333333"
+                android:textSize="16dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="在长到什么阶段了?"
+                android:textColor="@color/color_333333"
+                android:textSize="16dp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- <com.dasinong.farmerclub.ui.view.ExpandTabView
+        android:id="@+id/etv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp" /> -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_margin="20dp"
+        android:background="@drawable/edittext_style" >
+
+        <Spinner
+            android:id="@+id/spinner_substage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:gravity="center_vertical"
+            android:padding="1dp"
+            android:prompt="@string/please_select_substage"
+            android:spinnerMode="dialog" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:src="@drawable/drop_down" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:gravity="center_horizontal" >
+
+        <Button
+            android:id="@+id/btn_no_sure_substage"
+            android:layout_width="145dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="30dp"
+            android:background="@drawable/gray_button_selector"
+            android:text="我不确定"
+            android:textColor="@color/color_666666"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/btn_sure_substage"
+            android:layout_width="145dp"
+            android:layout_height="45dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="30dp"
+            android:background="@drawable/green_button_selector"
+            android:text="确定"
+            android:textColor="@color/color_FFFFFF"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+</LinearLayout>

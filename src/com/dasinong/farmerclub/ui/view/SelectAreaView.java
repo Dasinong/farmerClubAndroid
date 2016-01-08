@@ -160,33 +160,6 @@ public class SelectAreaView extends LinearLayout {
 	}
 
 	protected void initVillage(String provices2, String city, String area, String town) {
-		// startLoadingDialog();
-		// RequestService.getInstance().getLocation(DsnApplication.getContext(),
-		// provices2, city, area, town, VillageInfo.class,new RequestListener()
-		// {
-		//
-		// @Override
-		// public void onSuccess(int requestCode, BaseEntity resultData) {
-		// if (resultData.isOk()) {
-		// Map<String, String> villageMap = ((VillageInfo) resultData).data;
-		// MyComparator mComparator = new MyComparator();
-		// List<String> villageList = new
-		// ArrayList<String>(villageMap.keySet());
-		// Collections.sort(villageList,mComparator);
-		// setVillages(villageList);
-		//
-		// } else {
-		// showToast(resultData.getMessage());
-		// }
-		// dismissLoadingDialog();
-		// }
-		//
-		// @Override
-		// public void onFailed(int requestCode, Exception error, String msg) {
-		// showToast(R.string.please_check_netword);
-		// dismissLoadingDialog();
-		// }
-		// });
 		if (mOnGetVillagesListener != null) {
 			mOnGetVillagesListener.onGetVillages(provices2, city, area, town);
 		} else {

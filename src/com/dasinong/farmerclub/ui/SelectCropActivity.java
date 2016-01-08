@@ -70,7 +70,6 @@ public class SelectCropActivity extends BaseActivity {
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});
@@ -106,13 +105,13 @@ public class SelectCropActivity extends BaseActivity {
 		topbar.setCenterText("请选择作物");
 	}
 
-	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
-			return true;
-		}
-		return super.onKeyDown(keyCode, event);
-	}
+//	@Override
+//	public boolean onKeyDown(int keyCode, KeyEvent event) {
+//		if (keyCode == KeyEvent.KEYCODE_BACK) {
+//			return true;
+//		}
+//		return super.onKeyDown(keyCode, event);
+//	}
 
 	private void setSubscribeCrop(List<String> list) {
 		if (list == null || list.isEmpty()) {
@@ -139,7 +138,6 @@ public class SelectCropActivity extends BaseActivity {
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});

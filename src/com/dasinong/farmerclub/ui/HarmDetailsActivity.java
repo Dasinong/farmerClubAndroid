@@ -113,8 +113,8 @@ public class HarmDetailsActivity extends BaseActivity implements OnClickListener
 							}
 						}
 						entity.data.solutions.clear();
-						entity.data.solutions.addAll(entity.data.petSoluList);
 						entity.data.solutions.addAll(entity.data.petPreventList);
+						entity.data.solutions.addAll(entity.data.petSoluList);
 
 						initTopBar(entity.data.petDisSpecName);
 
@@ -125,7 +125,6 @@ public class HarmDetailsActivity extends BaseActivity implements OnClickListener
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});
@@ -195,7 +194,7 @@ public class HarmDetailsActivity extends BaseActivity implements OnClickListener
 	}
 
 	protected void initListView(final PetDisSpecEntity entity) {
-		lv_detail.setAdapter(new HarmDetailAdapter1(this, entity.data.solutions, entity.data.petSoluList.size(), true));
+		lv_detail.setAdapter(new HarmDetailAdapter1(this, entity.data.solutions, entity.data.petPreventList.size(), true));
 
 		// 根据首页的点击的按钮跳到对应的位置 例如 我要治疗，我要预防 ...
 		if (FLAG_CURE.equals(type)) {
@@ -216,7 +215,7 @@ public class HarmDetailsActivity extends BaseActivity implements OnClickListener
 				Bundle bundle = new Bundle();
 				bundle.putSerializable("solu", solu);
 				bundle.putInt("position", position);
-				bundle.putInt("size", entity.data.petSoluList.size());
+				bundle.putInt("size", entity.data.petPreventList.size());
 				intent.putExtras(bundle);
 
 				startActivity(intent);

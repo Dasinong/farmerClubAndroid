@@ -57,11 +57,12 @@ public class HarmDetailAdapter1 extends MyBaseAdapter<Solution> {
 		}
 		if (pos < soluSize) {
 			char c = (char) (65 + pos);
-			holder.tv_method_name.setText("治疗方案" + c);
+//			holder.tv_title.setText("预防方法");
+			holder.tv_method_name.setText("预防方案" + c);
 		} else {
 			char c = (char) (65 + pos - soluSize);
-			holder.tv_title.setText("预防方法");
-			holder.tv_method_name.setText("预防方案" + c);
+//			holder.tv_title.setText("治疗方法");
+			holder.tv_method_name.setText("治疗方案" + c);
 		}
 
 		holder.tv_content.setText(list.get(pos).petSoluDes);
@@ -72,19 +73,19 @@ public class HarmDetailAdapter1 extends MyBaseAdapter<Solution> {
 			holder.tv_crop_stage.setVisibility(View.VISIBLE);
 			holder.tv_crop_stage.setText(list.get(pos).subStageId);
 		}
-		
+
 		if (TextUtils.isEmpty(list.get(pos).providedBy) || "0".equals(list.get(pos).providedBy)) {
 			holder.tv_provider.setVisibility(View.GONE);
 		} else {
 			holder.tv_provider.setVisibility(View.VISIBLE);
 			holder.tv_provider.setText(list.get(pos).providedBy);
 		}
-		
-		if(TextUtils.isEmpty(list.get(pos).snapshotCP)){
+
+		if (TextUtils.isEmpty(list.get(pos).snapshotCP)) {
 			holder.tv_drug.setVisibility(View.GONE);
 		} else {
 			holder.tv_drug.setVisibility(View.VISIBLE);
-			holder.tv_drug.setText("相关药物："+list.get(pos).snapshotCP);
+			holder.tv_drug.setText("相关药物：" + list.get(pos).snapshotCP);
 		}
 		return view;
 	}

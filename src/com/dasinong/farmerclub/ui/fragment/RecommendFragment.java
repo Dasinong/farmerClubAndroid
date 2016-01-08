@@ -93,7 +93,6 @@ public class RecommendFragment extends Fragment {
 
 							@Override
 							public void onFailed(int requestCode, Exception error, String msg) {
-								((BaseActivity) getActivity()).showToast(R.string.please_check_netword);
 								((BaseActivity) getActivity()).dismissLoadingDialog();
 							}
 						});
@@ -157,7 +156,6 @@ public class RecommendFragment extends Fragment {
 						}
 						@Override
 						public void onFailed(int requestCode, Exception error, String msg) {
-							((BaseActivity)getActivity()).showToast(R.string.please_check_netword);
 							((BaseActivity)getActivity()).dismissLoadingDialog();
 						}
 					});
@@ -198,7 +196,6 @@ public class RecommendFragment extends Fragment {
 
 						@Override
 						public void onFailed(int requestCode, Exception error, String msg) {
-							((BaseActivity) getActivity()).showToast(R.string.please_check_netword);
 							((BaseActivity) getActivity()).dismissLoadingDialog();
 						}
 					});

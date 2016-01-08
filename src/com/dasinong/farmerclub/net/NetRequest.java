@@ -142,9 +142,10 @@ public class NetRequest {
 					default:
 						Toast.makeText(context, context.getResources().getString(R.string.please_check_netword), Toast.LENGTH_SHORT).show();
 						break;
-					}
-					return;
-				} 
+					} 
+				} else {
+					Toast.makeText(context, context.getResources().getString(R.string.please_check_netword), Toast.LENGTH_SHORT).show();
+				}
 				callback.onFailed(requestCode, error, context.getResources().getString(R.string.please_check_netword));
 			}
 		}) {

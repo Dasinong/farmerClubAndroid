@@ -75,11 +75,11 @@ public class CureDetailActivity extends BaseActivity {
 		if (position > size) {
 			// 预防
 			char c = (char) (65 + position - size - 1);
-			tv_cure_name.setText("预防方案" + c);
+			tv_cure_name.setText("治疗方案" + c);
 		} else {
 			// 治疗
 			char c = (char) (65 + position - 1);
-			tv_cure_name.setText("治疗方案" + c);
+			tv_cure_name.setText("预防方案" + c);
 		}
 		if (DeviceHelper.checkNetWork(this)) {
 			queryDrug(solu.petSoluId);
@@ -145,7 +145,6 @@ public class CureDetailActivity extends BaseActivity {
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				initHeader(solu);
 				initData(solu.petDisSpecId);
 				dismissLoadingDialog();

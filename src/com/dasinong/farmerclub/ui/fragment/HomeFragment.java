@@ -156,7 +156,6 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				mBaseActivity.showToast(R.string.please_check_netword);
 				mRefreshLayout.endRefreshing();
 			}
 		});
@@ -239,7 +238,6 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				mBaseActivity.showToast(R.string.please_check_netword);
 				mBaseActivity.dismissLoadingDialog();
 				mRefreshLayout.endRefreshing();
 			}
@@ -269,7 +267,6 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				mBaseActivity.showToast(R.string.please_check_netword);
 				mBaseActivity.dismissLoadingDialog();
 				mRefreshLayout.endRefreshing();
 			}

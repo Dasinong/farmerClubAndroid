@@ -6,6 +6,8 @@ import java.util.List;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -13,6 +15,8 @@ import android.view.ViewParent;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -23,6 +27,7 @@ import com.dasinong.farmerclub.entity.CPProductEntity;
 import com.dasinong.farmerclub.net.NetConfig;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
+import com.dasinong.farmerclub.ui.adapter.HarmPicAdapter;
 import com.dasinong.farmerclub.ui.view.MyTabView;
 import com.dasinong.farmerclub.ui.view.MyTabView.OnItemClickListener;
 import com.dasinong.farmerclub.ui.view.TopbarView;
@@ -74,7 +79,7 @@ public class PesticideDetailActivity extends BaseActivity {
 		ll_feature = (LinearLayout) findViewById(R.id.ll_feature);
 		tv_feature = (TextView) findViewById(R.id.tv_feature);
 		tv_description = (TextView) findViewById(R.id.tv_description);
-		
+
 		ll_guide = (LinearLayout) findViewById(R.id.ll_guide);
 		tv_guide = (TextView) findViewById(R.id.tv_guide);
 
@@ -111,18 +116,19 @@ public class PesticideDetailActivity extends BaseActivity {
 	}
 
 	private void initData(final CPProductEntity.CPProduct data) {
-		if (TextUtils.isEmpty(data.pictureUrl)) {
+		if (data.pictures == null || data.pictures.size() < 1 || TextUtils.isEmpty(data.pictures.get(0))) {
 			iv_pic.setVisibility(View.GONE);
 		} else {
 			BitmapUtils bitmapUtils = new BitmapUtils(this);
-			bitmapUtils.display(iv_pic, NetConfig.PET_IMAGE + data.pictureUrl.replace("/pic/", ""));
+			bitmapUtils.display(iv_pic, NetConfig.PET_IMAGE + data.pictures.get(0).replace("/pic/", ""));
 		}
+
 		setText2View(data.slogan, tv_slogan);
-		
+
 		if (data.activeIngredient != null && !data.activeIngredient.isEmpty()) {
 			setActiveIngredient(data.activeIngredient, data.activeIngredientUsage);
 		} else {
-			((View)tv_active_ingredient.getParent()).setVisibility(View.GONE);
+			((View) tv_active_ingredient.getParent()).setVisibility(View.GONE);
 		}
 
 		setText2View(data.type, tv_type);
@@ -134,8 +140,8 @@ public class PesticideDetailActivity extends BaseActivity {
 		list.add(GUIDE);
 		list.add(FEATURE);
 		list.add(TIP);
-		
-		if(TextUtils.isEmpty(data.guideline)){
+
+		if (TextUtils.isEmpty(data.guideline)) {
 			list.remove(GUIDE);
 		}
 		if (TextUtils.isEmpty(data.description) && TextUtils.isEmpty(data.feature)) {
@@ -217,14 +223,14 @@ public class PesticideDetailActivity extends BaseActivity {
 			tv_disease.setText(data.instructions.get(i).disease);
 			tv_volumn.setText(data.instructions.get(i).volume);
 			tv_method.setText(data.instructions.get(i).method);
-			if(!TextUtils.isEmpty(data.instructions.get(i).guideline)){
-				 tv_guideline.setText(data.instructions.get(i).guideline);
-				 ((View)tv_method.getParent()).setBackgroundResource(R.drawable.table_normal_bg);
+			if (!TextUtils.isEmpty(data.instructions.get(i).guideline)) {
+				tv_guideline.setText(data.instructions.get(i).guideline);
+				((View) tv_method.getParent()).setBackgroundResource(R.drawable.table_normal_bg);
 			} else {
-				((View)tv_guideline.getParent()).setVisibility(View.GONE);
-				((View)tv_method.getParent()).setBackgroundResource(R.drawable.table_bottom_bg);
+				((View) tv_guideline.getParent()).setVisibility(View.GONE);
+				((View) tv_method.getParent()).setBackgroundResource(R.drawable.table_bottom_bg);
 			}
-//			setText2View(data.instructions.get(i).guideline, tv_guideline);
+			// setText2View(data.instructions.get(i).guideline, tv_guideline);
 
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			params.setMargins(0, 0, 0, GraphicUtils.dip2px(this, 20));

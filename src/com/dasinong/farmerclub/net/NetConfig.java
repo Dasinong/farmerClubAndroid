@@ -114,7 +114,7 @@ public class NetConfig {
 		/** 百科-同名品种 */
 		public static final String CPPRODUCT_VARIETYS_NAMED = "getVarietysByName";
 		/** 切换首页生长周期 */
-		public static final String CHANGE_STAGE = "changeStage";
+		public static final String CHANGE_STAGE = "changeFieldStage";
 		/** QQ登陆与注册 */
 		public static final String QQ_AUTH_REG_LOG = "qqAuthRegLog";
 		/** 微信登陆与注册 */
@@ -151,6 +151,14 @@ public class NetConfig {
 		public static final String SET_USER_TYPE = "setUserType";
 		
 		public static final String GET_SUBSCRIABLE_CROPS = "getSubscriableCrops";
+		
+		public static final String GET_CROP_SUBSCRIPTIONS = "getCropSubscriptions";
+		
+		public static final String DELETE_CROP_SUBSCRIPTION = "deleteCropSubscription";
+		
+		public static final String GET_FIELD = "getField";
+		
+		public static final String GET_CROP_DETAILS = "getCropDetails";
 	}
 
 	public static String getRequestUrl(String subUrl) {
@@ -229,6 +237,8 @@ public class NetConfig {
 		public static final String contactName = "contactName";
 		public static final String phone = "phone";
 		public static final String source = "source";
+		public static final String fieldName = "fieldName";
+		public static final String subStageId = "subStageId";
 
 	}
 
@@ -526,17 +536,13 @@ public class NetConfig {
 		return getBaseParams(true, paramsMap);
 	}
 
-	public static Map<String, String> getCreateFieldParams(String isActive, String seedingortransplant, String area, String startDate, String locationId,
-			String varietyId, String currentStageId, String yield) {
+	public static Map<String, String> getCreateFieldParams(String fieldName, String area, String locationId, String cropId, String currentStageId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
-		paramsMap.put(Params.isActive, isActive);
-		paramsMap.put(Params.seedingortransplant, seedingortransplant);
+		paramsMap.put(Params.fieldName, fieldName);
 		paramsMap.put(Params.area, area);
-		paramsMap.put(Params.startDate, startDate);
 		paramsMap.put(Params.locationId, locationId);
-		paramsMap.put(Params.varietyId, varietyId);
+		paramsMap.put(Params.cropId, cropId);
 		paramsMap.put(Params.currentStageId, currentStageId);
-		paramsMap.put(Params.yield, yield);
 		return getBaseParams(true, paramsMap);
 	}
 
@@ -572,10 +578,10 @@ public class NetConfig {
 		return getBaseParams(true, paramsMap);
 	}
 
-	public static Map<String, String> getChangeStageParams(String fieldId, String currentStageId) {
+	public static Map<String, String> getChangeStageParams(String fieldId, String subStageId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.fieldId, fieldId);
-		paramsMap.put(Params.currentStageId, currentStageId);
+		paramsMap.put(Params.subStageId, subStageId);
 		return getBaseParams(true, paramsMap);
 	}
 
@@ -599,9 +605,9 @@ public class NetConfig {
 		return getBaseParams(true, paramsMap);
 	}
 
-	public static Map<String, String> getGetStagesParams(String varietyId) {
+	public static Map<String, String> getGetStagesParams(String cropId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
-		paramsMap.put(Params.varietyId, varietyId);
+		paramsMap.put(Params.cropId, cropId);
 		return getBaseParams(true, paramsMap);
 	}
 
@@ -691,4 +697,21 @@ public class NetConfig {
 		paramsMap.put(Params.type, type);
 		return getBaseParams(true, paramsMap);
 	}
+	public static Map<String, String> getDeleteCropSubscriptionParams(String id) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.id, id);
+		return getBaseParams(true, paramsMap);
+	}
+	public static Map<String, String> getGetFieldParams(String id) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.id, id);
+		return getBaseParams(true, paramsMap);
+	}
+	public static Map<String, String> getGetCropDetailsParams(String cropId,String subStageId) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.id, cropId);
+		paramsMap.put(Params.subStageId, subStageId);
+		return getBaseParams(true, paramsMap);
+	}
+	
 }

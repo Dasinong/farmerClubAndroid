@@ -2,28 +2,26 @@ package com.dasinong.farmerclub.entity;
 
 import java.util.List;
 
+import com.dasinong.farmerclub.entity.FieldDetailEntity.Crop;
+import com.dasinong.farmerclub.entity.FieldDetailEntity.PetdisspecwEntity;
+import com.dasinong.farmerclub.entity.FieldDetailEntity.StageEntity;
+import com.dasinong.farmerclub.entity.FieldDetailEntity.TaskSpecwEntity;
+
 public class ChangeStageEntity extends BaseEntity {
 	
 	public Data data;
 	
 	public class Data{
-		public boolean active;
-		public String cropName;
-		public int currentStageID;
-		public int dayToHarvest;
-		public int fieldId;
-		public String fieldName;
-		public int locationId;
-		public int monitorLocationId;
-		public List natdisws;
-		public List petdisspecws;
-		public List petdisws;
-		public boolean sprayable;
-		public long startDate;
-		public List taskws;
 		public int userId;
-		public int varietyId;
-		public boolean workable;
-		public int yield;
+		public long locationId;
+		public int fieldId;
+		public Crop crop;
+		public long monitorLocationId;
+		public int currentStageID;
+		public double area;
+		public String fieldName;
+		public List<PetdisspecwEntity> petdisspecws;
+		public List<TaskSpecwEntity> taskspecws;
+		public List<StageEntity> stagelist;
 	}
 }

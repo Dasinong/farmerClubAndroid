@@ -42,6 +42,9 @@ public class HarmPicAdapter extends PagerAdapter {
 		LinearLayout ll = (LinearLayout) view.findViewById(R.id.ll);
 		BitmapUtils bitmapUtils = new BitmapUtils(context);
 		bitmapUtils.display(iv, "http://120.26.208.198:8080/pic/" + images.get(position % images.size()).replace("../pic/", ""));
+		
+		System.out.println("http://120.26.208.198:8080/pic/" + images.get(position % images.size()).replace("../pic/", ""));
+		
 		container.addView(view);
 		return view;
 	}

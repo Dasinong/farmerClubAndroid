@@ -3,7 +3,6 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-
     android:orientation="vertical">
 
     <TextView
@@ -20,7 +19,7 @@
     <ListView
         android:id="@+id/substage_listview"
         android:layout_width="wrap_content"
-        android:layout_height="400dp"
+        android:layout_height="380dp"
         android:cacheColorHint="#ffffffff"
         android:divider="@null"
         android:dividerHeight="0dp"

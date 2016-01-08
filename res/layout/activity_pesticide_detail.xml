@@ -20,6 +20,44 @@
             android:layout_height="match_parent"
             android:orientation="vertical" >
 
+<!--             <FrameLayout
+                android:id="@+id/fl_images"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/vp_pic"
+                    android:layout_width="match_parent"
+                    android:layout_height="220dp" />
+
+                <ImageButton
+                    android:id="@+id/left_button"
+                    android:layout_width="30dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_vertical"
+                    android:background="@color/color_99666666"
+                    android:src="@drawable/left_arrow" />
+
+                <ImageButton
+                    android:id="@+id/right_button"
+                    android:layout_width="30dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:background="@color/color_99666666"
+                    android:src="@drawable/right_arrow" />
+
+                <TextView
+                    android:id="@+id/tv_show_position"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:background="@color/color_99666666"
+                    android:gravity="right"
+                    android:paddingRight="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="16dp" />
+            </FrameLayout> -->
+
             <ImageView
                 android:id="@+id/iv_pic"
                 android:layout_width="match_parent"
@@ -175,9 +213,9 @@
                 android:id="@+id/ll_feature"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginBottom="20dp"
                 android:orientation="vertical"
                 android:visibility="gone" >
 

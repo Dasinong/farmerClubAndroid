@@ -116,4 +116,10 @@ public class TopbarView extends RelativeLayout {
 		}
 	}
 	
+	public void setCenterClickListener(OnClickListener onClickListener){
+		if(onClickListener != null){
+			mCenterText.setOnClickListener(onClickListener);
+		}
+	}
+	
 }

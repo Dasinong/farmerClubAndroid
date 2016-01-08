@@ -200,7 +200,6 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
-						showToast(R.string.please_check_netword);
 						dismissLoadingDialog();
 					}
 				});
@@ -289,10 +288,10 @@ public class AddFieldActivity4 extends MyBaseActivity implements OnClickListener
 		if (etv.getText(0).startsWith("水稻")) {
 			intent = new Intent(this, AddFieldActivity8.class);
 		} else if(etv.getText(0).startsWith("小麦")){
-			intent = new Intent(this, AddFieldActivity5.class);
+			intent = new Intent(this, SelectSubStageActivity.class);
 			intent.putExtra("crop", "小麦");
 		} else if(etv.getText(0).startsWith("芒果")){
-			intent = new Intent(this, AddFieldActivity5.class);
+			intent = new Intent(this, SelectSubStageActivity.class);
 			intent.putExtra("crop", "芒果");
 
 		} else {

@@ -66,7 +66,6 @@ public class TaskDetailsActivity extends BaseActivity {
 			
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});
@@ -93,15 +92,15 @@ public class TaskDetailsActivity extends BaseActivity {
 	private void setUpView() {
 		mTopbarView.setCenterText(mTitle);
 		mTopbarView.setLeftView(true, true);
-		mTopbarView.setRightText("查看全部");
-		mTopbarView.setRightClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Intent intent = new Intent(TaskDetailsActivity.this,TaskListActivity.class);
-				startActivityForResult(intent, 0);
-			}
-		});
+//		mTopbarView.setRightText("查看全部");
+//		mTopbarView.setRightClickListener(new OnClickListener() {
+//			
+//			@Override
+//			public void onClick(View v) {
+//				Intent intent = new Intent(TaskDetailsActivity.this,TaskListActivity.class);
+//				startActivityForResult(intent, 0);
+//			}
+//		});
 		
 //		TaskDetailsAdapter mAdapter = new TaskDetailsAdapter(this, taskSpecs, false);
 //		mListView.setAdapter(mAdapter);

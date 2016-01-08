@@ -78,7 +78,6 @@ public class VarietyDetailActivity extends BaseActivity {
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});

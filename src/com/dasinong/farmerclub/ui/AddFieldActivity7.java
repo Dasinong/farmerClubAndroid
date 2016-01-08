@@ -60,37 +60,36 @@ public class AddFieldActivity7 extends BaseActivity {
 				}
 				startLoadingDialog();
 				yield = et_target_production.getText().toString().trim();
-				RequestService.getInstance().createField(AddFieldActivity7.this, seedingortransplant, area, startDate, locationId, varietyId,
-						currentStageId, yield, AddFieldEntity.class, new NetRequest.RequestListener() {
-
-							@Override
-							public void onSuccess(int requestCode, BaseEntity resultData) {
-								if (resultData.isOk()) {
-									showToast("请求成功");
-									long fieldId = ((AddFieldEntity) resultData).data.fieldId;
-									int monitorLocationId = ((AddFieldEntity) resultData).data.monitorLocationId;
-
-									SharedPreferencesHelper.setLong(AddFieldActivity7.this, SharedPreferencesHelper.Field.FIELDID, fieldId);
-									SharedPreferencesHelper.setInt(AddFieldActivity7.this, "FIELD_" + fieldId, monitorLocationId);
-									backToHome();
-
-									String province = SharedPreferencesHelper.getString(AddFieldActivity7.this, Field.PROVINCE, "");
-									String cropName = SharedPreferencesHelper.getString(AddFieldActivity7.this, Field.NEW_CROP, "");
-									setUserTag(province, cropName);
-
-									dismissLoadingDialog();
-								} else {
-									dismissLoadingDialog();
-									showToast("创建失败");
-								}
-							}
-
-							@Override
-							public void onFailed(int requestCode, Exception error, String msg) {
-								showToast(R.string.please_check_netword);
-								dismissLoadingDialog();
-							}
-						});
+//				RequestService.getInstance().createField(AddFieldActivity7.this, seedingortransplant, area, startDate, locationId, varietyId,
+//						currentStageId, yield, AddFieldEntity.class, new NetRequest.RequestListener() {
+//
+//							@Override
+//							public void onSuccess(int requestCode, BaseEntity resultData) {
+//								if (resultData.isOk()) {
+//									showToast("请求成功");
+//									long fieldId = ((AddFieldEntity) resultData).data.fieldId;
+//									int monitorLocationId = ((AddFieldEntity) resultData).data.monitorLocationId;
+//
+//									SharedPreferencesHelper.setLong(AddFieldActivity7.this, SharedPreferencesHelper.Field.FIELDID, fieldId);
+//									SharedPreferencesHelper.setInt(AddFieldActivity7.this, "FIELD_" + fieldId, monitorLocationId);
+//									backToHome();
+//
+//									String province = SharedPreferencesHelper.getString(AddFieldActivity7.this, Field.PROVINCE, "");
+//									String cropName = SharedPreferencesHelper.getString(AddFieldActivity7.this, Field.NEW_CROP, "");
+//									setUserTag(province, cropName);
+//
+//									dismissLoadingDialog();
+//								} else {
+//									dismissLoadingDialog();
+//									showToast("创建失败");
+//								}
+//							}
+//
+//							@Override
+//							public void onFailed(int requestCode, Exception error, String msg) {
+//								dismissLoadingDialog();
+//							}
+//						});
 			}
 		});
 	}

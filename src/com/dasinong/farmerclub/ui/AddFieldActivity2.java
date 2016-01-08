@@ -55,7 +55,6 @@ public class AddFieldActivity2 extends MyBaseActivity {
 	private Button btn_sure_location;
 
 	private String mstreet;
-	private String mdistrict;
 	private String mcity;
 	private String mprovince;
 	private TopbarView topbar;
@@ -94,11 +93,9 @@ public class AddFieldActivity2 extends MyBaseActivity {
 
 		mprovince = getIntent().getStringExtra("mprovince");
 		mcity = getIntent().getStringExtra("mcity");
-		mdistrict = getIntent().getStringExtra("mdistrict");
 
 		province = mprovince;
 		city = mcity;
-		county = mdistrict;
 
 		initView();
 		initValue();
@@ -368,7 +365,6 @@ public class AddFieldActivity2 extends MyBaseActivity {
 
 					@Override
 					public void onFailed(int requestCode, Exception error, String msg) {
-						showToast(R.string.please_check_netword);
 						dismissLoadingDialog();
 					}
 				});
@@ -391,7 +387,7 @@ public class AddFieldActivity2 extends MyBaseActivity {
 		SharedPreferencesHelper.setString(this, Field.PROVINCE, province);
 		SharedPreferencesHelper.setString(this, Field.CITY, city);
 		SharedPreferencesHelper.setString(this, Field.COUNTY, county);
-		Intent intent = new Intent(this, AddFieldActivity3.class);
+		Intent intent = new Intent(this, InPutFieldSizeActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 		startActivity(intent);
 		overridePendingTransition(0, 0);

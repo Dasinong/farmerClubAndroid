@@ -45,6 +45,7 @@ public class RegisterPasswordActivity extends BaseActivity {
 
 	private String phone;
 	private boolean isLogin;
+	private int appInstitutionId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,8 @@ public class RegisterPasswordActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register_password);
 
+		appInstitutionId = AppInfoUtils.getInstitutionId(this);
+		
 		initData();
 		initView();
 		setView();
@@ -152,7 +155,6 @@ public class RegisterPasswordActivity extends BaseActivity {
 			
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});
@@ -230,7 +232,7 @@ public class RegisterPasswordActivity extends BaseActivity {
 					boolean isFirst = SharedPreferencesHelper.getBoolean(RegisterPasswordActivity.this, Field.IS_SELECT_CROP, true);
 					if(isFirst){
 						clazz = RecommendRegistActivity.class;
-					} else {
+					} else  {
 						clazz = MainTabActivity.class;
 					}
 					
@@ -246,7 +248,6 @@ public class RegisterPasswordActivity extends BaseActivity {
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});
@@ -290,7 +291,7 @@ public class RegisterPasswordActivity extends BaseActivity {
 		// intent.putExtra(RegisterCodeActivity.PHONE_NUMBER, phone);
 		// startActivity(intent);
 		String channel = AppInfoUtils.getChannelCode(this);
-		int appInstitutionId = AppInfoUtils.getInstitutionId(this);
+		appInstitutionId = AppInfoUtils.getInstitutionId(this);
 		
 		startLoadingDialog();
 
@@ -321,7 +322,6 @@ public class RegisterPasswordActivity extends BaseActivity {
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				showToast(R.string.please_check_netword);
 				dismissLoadingDialog();
 			}
 		});

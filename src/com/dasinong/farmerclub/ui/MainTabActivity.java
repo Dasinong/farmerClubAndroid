@@ -24,6 +24,7 @@ import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.fragment.EncyclopediaFragment;
 import com.dasinong.farmerclub.ui.fragment.HomeFragment;
 import com.dasinong.farmerclub.ui.fragment.MeFragment;
+import com.dasinong.farmerclub.ui.fragment.MyFieldFragment;
 import com.dasinong.farmerclub.ui.manager.AccountManager;
 import com.dasinong.farmerclub.utils.AppInfoUtils;
 import com.dasinong.farmerclub.utils.LocationUtils;
@@ -57,11 +58,11 @@ public class MainTabActivity extends BaseActivity {
 
 	private LayoutInflater layoutInflater;
 
-	private Class fragmentArray[] = { HomeFragment.class, EncyclopediaFragment.class, MeFragment.class };
+	private Class fragmentArray[] = { HomeFragment.class, MyFieldFragment.class, EncyclopediaFragment.class, MeFragment.class };
 
-	private int mImageViewArray[] = { R.drawable.main_tab1_selector, R.drawable.main_tab2_selector, R.drawable.main_tab3_selector };
+	private int mImageViewArray[] = { R.drawable.main_tab1_selector,R.drawable.main_tab2_selector, R.drawable.main_tab3_selector, R.drawable.main_tab4_selector };
 
-	private String mTextviewArray[] = { "我的田", "农事百科", "我" };
+	private String mTextviewArray[] = { "天气","我的田", "农事百科", "我" };
 
 	private int index;
 

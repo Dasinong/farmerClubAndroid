@@ -122,5 +122,12 @@ public final class RequestCode {
 	public static final int SET_USER_TYPE = STORES + 1;
 	/** 新获取可以关注作物列表 */
 	public static final int GET_SUBSCRIABLE_CROPS = SET_USER_TYPE + 1;
-	
+	/** 获取已关注的作物列表 */
+	public static final int GET_CROP_SUBSCRIPTIONS = GET_SUBSCRIABLE_CROPS + 1;
+	/** 删除已关注作物*/
+	public static final int DELETE_CROP_SUBSCRIPTION = GET_CROP_SUBSCRIPTIONS + 1;
+	/** 获取某块儿田地的详情 */
+	public static final int GET_FIELD = DELETE_CROP_SUBSCRIPTION + 1;
+	/** 获取无田的情况下的作物 */
+	public static final int GET_CROP_DETAILS = GET_FIELD + 1;
 }
