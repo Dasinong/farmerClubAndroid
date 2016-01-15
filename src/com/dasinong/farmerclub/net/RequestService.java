@@ -357,4 +357,13 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getGetCropDetailsParams(cropId,subStageId);
 		new NetRequest(context).get(RequestCode.GET_CROP_DETAILS, params, SubUrl.GET_CROP_DETAILS, callBack, clazz);
 	}
+	public void couponCampaigns(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getDefaultParams();
+		new NetRequest(context).get(RequestCode.COUPON_CAMPAIGNS, params, SubUrl.COUPON_CAMPAIGNS, callBack, clazz);
+	}
+	public void getCoupons(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getDefaultParams();
+		new NetRequest(context).get(RequestCode.GET_COUPONS, params, SubUrl.GET_COUPONS, callBack, clazz);
+	}
+
 }

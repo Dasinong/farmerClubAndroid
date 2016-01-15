@@ -34,9 +34,9 @@ import android.widget.TextView;
 public class RegisterActivity extends BaseActivity {
 
 	// 填写从短信SDK应用后台注册得到的APPKEY
-	private static String APPKEY = "cfd11b1a46d0";
+	private static String APPKEY = "eb96311cfbc4";
 	// 填写从短信SDK应用后台注册得到的APPSECRET
-	private static String APPSECRET = "14e21ee1b68ff5529799b688a932ab7e";
+	private static String APPSECRET = "93d69dd2aa27c2fe211bc5907334e332";
 	private boolean ready;
 
 	private TopbarView mTopbarView;

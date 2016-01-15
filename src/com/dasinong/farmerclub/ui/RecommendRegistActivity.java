@@ -19,6 +19,7 @@ import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.utils.AppInfoUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class RecommendRegistActivity extends BaseActivity implements OnClickListener {
 
@@ -64,6 +65,9 @@ public class RecommendRegistActivity extends BaseActivity implements OnClickList
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.btn_sure:
+			
+			MobclickAgent.onEvent(this, "InputRecommend");
+			
 			String invCode = inputCode.getText().toString().trim();
 			invCode = invCode.toLowerCase();
 			String invRegex = "^[0-9a-z]{6}$";
@@ -104,6 +108,9 @@ public class RecommendRegistActivity extends BaseActivity implements OnClickList
 			}
 			break;
 		case R.id.tv_skip:
+			
+			MobclickAgent.onEvent(this, "SkipRecommend");
+			
 			Intent addCropIntrent = new Intent(this, SelectUserTypeActivity.class);
 			startActivity(addCropIntrent);
 			break;

@@ -31,6 +31,7 @@ import com.dasinong.farmerclub.ui.view.MyFieldTopView;
 import com.dasinong.farmerclub.ui.view.MyFieldTopView.OnStageItemClickListener;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.utils.SerializableMap;
+import com.umeng.analytics.MobclickAgent;
 
 public class MyFieldDetailActivity extends BaseActivity {
 
@@ -152,6 +153,7 @@ public class MyFieldDetailActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				SharedPreferencesHelper.setString(MyFieldDetailActivity.this, Field.CROP_ID, String.valueOf(cropEntity.data.crop.crop.cropId));
+				MobclickAgent.onEvent(MyFieldDetailActivity.this, "AddFiledOnFieldDetail");
 				Intent intent = new Intent(MyFieldDetailActivity.this, IsInFieldActivity.class);
 				startActivity(intent);
 			}

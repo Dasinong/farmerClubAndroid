@@ -1,16 +1,12 @@
 package com.dasinong.farmerclub.ui;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,27 +15,18 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
-import android.widget.TextView;
-import butterknife.OnClick;
 
 import com.dasinong.farmerclub.R;
-import com.dasinong.farmerclub.database.task.dao.impl.SubStageDaoImpl;
-import com.dasinong.farmerclub.database.task.domain.SubStage;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.ChangeStageEntity;
 import com.dasinong.farmerclub.entity.StagesEntity;
 import com.dasinong.farmerclub.entity.StagesEntity.StageEntity;
-import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
-import com.dasinong.farmerclub.ui.adapter.MyBaseAdapter;
-import com.dasinong.farmerclub.ui.adapter.TextAdapter.OnItemClickListener;
+import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
-import com.dasinong.farmerclub.ui.view.ExpandTabView;
-import com.dasinong.farmerclub.ui.view.PPCPopMenu;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.ui.view.ViewMiddle;
-import com.dasinong.farmerclub.ui.view.ViewThree;
 import com.umeng.analytics.MobclickAgent;
 
 public class SelectSubStageActivity extends MyBaseActivity implements OnClickListener {
@@ -138,8 +125,9 @@ public class SelectSubStageActivity extends MyBaseActivity implements OnClickLis
 		switch (id) {
 		case R.id.btn_no_sure_substage:
 			subStageId = "";
+			MobclickAgent.onEvent(this, "NoSubStage");
 			goToNext();
-
+			
 			break;
 		case R.id.btn_sure_substage:
 			if (TextUtils.isEmpty(subStageId) || "-1".equals(subStageId)) {
@@ -148,6 +136,7 @@ public class SelectSubStageActivity extends MyBaseActivity implements OnClickLis
 			}
 
 			SharedPreferencesHelper.setString(this, Field.SUBSTAGE_ID, subStageId);
+			MobclickAgent.onEvent(this, "SureSubStage");
 			goToNext();
 			break;
 		}

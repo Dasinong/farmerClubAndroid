@@ -1,7 +1,10 @@
 package com.dasinong.farmerclub.ui;
 
+import java.util.HashMap;
+
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.ui.view.TopbarView;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -101,6 +104,10 @@ public class EncyclopediasPesticideActivity extends BaseActivity implements OnCl
 			Toast.makeText(this, "请输入要搜索的内容", 0).show();
 			return;
 		}
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("keyWords",keywords);
+		MobclickAgent.onEvent(this, "Search",map);
 		
 		Intent intent = new Intent(this,SearchTypeResultActivity.class);
 		intent.putExtra("keywords", keywords);

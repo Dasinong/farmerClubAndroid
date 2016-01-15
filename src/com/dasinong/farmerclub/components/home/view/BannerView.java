@@ -66,10 +66,8 @@ public class BannerView extends ViewPager {
 				
 				if (!TextUtils.isEmpty(itemEntity.picName)) {
 					if(itemEntity.picName.startsWith("http://")){
-//						LoadUtils.getInstance().loadImage(adImage, itemEntity.picName);
 						bitmapUtils.display(adImage, itemEntity.picName);
 					} else {
-//						LoadUtils.getInstance().loadImage(adImage, "http://" + itemEntity.picName);
 						bitmapUtils.display(adImage, "http://" + itemEntity.picName);
 					}
 				}

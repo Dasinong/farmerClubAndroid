@@ -108,8 +108,8 @@ android {
         }
         BaiDu {
         }
-        //91Mark  {
-        //}
+        Market91  {
+        }
         AndroidMark {
         }
         //360Market  {
@@ -122,15 +122,15 @@ android {
         }
         Oppo {
         }
-        TaoShi {
-        }
+        //TaoShi {
+        //}
     }
     //签名
     signingConfigs {
         myConfig {
-            storeFile file("DasinongApkKey")     //签名文件
+            storeFile file("farmerclubKEY")     //签名文件
             storePassword System.console().readLine("\nKeystore password: ")
-            keyAlias "dasinongkey"
+            keyAlias "FarmerClubKey"
             keyPassword System.console().readLine("\nKey password: ") //签名密码
         }
     }

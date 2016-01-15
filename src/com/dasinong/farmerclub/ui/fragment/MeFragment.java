@@ -18,6 +18,7 @@ import com.dasinong.farmerclub.ui.CaptureActivity;
 import com.dasinong.farmerclub.ui.ContactUsActivity;
 import com.dasinong.farmerclub.ui.GuideActivity;
 import com.dasinong.farmerclub.ui.MainTabActivity;
+import com.dasinong.farmerclub.ui.MyCouponActivity;
 import com.dasinong.farmerclub.ui.MyInfoActivity;
 import com.dasinong.farmerclub.ui.RecommendActivity;
 import com.dasinong.farmerclub.ui.RecommendRegistActivity;
@@ -60,6 +61,8 @@ public class MeFragment extends Fragment implements OnClickListener {
 	private RelativeLayout mContactUsLayout;
 	private RelativeLayout mCheckUpdateLayout;
 
+	private RelativeLayout mMyCouponLayout;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -89,6 +92,7 @@ public class MeFragment extends Fragment implements OnClickListener {
 		mMyInfoLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_my_info);
 		mScancodeLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_scancode);
 		mRecomentLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_recommend);
+		mMyCouponLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_my_coupon);
 		mSmsSettingLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_sms_setting);
 		mHelpLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_help_center);
 		mUseLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_use);
@@ -99,6 +103,9 @@ public class MeFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onResume() {
 		super.onResume();
+		
+		MobclickAgent.onEvent(getActivity(), "MeFragment");
+		
 		if (!AccountManager.isLogin(getActivity())) {
 			mTopbarView.setRightText("登录");
 			mTopbarView.setRightClickListener(new OnClickListener() {
@@ -122,6 +129,7 @@ public class MeFragment extends Fragment implements OnClickListener {
 		mMyInfoLayout.setOnClickListener(this);
 		mScancodeLayout.setOnClickListener(this);
 		mRecomentLayout.setOnClickListener(this);
+		mMyCouponLayout.setOnClickListener(this);
 		mSmsSettingLayout.setOnClickListener(this);
 		mHelpLayout.setOnClickListener(this);
 		mUseLayout.setOnClickListener(this);
@@ -159,6 +167,15 @@ public class MeFragment extends Fragment implements OnClickListener {
 				getActivity().startActivity(intent);
 			}
 			break;
+		case R.id.layout_my_coupon:
+			MobclickAgent.onEvent(getActivity(), "MyCoupon");
+			// TODO 判断用户类型
+			if(AccountManager.checkLogin(getActivity())){
+				Intent intent = new Intent(getActivity(), MyCouponActivity.class);
+				getActivity().startActivity(intent);
+			}
+			
+			break;
 		case R.id.layout_sms_setting:// 短信订阅设置
 
 			// 友盟统计自定义统计事件
@@ -189,12 +206,6 @@ public class MeFragment extends Fragment implements OnClickListener {
 			Intent guideIntent = new Intent(getActivity(), GuideActivity.class);
 			guideIntent.putExtra("isFirst", false);
 			startActivity(guideIntent);
-
-			// Intent lIntent = new
-			// Intent(getActivity(),RegisterPasswordActivity.class);
-			// lIntent.putExtra("phone", "13810139423");
-			// lIntent.putExtra("isLogin", true);
-			// getActivity().startActivity(lIntent);
 			break;
 		case R.id.layout_contact_us:// 联系我们
 			MobclickAgent.onEvent(getActivity(), "ContactUs");
@@ -217,6 +228,9 @@ public class MeFragment extends Fragment implements OnClickListener {
 				public void onUpdateReturned(int updateStatus,UpdateResponse updateInfo) {
 					switch (updateStatus) {
 					case UpdateStatus.Yes: // has update
+						if(getActivity() == null){
+							return;
+						}
 						UmengUpdateAgent.showUpdateDialog(getActivity(), updateInfo);
 						UmengUpdateAgent.setDialogListener(new UmengDialogButtonListener() {
 							
@@ -229,12 +243,21 @@ public class MeFragment extends Fragment implements OnClickListener {
 						});
 						break;
 					case UpdateStatus.No: // has no update
+						if(getActivity() == null){
+							return;
+						}
 						Toast.makeText(getActivity(), "没有更新", Toast.LENGTH_SHORT).show();
 						break;
 					case UpdateStatus.NoneWifi: // none wifi
+						if(getActivity() == null){
+							return;
+						}
 						Toast.makeText(getActivity(), "没有wifi连接， 只在wifi下更新", Toast.LENGTH_SHORT).show();
 						break;
 					case UpdateStatus.Timeout: // time out
+						if(getActivity() == null){
+							return;
+						}
 						Toast.makeText(getActivity(), "超时", Toast.LENGTH_SHORT).show();
 						break;
 					}

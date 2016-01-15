@@ -82,6 +82,8 @@ public class HomeTopView extends LinearLayout implements View.OnClickListener {
 
 		addPlace.setOnClickListener(this);
 		tvPlace.setOnClickListener(this);
+		tvLeftStatus.setOnClickListener(this);
+		tvRightStatus.setOnClickListener(this);
 	}
 
 	public void setDate(WeatherEntity entity) {

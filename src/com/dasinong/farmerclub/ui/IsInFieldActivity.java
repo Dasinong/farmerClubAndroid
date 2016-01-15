@@ -113,13 +113,14 @@ public class IsInFieldActivity extends MyBaseActivity implements OnClickListener
 
 		switch (id) {
 		case R.id.btn_no_in_field:
+			MobclickAgent.onEvent(this, "InField");
 			if(!TextUtils.isEmpty(mprovince)){
 				hasCurrentLocation();
 			}
-			
 			goToTwo();
 			break;
 		case R.id.btn_in_field:
+			MobclickAgent.onEvent(this, "NoInField");
 			startLoadingDialog();
 			boolean flag = false;
 			if (!TextUtils.isEmpty(mprovince)) {

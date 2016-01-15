@@ -23,10 +23,11 @@ import com.dasinong.farmerclub.entity.PetDisSpecEntity;
 import com.dasinong.farmerclub.entity.PetDisSpecEntity.PetDisSpec.Solution;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
-import com.dasinong.farmerclub.ui.adapter.HarmDetailAdapter1;
+import com.dasinong.farmerclub.ui.adapter.HarmDetailAdapter;
 import com.dasinong.farmerclub.ui.adapter.HarmPicAdapter;
 import com.dasinong.farmerclub.ui.view.MyTabView;
 import com.dasinong.farmerclub.ui.view.TopbarView;
+import com.umeng.analytics.MobclickAgent;
 
 public class HarmDetailsActivity extends BaseActivity implements OnClickListener {
 
@@ -194,7 +195,7 @@ public class HarmDetailsActivity extends BaseActivity implements OnClickListener
 	}
 
 	protected void initListView(final PetDisSpecEntity entity) {
-		lv_detail.setAdapter(new HarmDetailAdapter1(this, entity.data.solutions, entity.data.petPreventList.size(), true));
+		lv_detail.setAdapter(new HarmDetailAdapter(this, entity.data.solutions, entity.data.petPreventList.size(), true));
 
 		// 根据首页的点击的按钮跳到对应的位置 例如 我要治疗，我要预防 ...
 		if (FLAG_CURE.equals(type)) {
@@ -210,6 +211,9 @@ public class HarmDetailsActivity extends BaseActivity implements OnClickListener
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				Solution solu = entity.data.solutions.get(position - 1);
+				
+				MobclickAgent.onEvent(HarmDetailsActivity.this, "CureDetail");
+				
 				Intent intent = new Intent(DsnApplication.getContext(), CureDetailActivity.class);
 
 				Bundle bundle = new Bundle();

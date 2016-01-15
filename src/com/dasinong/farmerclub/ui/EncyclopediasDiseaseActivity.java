@@ -1,5 +1,6 @@
 package com.dasinong.farmerclub.ui;
 
+import java.util.HashMap;
 import java.util.List;
 
 import android.content.Intent;
@@ -23,6 +24,7 @@ import com.dasinong.farmerclub.entity.PetDisSpecsListEntity;
 import com.dasinong.farmerclub.net.NetRequest;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.view.TopbarView;
+import com.umeng.analytics.MobclickAgent;
 
 /**
  * @ClassName EncyclopediasDiseaseActivity
@@ -130,6 +132,10 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 			Toast.makeText(this, "请输入要搜索的内容", 0).show();
 			return;
 		}
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("keyWords",keywords);
+		MobclickAgent.onEvent(this, "Search",map);
 
 		Intent intent = new Intent(this, SearchTypeResultActivity.class);
 		intent.putExtra("keywords", keywords);
@@ -141,15 +147,19 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_disease:
+			MobclickAgent.onEvent(this, "ClickDisease");
 			queryData(cropId, "病害");
 			break;
 		case R.id.layout_pestis:
+			MobclickAgent.onEvent(this, "ClickPestis");
 			queryData(cropId, "虫害");
 			break;
 		case R.id.layout_grass:
+			MobclickAgent.onEvent(this, "ClickGrass");
 			queryData(cropId, "草害");
 			break;
 		case R.id.layout_intelligent:
+			MobclickAgent.onEvent(this, "ReportHarm");
 			Intent intent4 = new Intent(this, ReportHarmActivity.class);
 			intent4.putExtra("title", "诊断病虫草害");
 			startActivity(intent4);

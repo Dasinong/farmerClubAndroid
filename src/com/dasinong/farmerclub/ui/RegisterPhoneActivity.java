@@ -84,6 +84,7 @@ import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.tauth.Tencent;
+import com.umeng.analytics.MobclickAgent;
 
 /** 短信注册页面 */
 public class RegisterPhoneActivity extends BaseActivity implements OnClickListener, TextWatcher {
@@ -116,8 +117,8 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 
 	// private static String APPKEY = "7ddca5c23518";
 	// private static String APPSECRET = "674b27af7f64b70e317f147098bc782b";
-	private static String APPKEY = "cfd11b1a46d0";
-	private static String APPSECRET = "14e21ee1b68ff5529799b688a932ab7e";
+	private static String APPKEY = "eb96311cfbc4";
+	private static String APPSECRET = "93d69dd2aa27c2fe211bc5907334e332";
 
 	private String phone;
 	private boolean isAuthPhone = false;
@@ -501,6 +502,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 				showToast(R.string.smssdk_write_right_mobile_phone);
 				return;
 			}
+			MobclickAgent.onEvent(this, "InputPhone");
 			if (isAuthPhone) {
 				startLoadingDialog();
 				if (countryRules == null || countryRules.size() <= 0) {

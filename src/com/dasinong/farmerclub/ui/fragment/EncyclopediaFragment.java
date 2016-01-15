@@ -206,5 +206,11 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.show();
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onEvent(getActivity(), "EncyclopediaFragment");
+	}
 
 }

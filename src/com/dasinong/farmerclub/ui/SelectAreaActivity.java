@@ -13,6 +13,7 @@ import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.SelectAreaView;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.ui.view.SelectAreaView.OnGetVillagesListener;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -82,6 +83,7 @@ public class SelectAreaActivity extends BaseActivity {
 				String villageId = sav_area.getVillageId();
 				SharedPreferencesHelper.setString(SelectAreaActivity.this, Field.VILLAGE_ID, villageId);
 				if(!TextUtils.isEmpty(villageId)){
+					MobclickAgent.onEvent(SelectAreaActivity.this, "SelectAddress");
 					Intent intent = new Intent(SelectAreaActivity.this, InPutFieldSizeActivity.class);
 					startActivity(intent);
 				} else {

@@ -49,10 +49,8 @@ public class InPutFieldSizeActivity extends MyBaseActivity {
 					return;
 				}
 				
-				MobclickAgent.onEvent(InPutFieldSizeActivity.this, "AddFieldThird");
-				
 				SharedPreferencesHelper.setString(InPutFieldSizeActivity.this, Field.FIELD_SIZE, fieldSize);
-
+				MobclickAgent.onEvent(InPutFieldSizeActivity.this, "InputFieldSize");
 				Intent intent = new Intent(InPutFieldSizeActivity.this, SelectSubStageActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
 				startActivity(intent);

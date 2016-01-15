@@ -30,6 +30,7 @@ import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.ui.adapter.CureAdapter;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.utils.DeviceHelper;
+import com.umeng.analytics.MobclickAgent;
 
 public class CureDetailActivity extends BaseActivity {
 
@@ -195,6 +196,7 @@ public class CureDetailActivity extends BaseActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				MobclickAgent.onEvent(CureDetailActivity.this, "PesticideDetail");
 				Intent intent = new Intent(CureDetailActivity.this, PesticideDetailActivity.class);
 				intent.putExtra("id", drugList.get(position - 1).id + "");
 				startActivity(intent);

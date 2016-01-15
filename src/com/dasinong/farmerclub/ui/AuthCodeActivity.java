@@ -48,6 +48,7 @@ import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.utils.AppInfoUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class AuthCodeActivity extends BaseActivity implements OnClickListener, TextWatcher {
 
@@ -82,8 +83,8 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 	private int securityCode;
 	private int appInstitutionId;
 
-	private static String APPKEY = "cfd11b1a46d0";
-	private static String APPSECRET = "14e21ee1b68ff5529799b688a932ab7e";
+	private static String APPKEY = "eb96311cfbc4";
+	private static String APPSECRET = "93d69dd2aa27c2fe211bc5907334e332";
 
 	public void setPhone(String phone, String code, String formatedPhone) {
 		this.phone = phone;
@@ -278,7 +279,9 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		case R.id.btn_submit:
 			// 提交验证码
 			String verificationCode = etIdentifyNum.getText().toString().trim();
-
+			
+			MobclickAgent.onEvent(this, "InputAuthCode");
+			
 			if (isAuthPempPwd) {
 				authPempPwd(verificationCode);
 			} else {

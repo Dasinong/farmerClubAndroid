@@ -34,6 +34,7 @@ import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.utils.SerializableMap;
+import com.umeng.analytics.MobclickAgent;
 
 public class MyFieldFragment extends Fragment {
 
@@ -104,6 +105,7 @@ public class MyFieldFragment extends Fragment {
 							
 							@Override
 							public void onSureButtonClick() {
+								MobclickAgent.onEvent(getActivity(), "AddFieldOnMyField");
 								Intent intent = new Intent(getActivity(), IsInFieldActivity.class);
 								String strCropId = String.valueOf(entity.data.subscriptions.get(arg2).crop.cropId);
 								SharedPreferencesHelper.setString(getActivity(), Field.CROP_ID, strCropId);
@@ -134,6 +136,7 @@ public class MyFieldFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
+		MobclickAgent.onEvent(getActivity(), "MyFieldFragment");
 		queryAllCrop();
 	}
 

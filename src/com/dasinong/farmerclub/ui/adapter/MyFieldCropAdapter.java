@@ -8,6 +8,7 @@ import com.dasinong.farmerclub.net.NetConfig;
 import com.lidroid.xutils.BitmapUtils;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -70,7 +71,9 @@ public class MyFieldCropAdapter extends MyBaseAdapter<Subscriptions> {
 		});
 		viewHolder.cropName.setText(list.get(pos).crop.cropName);
 		BitmapUtils bitmapUtils = new BitmapUtils(context);
-		bitmapUtils.display(viewHolder.cropPic, NetConfig.PET_IMAGE + list.get(pos).crop.iconUrl.replace("/pic/", ""));
+		if(!TextUtils.isEmpty(list.get(pos).crop.iconUrl)){
+			bitmapUtils.display(viewHolder.cropPic, NetConfig.PET_IMAGE + list.get(pos).crop.iconUrl.replace("/pic/", ""));
+		}
 		if (list.get(pos).fields != null && list.get(pos).fields.size() > 0) {
 			viewHolder.fieldCount.setText(list.get(pos).fields.size() + "块田");
 		} else {

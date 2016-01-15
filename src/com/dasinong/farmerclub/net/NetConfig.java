@@ -159,6 +159,10 @@ public class NetConfig {
 		public static final String GET_FIELD = "getField";
 		
 		public static final String GET_CROP_DETAILS = "getCropDetails";
+		
+		public static final String COUPON_CAMPAIGNS = "couponCampaigns";
+		
+		public static final String GET_COUPONS = "getCoupons";
 	}
 
 	public static String getRequestUrl(String subUrl) {

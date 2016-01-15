@@ -130,4 +130,8 @@ public final class RequestCode {
 	public static final int GET_FIELD = DELETE_CROP_SUBSCRIPTION + 1;
 	/** 获取无田的情况下的作物 */
 	public static final int GET_CROP_DETAILS = GET_FIELD + 1;
+	/** 获取所有的优惠券 */
+	public static final int COUPON_CAMPAIGNS = GET_CROP_DETAILS + 1;
+	/** 获取我已经领取的优惠券 */
+	public static final int GET_COUPONS = COUPON_CAMPAIGNS + 1;
 }

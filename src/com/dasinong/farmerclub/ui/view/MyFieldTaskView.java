@@ -17,6 +17,7 @@ import com.dasinong.farmerclub.entity.FieldDetailEntity.TaskSpecwEntity;
 import com.dasinong.farmerclub.ui.TaskDetailsActivity;
 import com.dasinong.farmerclub.utils.GraphicUtils;
 import com.lidroid.xutils.BitmapUtils;
+import com.umeng.analytics.MobclickAgent;
 
 public class MyFieldTaskView extends LinearLayout {
 
@@ -63,7 +64,6 @@ public class MyFieldTaskView extends LinearLayout {
 			String picUrl = taskSpecwEntity.steps.get(0).thumbnailPicture.split(",")[0];
 			if (!TextUtils.isEmpty(picUrl)) {
 				BitmapUtils bitmapUtils = new BitmapUtils(context);
-				// TODO TASK 加载图片
 				bitmapUtils.display(iv_pic, "http://120.26.208.198:8080/nongshi/" + picUrl+".jpg");
 			}
 			tv_title.setText(taskSpecwEntity.taskSpecName);
@@ -78,6 +78,7 @@ public class MyFieldTaskView extends LinearLayout {
 
 				@Override
 				public void onClick(View v) {
+					MobclickAgent.onEvent(getContext(), "ClickTask");
 					Intent intent = new Intent(getContext(), TaskDetailsActivity.class);
 					intent.putExtra(TaskDetailsActivity.TASK_ID, taskSpecwEntity.taskSpecId);
 					intent.putExtra(TaskDetailsActivity.TASK_TITLE, taskSpecwEntity.taskSpecName);

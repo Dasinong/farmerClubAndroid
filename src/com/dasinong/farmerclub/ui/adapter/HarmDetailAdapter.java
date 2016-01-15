@@ -10,14 +10,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.dasinong.farmerclub.R;
-import com.dasinong.farmerclub.database.disaster.domain.PetSolu;
-import com.dasinong.farmerclub.entity.HarmDetailEntity.Solutions;
+import com.dasinong.farmerclub.entity.PetDisSpecEntity.PetDisSpec.Solution;
 
-public class HarmDetailAdapter extends MyBaseAdapter<Solutions> {
+public class HarmDetailAdapter extends MyBaseAdapter<Solution> {
 
 	private int soluSize;
 
-	public HarmDetailAdapter(Context ctx, List<Solutions> list, int soluSize, boolean flag) {
+	public HarmDetailAdapter(Context ctx, List<Solution> list, int soluSize, boolean flag) {
 		super(ctx, list, flag);
 		this.soluSize = soluSize;
 	}
@@ -44,49 +43,59 @@ public class HarmDetailAdapter extends MyBaseAdapter<Solutions> {
 			holder = (ViewHolder) view.getTag();
 		}
 
-		if (pos == 0) {
+		if(pos == 0 && pos == soluSize - 1){
+			holder.big_line.setVisibility(View.VISIBLE);
+			holder.ll_title.setVisibility(View.VISIBLE);
+			holder.small_line.setVisibility(View.VISIBLE);
+		} else if (pos == 0) {
 			holder.big_line.setVisibility(View.GONE);
+			holder.ll_title.setVisibility(View.VISIBLE);
+			holder.small_line.setVisibility(View.VISIBLE);
 		} else if (pos == soluSize - 1) {
+			holder.big_line.setVisibility(View.VISIBLE);
 			holder.ll_title.setVisibility(View.GONE);
 			holder.small_line.setVisibility(View.GONE);
 		} else if (pos == soluSize) {
 			holder.big_line.setVisibility(View.GONE);
+			holder.ll_title.setVisibility(View.VISIBLE);
+			holder.small_line.setVisibility(View.VISIBLE);
 		} else {
+			holder.big_line.setVisibility(View.GONE);
 			holder.ll_title.setVisibility(View.GONE);
 			holder.small_line.setVisibility(View.GONE);
-			holder.big_line.setVisibility(View.GONE);
 		}
+		
 		if (pos < soluSize) {
 			char c = (char) (65 + pos);
-			holder.tv_method_name.setText("治疗方案" + c);
-		} else {
-			char c = (char) (65 + pos - soluSize);
 			holder.tv_title.setText("预防方法");
 			holder.tv_method_name.setText("预防方案" + c);
+		} else {
+			char c = (char) (65 + pos - soluSize);
+			holder.tv_title.setText("治疗方法");
+			holder.tv_method_name.setText("治疗方案" + c);
 		}
 
 		holder.tv_content.setText(list.get(pos).petSoluDes);
 
-		// TODO MING:等待数据
 		if (TextUtils.isEmpty(list.get(pos).subStageId) || "0".equals(list.get(pos).subStageId)) {
 			holder.tv_crop_stage.setVisibility(View.GONE);
 		} else {
 			holder.tv_crop_stage.setVisibility(View.VISIBLE);
 			holder.tv_crop_stage.setText(list.get(pos).subStageId);
 		}
-		
+
 		if (TextUtils.isEmpty(list.get(pos).providedBy) || "0".equals(list.get(pos).providedBy)) {
 			holder.tv_provider.setVisibility(View.GONE);
 		} else {
 			holder.tv_provider.setVisibility(View.VISIBLE);
 			holder.tv_provider.setText(list.get(pos).providedBy);
 		}
-		
-		if(TextUtils.isEmpty(list.get(pos).snapshotCP)){
+
+		if (TextUtils.isEmpty(list.get(pos).snapshotCP)) {
 			holder.tv_drug.setVisibility(View.GONE);
 		} else {
 			holder.tv_drug.setVisibility(View.VISIBLE);
-			holder.tv_drug.setText("相关药物："+list.get(pos).snapshotCP);
+			holder.tv_drug.setText("相关药物：" + list.get(pos).snapshotCP);
 		}
 		return view;
 	}
@@ -102,5 +111,4 @@ public class HarmDetailAdapter extends MyBaseAdapter<Solutions> {
 		TextView tv_drug;
 		View big_line;
 	}
-
 }

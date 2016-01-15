@@ -6,6 +6,7 @@ import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.view.TopbarView;
+import com.umeng.analytics.MobclickAgent;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,14 +57,17 @@ public class SelectUserTypeActivity extends BaseActivity implements OnClickListe
 		intent = new Intent();
 		switch (v.getId()) {
 		case R.id.btn_farmer:
+			MobclickAgent.onEvent(this, "UserTypeFarmer");
 			intent.setClass(this, SelectCropActivity.class);
 			sendQurey(FARMER);
 			break;
 		case R.id.btn_businessman:
+			MobclickAgent.onEvent(this, "UserTypeBusiness");
 			intent.setClass(this, SubmitBusinessmanInfo.class);
 			sendQurey(RETAILER);
 			break;
 		case R.id.btn_other:
+			MobclickAgent.onEvent(this, "UserTypeOther");
 			intent.setClass(this, SelectCropActivity.class);
 			sendQurey(OTHERS);
 			break;

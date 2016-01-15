@@ -308,4 +308,10 @@ public class HomeFragment extends Fragment implements BGARefreshLayout.BGARefres
 
 		}
 	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		MobclickAgent.onEvent(getActivity(), "HomeFragment");
+	}
 }
