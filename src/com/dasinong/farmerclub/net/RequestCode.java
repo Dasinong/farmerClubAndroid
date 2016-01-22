@@ -134,4 +134,12 @@ public final class RequestCode {
 	public static final int COUPON_CAMPAIGNS = GET_CROP_DETAILS + 1;
 	/** 获取我已经领取的优惠券 */
 	public static final int GET_COUPONS = COUPON_CAMPAIGNS + 1;
+	/** 提交领券信息 */
+	public static final int REQUEST_COUPON = GET_COUPONS + 1;
+	/** 领取优惠券 */
+	public static final int CLAIM_COUPON = REQUEST_COUPON + 1;
+	/** 使用优惠券 */
+	public static final int REDEEM_COUPON = CLAIM_COUPON + 1;
+	/** 获取扫描过的所有优惠券 */
+	public static final int GET_SCANNED_COUPONS_GROUP_BY_CAMPAIGN = REDEEM_COUPON + 1;
 }

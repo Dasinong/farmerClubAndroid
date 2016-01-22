@@ -365,5 +365,25 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getDefaultParams();
 		new NetRequest(context).get(RequestCode.GET_COUPONS, params, SubUrl.GET_COUPONS, callBack, clazz);
 	}
-
+	public void couponCampaigns(Context context,String id, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getDefaultParams();
+		new NetRequest(context).get(RequestCode.COUPON_CAMPAIGNS, params, SubUrl.COUPON_CAMPAIGNS + "/" + id, callBack, clazz);
+	}
+	public void requestCoupon(Context context, String name, String company, String crop, String area, String yield,String experience, String productUseHistory, String contactNumber,  Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getRequestCouponParams(name, company, crop, area, yield, experience, productUseHistory, contactNumber);
+		new NetRequest(context).requestPost(RequestCode.REQUEST_COUPON, params, SubUrl.REQUEST_COUPON, callBack, clazz);
+	}
+	public void claimCoupon(Context context, String campaignId,  Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getClaimCouponParams(campaignId);
+		new NetRequest(context).requestPost(RequestCode.CLAIM_COUPON, params, SubUrl.CLAIM_COUPON, callBack, clazz);
+	}
+	public void redeemCoupon(Context context, String couponId, String userId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getRedeemCouponParams(couponId, userId);
+		new NetRequest(context).get(RequestCode.REDEEM_COUPON, params, SubUrl.REDEEM_COUPON, callBack, clazz);
+	}
+	public void getScannedCouponsGroupByCampaign(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getDefaultParams();
+		new NetRequest(context).get(RequestCode.GET_SCANNED_COUPONS_GROUP_BY_CAMPAIGN, params, SubUrl.GET_SCANNED_COUPONS_GROUP_BY_CAMPAIGN, callBack, clazz);
+	}
+	
 }

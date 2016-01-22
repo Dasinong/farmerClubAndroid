@@ -27,6 +27,8 @@ import com.dasinong.farmerclub.ui.fragment.HomeFragment;
 import com.dasinong.farmerclub.ui.fragment.MeFragment;
 import com.dasinong.farmerclub.ui.fragment.MyFieldFragment;
 import com.dasinong.farmerclub.ui.manager.AccountManager;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.utils.AppInfoUtils;
 import com.dasinong.farmerclub.utils.LocationUtils;
 import com.dasinong.farmerclub.utils.Logger;
@@ -78,6 +80,11 @@ public class MainTabActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_tab_layout);
+		String userType = SharedPreferencesHelper.getString(this, Field.USER_TYPE, SelectUserTypeActivity.FARMER);
+//		userType = SelectUserTypeActivity.RETAILER;
+		if(SelectUserTypeActivity.RETAILER.equals(userType)){
+			mTextviewArray[2] = "店铺";
+		}
 		initData();
 		initView();
 		initLocation();

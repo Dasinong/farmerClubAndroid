@@ -31,7 +31,7 @@ public class CouponAdapter extends MyBaseAdapter<CouponCampaign> {
 	}
 
 	@Override
-	public View getView(int pos, View view, ViewGroup group) {
+	public View getView(final int pos, View view, ViewGroup group) {
 		ViewHolder viewHolder;
 		if (view == null) {
 			view = View.inflate(context, R.layout.item_coupon, null);
@@ -39,7 +39,7 @@ public class CouponAdapter extends MyBaseAdapter<CouponCampaign> {
 			viewHolder.ll_summary = (LinearLayout) view.findViewById(R.id.ll_summary);
 			viewHolder.iv_pic = (ImageView) view.findViewById(R.id.iv_pic);
 			viewHolder.tv_title = (TextView) view.findViewById(R.id.tv_title);
-			viewHolder.tv_money = (TextView) view.findViewById(R.id.tv_money);
+			viewHolder.tv_amount = (TextView) view.findViewById(R.id.tv_amount);
 			viewHolder.tv_time = (TextView) view.findViewById(R.id.tv_time);
 			viewHolder.btn_apply = (Button) view.findViewById(R.id.btn_apply);
 			view.setTag(viewHolder);
@@ -51,26 +51,18 @@ public class CouponAdapter extends MyBaseAdapter<CouponCampaign> {
 		bitmapUtils.display(viewHolder.iv_pic, "");
 
 		viewHolder.tv_title.setText(list.get(pos).name);
-		viewHolder.tv_money.setText("¥" + list.get(pos).amount + ".00");
+		viewHolder.tv_amount.setText("¥" + list.get(pos).amount + ".00");
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
-		Date date = new Date();
-		
-		date.setTime(list.get(pos).claimTimeStart);
-		String startTime = sdf.format(date).toString();
-		
-		date.setTime(list.get(pos).claimTimeEnd);
-		String endTime = sdf.format(date).toString();
-		
+		String claimTime = time2String(list.get(pos).claimTimeStart, list.get(pos).claimTimeEnd);
 
-
-		viewHolder.tv_time.setText("申领时间：" + startTime + "-" + endTime);
+		viewHolder.tv_time.setText("申领时间：" + claimTime);
 
 		viewHolder.ll_summary.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(context,CouponDetailActivity.class);
+				intent.putExtra("campaignId", list.get(pos).id);
 				context.startActivity(intent);
 			}
 		});
@@ -80,6 +72,7 @@ public class CouponAdapter extends MyBaseAdapter<CouponCampaign> {
 			@Override
 			public void onClick(View v) {
 				Intent intent = new Intent(context,ApplyCouponActivity.class);
+				intent.putExtra("campaignId", list.get(pos).id);
 				context.startActivity(intent);
 			}
 		});
@@ -91,9 +84,22 @@ public class CouponAdapter extends MyBaseAdapter<CouponCampaign> {
 		public LinearLayout ll_summary;
 		public ImageView iv_pic;
 		public TextView tv_title;
-		public TextView tv_money;
+		public TextView tv_amount;
 		public TextView tv_time;
 		public Button btn_apply;
+	}
+	
+	private String time2String(long start, long end){
+		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
+		Date date = new Date();
+		
+		date.setTime(start);
+		String strStart = sdf.format(date).toString();
+		
+		date.setTime(end);
+		String strEnd = sdf.format(date).toString();
+		
+		return strStart + "-" + strEnd;
 	}
 
 }

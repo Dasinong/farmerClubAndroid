@@ -44,6 +44,7 @@ public class AccountManager {
 		SharedPreferencesHelper.setInt(context, Field.INSTITUTIONID, entity.getData().getInstitutionId());
 		SharedPreferencesHelper.setString(context, Field.CHANNEL, entity.getData().getChannel());
 		SharedPreferencesHelper.setString(context, Field.USER_AUTH_TOKEN, entity.getAccessToken());
+		SharedPreferencesHelper.setString(context, Field.USER_TYPE, entity.getData().getUserType());
 		
 		SharedPreferencesHelper.setArrayString(context, Field.USER_FIELDS, entity.getData().getFields());
 		SharedPreferencesHelper.setArrayString(context, Field.MONITOR_LOCATION_ID, entity.getData().getMonitorLocationId());

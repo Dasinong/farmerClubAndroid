@@ -163,6 +163,14 @@ public class NetConfig {
 		public static final String COUPON_CAMPAIGNS = "couponCampaigns";
 		
 		public static final String GET_COUPONS = "getCoupons";
+		
+		public static final String REQUEST_COUPON = "requestCoupon";
+		
+		public static final String CLAIM_COUPON = "claimCoupon";
+		
+		public static final String REDEEM_COUPON = "redeemCoupon";
+		
+		public static final String GET_SCANNED_COUPONS_GROUP_BY_CAMPAIGN = "getScannedCouponsGroupByCampaign";
 	}
 
 	public static String getRequestUrl(String subUrl) {
@@ -223,7 +231,7 @@ public class NetConfig {
 		public static final String qqtoken = "qqtoken";
 		public static final String avater = "avater";
 		public static final String weixintoken = "weixintoken";
-		public static final String userId = "userid";
+		public static final String userId = "userId";
 		public static final String deviceType = "devicetype";
 		public static final String deviceId = "deviceId";
 		public static final String channel = "channel";
@@ -243,6 +251,13 @@ public class NetConfig {
 		public static final String source = "source";
 		public static final String fieldName = "fieldName";
 		public static final String subStageId = "subStageId";
+		public static final String company = "company";
+		public static final String crop = "crop";
+		public static final String experience = "experience";
+		public static final String productUseHistory = "productUseHistory";
+		public static final String contactNumber = "contactNumber";
+		public static final String campaignId = "campaignId";
+		public static final String couponId = "couponId";
 
 	}
 
@@ -715,6 +730,29 @@ public class NetConfig {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.id, cropId);
 		paramsMap.put(Params.subStageId, subStageId);
+		return getBaseParams(true, paramsMap);
+	}
+	public static Map<String, String> getRequestCouponParams(String name, String company, String crop, String area, String yield,String experience, String productUseHistory, String contactNumber) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.name, name);
+		paramsMap.put(Params.company, company);
+		paramsMap.put(Params.crop, crop);
+		paramsMap.put(Params.area, area);
+		paramsMap.put(Params.yield, yield);
+		paramsMap.put(Params.experience, experience);
+		paramsMap.put(Params.productUseHistory, productUseHistory);
+		paramsMap.put(Params.contactNumber, contactNumber);
+		return getBaseParams(true, paramsMap);
+	}
+	public static Map<String, String> getClaimCouponParams(String campaignId) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.campaignId, campaignId);
+		return getBaseParams(true, paramsMap);
+	}
+	public static Map<String, String> getRedeemCouponParams(String couponId, String userId) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.couponId, couponId);
+		paramsMap.put(Params.userId, userId);
 		return getBaseParams(true, paramsMap);
 	}
 	

@@ -20,27 +20,28 @@
             android:orientation="vertical" >
 
             <ImageView
+                android:id="@+id/iv_top_image"
                 android:layout_width="match_parent"
                 android:layout_height="320dp"
                 android:src="@drawable/big" />
 
             <TextView
+                android:id="@+id/tv_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="15dp"
                 android:ellipsize="end"
-                android:text="BASF百润代金券-买百润立减30元"
                 android:textColor="@color/color_333333"
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/tv_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginTop="12.5dp"
-                android:text="¥ 30.00"
                 android:textColor="@color/color_CC0000"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -60,9 +61,9 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/tv_claim"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" 1月1日-3月1日"
                     android:textColor="@color/color_999999"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -88,13 +89,13 @@
                 android:background="@color/color_EDEDED" />
 
             <TextView
+                android:id="@+id/tv_description"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="15dp"
                 android:lineSpacingExtra="8dp"
-                android:text="专营陶氏益农各类除草剂：稻杰、稻悠最新到货，量大货足，欢迎采购。"
                 android:textColor="@color/color_333333"
                 android:textSize="16sp" />
 
@@ -113,31 +114,9 @@
                     android:textSize="14sp" />
 
                 <TextView
+                    android:id="@+id/tv_redeem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text=" 等级VIP2以上兑换"
-                    android:textColor="@color/color_FF8400"
-                    android:textSize="14sp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="12.5dp"
-                android:orientation="horizontal" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="兑换时间："
-                    android:textColor="@color/color_FF8400"
-                    android:textSize="14sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text=" 1月1日-3月1日"
                     android:textColor="@color/color_FF8400"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -183,6 +162,7 @@
                 android:gravity="center" >
 
                 <Button
+                    android:id="@+id/btn_apply"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:layout_marginLeft="15dp"

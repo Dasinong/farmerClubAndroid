@@ -257,27 +257,30 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 						} else {
 
 							dismissLoadingDialog();
-
+							
+							
 							if (event == SMSSDK.EVENT_GET_VERIFICATION_CODE && data != null && (data instanceof UserInterruptException)) {
 								// 由于此处是开发者自己决定要中断发送的，因此什么都不用做
 								return;
 							}
+							
+							afterVerificationCodeRequested();
 
 							// 根据服务器返回的网络错误，给toast提示
-							try {
-								((Throwable) data).printStackTrace();
-								Throwable throwable = (Throwable) data;
-
-								JSONObject object = new JSONObject(throwable.getMessage());
-								String des = object.optString("detail");
-								if (!TextUtils.isEmpty(des)) {
-									showToast(des);
-									return;
-								}
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							showToast(R.string.smssdk_network_error);
+//							try {
+//								((Throwable) data).printStackTrace();
+//								Throwable throwable = (Throwable) data;
+//
+//								JSONObject object = new JSONObject(throwable.getMessage());
+//								String des = object.optString("detail");
+//								if (!TextUtils.isEmpty(des)) {
+//									showToast(des);
+//									return;
+//								}
+//							} catch (Exception e) {
+//								e.printStackTrace();
+//							}
+//							showToast(R.string.smssdk_network_error);
 						}
 					}
 				});

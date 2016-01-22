@@ -13,7 +13,7 @@ public class AllCouponEntity extends BaseEntity{
 		public int id;
 		public String name;
 		public String description;
-		public String pictureUrl;
+		public List<String> pictureUrls;
 		// 数量
 		public int totalVolume;
 		public String unclaimedVolume;
@@ -37,7 +37,18 @@ public class AllCouponEntity extends BaseEntity{
 	public class Store {
 		public int id;
 		public String name;
+		public String desc;
 		public int ownerId;
+		public String contactName;
+		public String location;
+		public String province;
+		public String streetAndNumber;
+		public String phone;
+		public String cellphone;
+		public int type;
+		public String status;
+		public String source;
+		public long createdAt;
+		public long updatedAt;
 	}
-
 }

@@ -5,6 +5,8 @@ import com.dasinong.farmerclub.R.string;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.umeng.analytics.MobclickAgent;
 
@@ -21,9 +23,9 @@ public class SelectUserTypeActivity extends BaseActivity implements OnClickListe
 	private Button btn_other;
 	private Intent intent;
 
-	private static final String FARMER = "farmer";
-	private static final String RETAILER = "retailer";
-	private static final String OTHERS = "others";
+	public static final String FARMER = "farmer";
+	public static final String RETAILER = "retailer";
+	public static final String OTHERS = "others";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -74,13 +76,14 @@ public class SelectUserTypeActivity extends BaseActivity implements OnClickListe
 		}
 	}
 
-	public void sendQurey(String type) {
+	public void sendQurey(final String type) {
 		startLoadingDialog();
 		RequestService.getInstance().setUserType(this, type, BaseEntity.class, new RequestListener() {
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				if (resultData.isOk()) {
 					showToast("设置成功");
+					SharedPreferencesHelper.setString(SelectUserTypeActivity.this, Field.USER_TYPE, type);
 					startActivity(intent);
 				} else {
 					showToast(R.string.please_check_netword);

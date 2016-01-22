@@ -1,5 +1,8 @@
 package com.dasinong.farmerclub.ui.adapter;
 
+import java.util.List;
+
+import com.dasinong.farmerclub.entity.MyCouponsEntity.Coupon;
 import com.dasinong.farmerclub.ui.fragment.MyCouponFragment;
 
 import android.support.v4.app.Fragment;
@@ -9,9 +12,11 @@ import android.support.v4.app.FragmentPagerAdapter;
 public class MyCouponFragmentPagerAdapter extends FragmentPagerAdapter {
 
 	String[] titles = { "未使用", "已失效" };
+	private List<Coupon> list;
 
-	public MyCouponFragmentPagerAdapter(FragmentManager fm) {
+	public MyCouponFragmentPagerAdapter(FragmentManager fm, List<Coupon> list) {
 		super(fm);
+		this.list = list;
 	}
 
 	@Override
@@ -26,7 +31,7 @@ public class MyCouponFragmentPagerAdapter extends FragmentPagerAdapter {
 
 	@Override
 	public Fragment getItem(int position) {
-		return MyCouponFragment.newInstance(position);
+		return new MyCouponFragment(position, list);
 	}
 
 }

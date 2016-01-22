@@ -15,6 +15,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Vibrator;
+import android.text.TextUtils;
 import android.view.SurfaceHolder;
 import android.view.SurfaceHolder.Callback;
 import android.view.SurfaceView;
@@ -26,6 +27,11 @@ import android.widget.Toast;
 
 import com.dasinong.farmerclub.DsnApplication;
 import com.dasinong.farmerclub.R;
+import com.dasinong.farmerclub.entity.BaseEntity;
+import com.dasinong.farmerclub.net.NetRequest.RequestListener;
+import com.dasinong.farmerclub.net.RequestService;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.Result;
@@ -62,6 +68,14 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_scan_qrcoder);
+		
+		String type = SharedPreferencesHelper.getString(this, Field.USER_TYPE, SelectUserTypeActivity.FARMER);
+		if(SelectUserTypeActivity.RETAILER.equals(type)){
+			isFarmer = false;
+		} else {
+			isFarmer = true;
+		}
+		
 		// ViewUtil.addTopView(getApplicationContext(), this,
 		// R.string.scan_card);
 		CameraManager.init(getApplication());
@@ -138,18 +152,62 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		String resultString = result.getText();
 		// FIXME
 		if (resultString.equals("")) {
-			Toast.makeText(CaptureActivity.this, "Scan failed!", Toast.LENGTH_SHORT).show();
+			Toast.makeText(CaptureActivity.this, "未能识别的二维码", Toast.LENGTH_SHORT).show();
 		} else {
 			
 			//友盟统计自定义统计事件
 			HashMap<String,String> map = new HashMap<String,String>();
 			map.put("url",resultString);
-			MobclickAgent.onEvent(this, "ScanQRcodeSuccess", map); 
+			MobclickAgent.onEvent(this, "ScanQRcodeSuccess", map);
 			
-			Intent intent = new Intent(this, WebViewActivity.class);
+//			userId=1525&couponId=1896
+			if(!isFarmer){
+				String userId = "";
+				String couponId = "";
+				String[] split = resultString.split("&");
+				try {
+					userId = split[0].split("=")[1];
+					couponId = split[1].split("=")[1];
+				} catch (Exception e) {
+					
+					Intent intent = new Intent(this, WebViewActivity.class);
+					intent.putExtra("url", resultString);
+					startActivity(intent);
+					
+				}
+				
+				if(!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(couponId)){
+					startLoadingDialog();
+					RequestService.getInstance().redeemCoupon(this, couponId, userId, BaseEntity.class, new RequestListener() {
+						
+						@Override
+						public void onSuccess(int requestCode, BaseEntity resultData) {
+							if(resultData.isOk()){
+								showToast("使用成功");
+							} else if("2101".equals(resultData.getRespCode())){
+								showToast("已使用的");
+							} else if("2102".equals(resultData.getRespCode())){
+								showToast("活动已过期");
+							} else {
+								showToast(R.string.please_check_netword);
+							}
+							dismissLoadingDialog();
+						}
+						
+						@Override
+						public void onFailed(int requestCode, Exception error, String msg) {
+							dismissLoadingDialog();
+						}
+					});
+				}
+				
+			} else {
+				Intent intent = new Intent(this, WebViewActivity.class);
+				
+				intent.putExtra("url", resultString);
+				startActivity(intent);
+			}
 			
-			intent.putExtra("url", resultString);
-			startActivity(intent);
 
 			// Intent resultIntent = new Intent();
 			// Bundle bundle = new Bundle();
@@ -248,5 +306,6 @@ public class CaptureActivity extends BaseActivity implements Callback {
 			mediaPlayer.seekTo(0);
 		}
 	};
+	private boolean isFarmer;
 
 }

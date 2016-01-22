@@ -37,7 +37,7 @@ android {
             renderscript.srcDirs = ['src']
             res.srcDirs = ['res']
             assets.srcDirs = ['assets']
-            jniLibs.srcDirs = ['jniLibs']
+            jniLibs.srcDirs = ['libs']
 
         }
 
@@ -69,9 +69,9 @@ android {
         BaiDu {
             manifest.srcFile 'tests/AndroidManifest4.xml'
         }
-        //91Mark  {
-        // manifest.srcFile 'tests/AndroidManifest5.xml'
-        //}
+        Market91  {
+         manifest.srcFile 'tests/AndroidManifest5.xml'
+        }
         AndroidMark {
             manifest.srcFile 'tests/AndroidManifest6.xml'
         }

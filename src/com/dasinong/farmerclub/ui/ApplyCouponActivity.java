@@ -1,6 +1,9 @@
 package com.dasinong.farmerclub.ui;
 
 import com.dasinong.farmerclub.R;
+import com.dasinong.farmerclub.entity.BaseEntity;
+import com.dasinong.farmerclub.net.NetRequest.RequestListener;
+import com.dasinong.farmerclub.net.RequestService;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -8,6 +11,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 public class ApplyCouponActivity extends BaseActivity {
@@ -26,11 +30,19 @@ public class ApplyCouponActivity extends BaseActivity {
 	private String last_yield;
 	private String phone;
 	private int checkedId;
+	private String experience;
+	private String campaignId;
+	private String [] experiences = {"第一年的新手","2-3年有些经验","3-5年的老手","5-10年的专家","10年以上的资深专家"};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_apply_coupon);
+		
+		int id = getIntent().getIntExtra("campaignId", -1);
+		if (id != -1) {
+			campaignId = String.valueOf(id);
+		}
 
 		initView();
 		initEvent();
@@ -51,9 +63,53 @@ public class ApplyCouponActivity extends BaseActivity {
 		btn_submit.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				startLoadingDialog();
 				if(checkNull()){
-					showToast("开始领券");
+					RequestService.getInstance().requestCoupon(ApplyCouponActivity.this, name, unit, crop, size, last_yield, experience, "", phone, BaseEntity.class, new RequestListener(){
+						@Override
+						public void onSuccess(int requestCode, BaseEntity resultData) {
+							if(resultData.isOk()){
+								dismissLoadingDialog();
+								claimCoupon();
+							} 
+						}
+
+
+						@Override
+						public void onFailed(int requestCode, Exception error, String msg) {
+							dismissLoadingDialog();
+						}
+						
+					});
+				} else {
+					dismissLoadingDialog();
 				}
+			}
+		});
+	}
+	
+	private void claimCoupon() {
+		startLoadingDialog();
+		RequestService.getInstance().claimCoupon(this, campaignId, BaseEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				if(resultData.isOk()){
+					showToast("领取成功，请到我的福利查看");
+					finish();
+				} else if("2001".equals(resultData.getRespCode())){
+					showToast("您已领取过了，请勿重复领取");
+				}else if("2002".equals(resultData.getRespCode())){
+					showToast("对不起，活动已过期");
+				}else if("2003".equals(resultData.getRespCode())){
+					showToast("对不起，该优惠券已经被抢光了");
+				}
+				dismissLoadingDialog();
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
 			}
 		});
 	}
@@ -66,6 +122,7 @@ public class ApplyCouponActivity extends BaseActivity {
 		last_yield = et_last_yield.getText().toString().trim();
 		phone = et_phone.getText().toString().trim();
 		checkedId = rg_experience.getCheckedRadioButtonId();
+		
 		
 		if(TextUtils.isEmpty(name)){
 			showToast("请填写姓名");
@@ -99,6 +156,7 @@ public class ApplyCouponActivity extends BaseActivity {
 			showToast("请选择种植经验");
 			return false;
 		}
+		experience = experiences[(checkedId-1) % 5];
 		return true;
 	}
 }

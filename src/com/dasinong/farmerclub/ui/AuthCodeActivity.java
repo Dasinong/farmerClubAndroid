@@ -315,8 +315,8 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					AccountManager.saveAccount(AuthCodeActivity.this, entity);
 
 					Class clazz = null;
-
-					if (entity.getData().getRefuid() > 0 || entity.getData().getInstitutionId() > 0) {
+					boolean isFirst = SharedPreferencesHelper.getBoolean(AuthCodeActivity.this, Field.IS_SELECT_CROP, true);
+					if (isFirst) {
 						clazz = MainTabActivity.class;
 					} else  {
 						clazz = RecommendRegistActivity.class;

@@ -87,6 +87,7 @@
         <activity
             android:name=".ui.MainTabActivity"
             android:launchMode="singleTask"
+            android:clearTaskOnLaunch="true"
             android:screenOrientation="portrait" >
         </activity>
         <activity
@@ -168,6 +169,14 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
+            android:name="com.dasinong.farmerclub.ui.CouponQRCodeActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name="com.dasinong.farmerclub.ui.RedeemRecordsActivity"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
             android:name=".ui.NotFarmWorkActivity"
             android:screenOrientation="portrait" >
         </activity>
@@ -216,7 +225,7 @@
         </activity>
         <activity
             android:name=".ui.RegisterPhoneActivity"
-            android:launchMode="singleTop"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait" >
         </activity>
         <activity

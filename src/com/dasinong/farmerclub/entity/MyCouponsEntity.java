@@ -1,7 +1,12 @@
 package com.dasinong.farmerclub.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.dasinong.farmerclub.entity.AllCouponEntity.CouponCampaign;
 import com.dasinong.farmerclub.entity.AllCouponEntity.Institution;
 import com.dasinong.farmerclub.entity.AllCouponEntity.Store;
 
@@ -11,34 +16,29 @@ public class MyCouponsEntity extends BaseEntity {
 		public List <Coupon> coupons;
 	}
 	
-	public class Coupon{
+	public class Coupon implements Serializable{
 		public long id;
 		public int amount;
-		
+		public String type;
+		public int campaignId;
 		public CouponCampaign campaign;
 		public long ownerId;
 		public long scannerId;
-		
+		public String displayStatus;
 		public long redeemedAt;
 		public long claimedAt;
 		public long createdAt;
 	}
 	
-	public class CouponCampaign{
-		public long id;
-		public String name;
-		public String description;
-		public String pictureUrl;
-		public int volume;
-		public int amount;
+	public enum UseStatus{
+		USED("USED"),
+		NOT_USED("NOT_USED"),
+		EXPIRED("EXPIRED");
 		
-		public long claimTimeStart;
-		public long claimTimeEnd;
-		public long redeemTimeStart;
-		public long redeemTimeEnd;
-		public long createdAt;
-		public Institution institution;
-		public List <Store> stores;
+		public String text;
 		
+		UseStatus(String text){
+			this.text = text;
+		}
 	}
 }

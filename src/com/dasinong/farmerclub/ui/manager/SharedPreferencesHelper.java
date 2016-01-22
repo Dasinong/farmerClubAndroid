@@ -45,6 +45,7 @@ public final class SharedPreferencesHelper {
         IS_SELECT_CROP,
         CURRRENT_MONITOR_LOCATION_ID,
         CROP_ID,
+        USER_TYPE,
     }
 
     ;
