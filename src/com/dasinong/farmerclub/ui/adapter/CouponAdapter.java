@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.AllCouponEntity.CouponCampaign;
+import com.dasinong.farmerclub.net.NetConfig;
 import com.dasinong.farmerclub.ui.ApplyCouponActivity;
 import com.dasinong.farmerclub.ui.CouponDetailActivity;
 import com.lidroid.xutils.BitmapUtils;
@@ -48,8 +49,8 @@ public class CouponAdapter extends MyBaseAdapter<CouponCampaign> {
 		}
 
 		BitmapUtils bitmapUtils = new BitmapUtils(context);
-		bitmapUtils.display(viewHolder.iv_pic, "");
-
+		bitmapUtils.display(viewHolder.iv_pic, NetConfig.COUPON_IMAGE + list.get(pos).pictureUrls.get(0));
+		
 		viewHolder.tv_title.setText(list.get(pos).name);
 		viewHolder.tv_amount.setText("¥" + list.get(pos).amount + ".00");
 		

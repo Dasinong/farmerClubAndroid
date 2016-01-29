@@ -365,8 +365,8 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getDefaultParams();
 		new NetRequest(context).get(RequestCode.GET_COUPONS, params, SubUrl.GET_COUPONS, callBack, clazz);
 	}
-	public void couponCampaigns(Context context,String id, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getDefaultParams();
+	public void couponCampaigns(Context context,String id, String province, String city, String lat, String lon, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getCouponCampaignsParams(province, city, lat, lon);
 		new NetRequest(context).get(RequestCode.COUPON_CAMPAIGNS, params, SubUrl.COUPON_CAMPAIGNS + "/" + id, callBack, clazz);
 	}
 	public void requestCoupon(Context context, String name, String company, String crop, String area, String yield,String experience, String productUseHistory, String contactNumber,  Class<? extends BaseEntity> clazz, RequestListener callBack) {

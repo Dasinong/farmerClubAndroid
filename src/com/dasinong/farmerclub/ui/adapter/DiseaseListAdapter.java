@@ -11,13 +11,14 @@ import android.widget.TextView;
 
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.PetDisSpecsListEntity.PetDisSpecs;
+import com.dasinong.farmerclub.net.NetConfig;
 import com.lidroid.xutils.BitmapUtils;
 
 public class DiseaseListAdapter extends MyBaseAdapter<PetDisSpecs> {
 	
 	private BitmapUtils bitmapUtils;
 	
-	private static final String URL = "http://120.26.208.198:8080/pic/";
+//	private static final String URL = "http://120.26.208.198:8080/pic/";
 
 	public DiseaseListAdapter(Context ctx, List<PetDisSpecs> list, boolean flag) {
 		super(ctx, list, flag);
@@ -44,7 +45,7 @@ public class DiseaseListAdapter extends MyBaseAdapter<PetDisSpecs> {
 		}
 		holder.desText.setText(item.sympthon);
 		holder.pic.setVisibility(View.VISIBLE);
-		bitmapUtils.display(holder.pic, URL+item.thumbnailId);
+		bitmapUtils.display(holder.pic, NetConfig.PET_IMAGE+item.thumbnailId);
 		return view;
 	}
 

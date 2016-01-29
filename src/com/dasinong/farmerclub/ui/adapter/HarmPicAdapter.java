@@ -3,6 +3,7 @@ package com.dasinong.farmerclub.ui.adapter;
 import java.util.List;
 
 import com.dasinong.farmerclub.R;
+import com.dasinong.farmerclub.net.NetConfig;
 import com.dasinong.farmerclub.ui.WebBrowserActivity;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -41,9 +42,7 @@ public class HarmPicAdapter extends PagerAdapter {
 		ImageView iv = (ImageView) view.findViewById(R.id.iv);
 		LinearLayout ll = (LinearLayout) view.findViewById(R.id.ll);
 		BitmapUtils bitmapUtils = new BitmapUtils(context);
-		bitmapUtils.display(iv, "http://120.26.208.198:8080/pic/" + images.get(position % images.size()).replace("../pic/", ""));
-		
-		System.out.println("http://120.26.208.198:8080/pic/" + images.get(position % images.size()).replace("../pic/", ""));
+		bitmapUtils.display(iv, NetConfig.PET_IMAGE + images.get(position % images.size()).replace("../pic/", ""));
 		
 		container.addView(view);
 		return view;

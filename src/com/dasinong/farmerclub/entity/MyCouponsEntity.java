@@ -28,6 +28,7 @@ public class MyCouponsEntity extends BaseEntity {
 		public long redeemedAt;
 		public long claimedAt;
 		public long createdAt;
+		public String claimerCell;
 	}
 	
 	public enum UseStatus{

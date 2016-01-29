@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.FieldDetailEntity.TaskSpecwEntity;
+import com.dasinong.farmerclub.net.NetConfig;
 import com.dasinong.farmerclub.ui.TaskDetailsActivity;
 import com.dasinong.farmerclub.utils.GraphicUtils;
 import com.lidroid.xutils.BitmapUtils;
@@ -64,7 +65,7 @@ public class MyFieldTaskView extends LinearLayout {
 			String picUrl = taskSpecwEntity.steps.get(0).thumbnailPicture.split(",")[0];
 			if (!TextUtils.isEmpty(picUrl)) {
 				BitmapUtils bitmapUtils = new BitmapUtils(context);
-				bitmapUtils.display(iv_pic, "http://120.26.208.198:8080/nongshi/" + picUrl+".jpg");
+				bitmapUtils.display(iv_pic, NetConfig.NONGSHI_IMAGE + picUrl+".jpg");
 			}
 			tv_title.setText(taskSpecwEntity.taskSpecName);
 			tv_content.setText(taskSpecwEntity.steps.get(0).description);

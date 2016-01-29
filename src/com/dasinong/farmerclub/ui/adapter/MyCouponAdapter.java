@@ -39,7 +39,7 @@ public class MyCouponAdapter extends MyBaseAdapter<Coupon> {
 			viewHolder = (ViewHolder) view.getTag();
 		}
 		BitmapUtils bitmapUtils = new BitmapUtils(context);
-		bitmapUtils.display(viewHolder.iv_pic, NetConfig.PET_IMAGE + "couponCampaign/" + list.get(pos).campaign.pictureUrls.get(0));
+		bitmapUtils.display(viewHolder.iv_pic, NetConfig.COUPON_IMAGE + list.get(pos).campaign.pictureUrls.get(0));
 
 		viewHolder.tv_title.setText(list.get(pos).campaign.name);
 

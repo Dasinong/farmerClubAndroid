@@ -9,6 +9,7 @@ import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.database.task.domain.Steps;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.SmsSubscribeItem;
+import com.dasinong.farmerclub.net.NetConfig;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.ui.BaseActivity;
@@ -66,14 +67,12 @@ public class TaskDetailsAdapter extends MyBaseAdapter<Steps> {
 		if (TextUtils.isEmpty(item.picture)) {
 			holder.stepImage.setVisibility(View.GONE);
 		} else {
-//			LoadUtils.getInstance().loadImage(holder.stepImage, "http://120.26.208.198:8080/nongshi/" + item.picture + ".jpg");
 			BitmapUtils bitmapUtils = new BitmapUtils(context);
-			bitmapUtils.display(holder.stepImage, "http://120.26.208.198:8080/nongshi/" + item.picture + ".jpg");
+			bitmapUtils.display(holder.stepImage, NetConfig.NONGSHI_IMAGE + item.picture + ".jpg");
 		}
 
 		holder.nameText.setText(item.stepName);
 		holder.contentText.setText(Html.fromHtml(item.description));
-//		holder.contentText.setText(dealWeiboContent(item.description, holder.contentText));
 		return view;
 	}
 

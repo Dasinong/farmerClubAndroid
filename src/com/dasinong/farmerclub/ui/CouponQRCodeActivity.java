@@ -55,12 +55,12 @@ public class CouponQRCodeActivity extends BaseActivity {
 		topBar.setCenterText("大户俱乐部福利");
 		topBar.setLeftView(true, true);
 		BitmapUtils bitmapUtils = new BitmapUtils(this);
-		bitmapUtils.display(iv_pic, NetConfig.PET_IMAGE + "couponCampaign/" + picUrl);
+		bitmapUtils.display(iv_pic, NetConfig.COUPON_IMAGE + picUrl);
 
 		tv_title.setText(name);
 		tv_amount.setText("¥" + amount + ".00");
 		tv_time.setText("兑换时间：" + time);
-		bitmapUtils.display(iv_qrcode, NetConfig.PET_IMAGE + "couponCampaign/QRCode/" + id + ".png");
+		bitmapUtils.display(iv_qrcode, NetConfig.QRCODE_URL + id + ".png");
 		tv_coupon_id.setText("券号 " + id);
 	}
 }

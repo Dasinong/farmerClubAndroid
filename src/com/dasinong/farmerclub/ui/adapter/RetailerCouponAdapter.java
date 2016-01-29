@@ -36,7 +36,7 @@ public class RetailerCouponAdapter extends MyBaseAdapter<CouponCampaign> {
 		}
 		
 		BitmapUtils bitmapUtils = new BitmapUtils(context);
-		bitmapUtils.display(viewHolder.iv, NetConfig.PET_IMAGE + "couponCampaign/" + list.get(pos).pictureUrls.get(0));
+		bitmapUtils.display(viewHolder.iv, NetConfig.COUPON_IMAGE + list.get(pos).pictureUrls.get(0));
 		
 		viewHolder.title.setText(list.get(pos).name);
 		String time = time2String(list.get(pos).redeemTimeStart,list.get(pos).redeemTimeEnd);

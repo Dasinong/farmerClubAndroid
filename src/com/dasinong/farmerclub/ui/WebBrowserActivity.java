@@ -8,6 +8,7 @@ import java.util.Map;
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.jstojavainteface.JsInterface;
 import com.dasinong.farmerclub.jstojavainteface.JsInterface.WebViewClientClickListener;
+import com.dasinong.farmerclub.net.NetConfig;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.utils.Logger;
 import com.lidroid.xutils.BitmapUtils;
@@ -209,7 +210,7 @@ public class WebBrowserActivity extends BaseActivity {
 				ImageView iv = (ImageView) view.findViewById(R.id.iv);
 				LinearLayout ll = (LinearLayout) view.findViewById(R.id.ll);
 				BitmapUtils bitmapUtils = new BitmapUtils(WebBrowserActivity.this);
-				bitmapUtils.display(iv, "http://120.26.208.198:8080/" + images[position].replace("../", ""));
+				bitmapUtils.display(iv, NetConfig.PET_IMAGE + images[position].replace("../pic", ""));
 
 				ll.setOnClickListener(new OnClickListener() {
 

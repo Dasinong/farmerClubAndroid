@@ -31,15 +31,22 @@ import com.dasinong.farmerclub.utils.StringHelper;
  * @Decription
  */
 public class NetConfig {
-
-	// public static final String BASE_URL =
-	// "http://115.29.111.179/ploughHelper/";
-	public static final String BASE_URL = "http://120.26.208.198:8080/farmerClub/";
-
+	
+//	public static final String BASE_URL = "http://120.26.208.198:8080/farmerClub/";
+//	public static final String IMAGE_URL = "http://120.26.208.198:8080/avater/";
+//	public static final String PET_IMAGE = "http://120.26.208.198:8080/pic/";
+//	public static final String BAIKE_URL = "http://120.26.208.198:8080/ploughHelper/baike?";
+//	public static final String QRCODE_URL = "http://120.26.208.198:8080/pic/couponCampaign/QRCode/";
+//	public static final String COUPON_IMAGE = "http://120.26.208.198:8080/pic/couponCampaign/";
+	
+	public static final String BASE_URL = "http://120.26.208.198/farmerClub/";
 	public static final String IMAGE_URL = "http://120.26.208.198:8080/avater/";
 	public static final String PET_IMAGE = "http://120.26.208.198:8080/pic/";
-	public static final String BAIKE_URL = "http://120.26.208.198:8080/ploughHelper/baike?";
-
+	public static final String BAIKE_URL = "http://120.26.208.198/ploughHelper/baike?";
+	public static final String QRCODE_URL = "http://120.26.208.198:8080/pic/couponCampaign/QRCode/";
+	public static final String COUPON_IMAGE = "http://120.26.208.198:8080/pic/couponCampaign/";
+	public static final String NONGSHI_IMAGE = "http://120.26.208.198:8080/nongshi/";
+	
 	private static final String KEY_REQUEST = "UHTN90SPOLKIRT6131NM0SEWGLPALczmf";
 
 	private static final String FLAG = "=";
@@ -753,6 +760,15 @@ public class NetConfig {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.couponId, couponId);
 		paramsMap.put(Params.userId, userId);
+		return getBaseParams(true, paramsMap);
+	}
+
+	public static Map<String, String> getCouponCampaignsParams(String province, String city, String lat, String lon) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.province, province);
+		paramsMap.put(Params.city, city);
+		paramsMap.put(Params.lat, lat);
+		paramsMap.put(Params.lon, lon);
 		return getBaseParams(true, paramsMap);
 	}
 	

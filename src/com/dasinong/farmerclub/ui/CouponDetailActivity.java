@@ -10,6 +10,8 @@ import java.util.Set;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -25,10 +27,15 @@ import com.dasinong.farmerclub.entity.AllCouponEntity.CouponCampaign;
 import com.dasinong.farmerclub.entity.AllCouponEntity.Store;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.CouponDetailEntity;
+import com.dasinong.farmerclub.entity.LocationResult;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
+import com.dasinong.farmerclub.net.NetConfig;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.utils.GraphicUtils;
+import com.dasinong.farmerclub.utils.LocationUtils;
+import com.dasinong.farmerclub.utils.LocationUtils.LocationListener;
+import com.lidroid.xutils.BitmapUtils;
 
 public class CouponDetailActivity extends BaseActivity {
 	private LinearLayout ll_pics;
@@ -42,25 +49,40 @@ public class CouponDetailActivity extends BaseActivity {
 	private TextView tv_redeem;
 	private Button btn_apply;
 	private int campaignId;
-
+	private ImageView iv_top_image;
+	
+	private String longitude;
+	private String latitude;
+	private String province;
+	private String city;
+	private LocationUtils locationUtils;
+	
+	private Handler handler = new Handler(){
+		public void handleMessage(android.os.Message msg) {
+			int id = getIntent().getIntExtra("campaignId", -1);
+			if (id != -1) {
+				queryData(String.valueOf(id));
+			}
+		};
+	};
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_coupon_detail);
+		
+		locationUtils = LocationUtils.getInstance();
 
 		initView();
-
-		int id = getIntent().getIntExtra("campaignId", -1);
-		if (id != -1) {
-			queryData(String.valueOf(id));
-		}
+		
+		initLocation();
 
 		initTopBar();
 		initEvent();
 	}
 
 	private void initView() {
+		iv_top_image = (ImageView) findViewById(R.id.iv_top_image);
 		ll_pics = (LinearLayout) findViewById(R.id.ll_pics);
 		ll_exchange_place = (LinearLayout) findViewById(R.id.ll_exchange_place);
 		topBar = (TopbarView) findViewById(R.id.topbar);
@@ -88,7 +110,8 @@ public class CouponDetailActivity extends BaseActivity {
 	
 	private void queryData(String id) {
 		startLoadingDialog();
-		RequestService.getInstance().couponCampaigns(this, id, CouponDetailEntity.class, new RequestListener() {
+
+		RequestService.getInstance().couponCampaigns(this, id, province, city, latitude, longitude, CouponDetailEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -131,6 +154,9 @@ public class CouponDetailActivity extends BaseActivity {
 	}
 
 	private void setData(CouponCampaign campaign) {
+		BitmapUtils bitmapUtils = new BitmapUtils(this);
+		
+		bitmapUtils.display(iv_top_image, NetConfig.COUPON_IMAGE + campaign.pictureUrls.get(0));
 		
 		tv_title.setText(campaign.name);
 		
@@ -151,8 +177,10 @@ public class CouponDetailActivity extends BaseActivity {
 
 			LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, GraphicUtils.dip2px(this, 200));
 			params.setMargins(0, 0, 0, GraphicUtils.dip2px(this, 5));
-			imageView.setImageResource(R.drawable.small);
 			imageView.setLayoutParams(params);
+			
+			bitmapUtils.display(imageView, NetConfig.COUPON_IMAGE + campaign.pictureUrls.get(i));
+			
 			ll_pics.addView(imageView);
 		}
 		
@@ -202,6 +230,27 @@ public class CouponDetailActivity extends BaseActivity {
 		String strEnd = sdf.format(date).toString();
 		
 		return strStart + "-" + strEnd;
+	}
+	
+	@Override
+	protected void onStop() {
+		locationUtils.unRegisterLocationListener();
+		super.onStop();
+	}
+
+	private void initLocation() {
+		locationUtils.registerLocationListener(new LocationListener() {
+
+			@Override
+			public void locationNotify(LocationResult result) {
+				longitude = String.valueOf(result.getLongitude());
+				latitude = String.valueOf(result.getLatitude());
+				province = result.getProvince();
+				city = result.getCity();
+				
+				handler.sendEmptyMessage(0);
+			}
+		});
 	}
 
 }

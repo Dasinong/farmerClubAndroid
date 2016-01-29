@@ -6,6 +6,8 @@ import java.util.List;
 
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.MyCouponsEntity.Coupon;
+import com.dasinong.farmerclub.net.NetConfig;
+import com.lidroid.xutils.BitmapUtils;
 
 import android.os.Bundle;
 import android.view.View;
@@ -42,6 +44,8 @@ public class RedeemRecordsActivity extends BaseActivity {
 	}
 
 	private void setData() {
+		BitmapUtils bitmapUtils = new BitmapUtils(this);
+		bitmapUtils.display(iv_pic, NetConfig.COUPON_IMAGE + url);
 		tv_title.setText(title);
 		tv_time.setText("使用时间：" + time);
 		tv_count.setText(couponList.size() + "");
@@ -53,7 +57,7 @@ public class RedeemRecordsActivity extends BaseActivity {
 			TextView tv_phone_four = (TextView) item.findViewById(R.id.tv_phone_four);
 			TextView tv_coupon_id = (TextView) item.findViewById(R.id.tv_coupon_id);
 			tv_used_time.setText(formatTime(coupon.redeemedAt));
-			tv_phone_four.setText("1234");
+			tv_phone_four.setText(coupon.claimerCell);
 			tv_coupon_id.setText(coupon.id + "");
 			list.addView(item);
 		}
