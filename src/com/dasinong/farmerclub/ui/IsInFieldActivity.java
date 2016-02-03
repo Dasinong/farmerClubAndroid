@@ -1,5 +1,6 @@
 package com.dasinong.farmerclub.ui;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -50,6 +51,7 @@ public class IsInFieldActivity extends MyBaseActivity implements OnClickListener
 	private RunnableTask task = new RunnableTask();
 	private static final int MAX_DELAY_COUNT = 1;
 	private int count = 0;
+	public static Activity instance;
 
 	private Handler handler = new Handler() {
 
@@ -65,6 +67,8 @@ public class IsInFieldActivity extends MyBaseActivity implements OnClickListener
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_is_in_field);
+		
+		instance = this;
 
 		btn_no_in_field = (Button) findViewById(R.id.btn_no_in_field);
 		btn_in_field = (Button) findViewById(R.id.btn_in_field);

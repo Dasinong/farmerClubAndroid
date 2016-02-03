@@ -15,6 +15,7 @@ import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.ui.view.SelectAreaView.OnGetVillagesListener;
 import com.umeng.analytics.MobclickAgent;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,11 +28,14 @@ public class SelectAreaActivity extends BaseActivity {
 	private TopbarView topBar;
 	private SelectAreaView sav_area;
 	private Button btn_commit;
+	public static Activity instance;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_select_area);
+		
+		instance = this;
 
 		initView();
 		initTopBar();

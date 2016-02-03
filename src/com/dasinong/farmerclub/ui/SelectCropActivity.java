@@ -103,6 +103,7 @@ public class SelectCropActivity extends BaseActivity {
 
 	private void initTopbar() {
 		topbar.setCenterText("请选择作物");
+		topbar.setLeftView(true, true);
 	}
 
 //	@Override

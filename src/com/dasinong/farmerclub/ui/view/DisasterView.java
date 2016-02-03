@@ -184,7 +184,6 @@ public class DisasterView extends LinearLayout {
 		desc.setText(item.sympton.replace("[为害症状]", ""));
 
 		child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.id, item.petDisSpecName));
-		child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.id, item.petDisSpecName));
 		child.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -234,7 +233,6 @@ public class DisasterView extends LinearLayout {
 
 		desc.setText(item.sympton);
 		child.findViewById(R.id.disaster_prevent).setOnClickListener(new PreVentClickListener(item.id, item.petDisSpecName));
-		child.findViewById(R.id.disaster_cure).setOnClickListener(new CureClickListener(item.id, item.petDisSpecName));
 		child.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -306,28 +304,6 @@ public class DisasterView extends LinearLayout {
 			Intent intent = HarmDetailsActivity.createIntent(id, HarmDetailsActivity.FLAG_PREVENT, getContext());
 			v.getContext().startActivity(intent);
 
-		}
-	}
-
-	class CureClickListener implements View.OnClickListener {
-		private int id;
-		private String name;
-
-		public CureClickListener(int id, String petDisSpecName) {
-			this.id = id;
-			this.name = petDisSpecName;
-		}
-
-		@Override
-		public void onClick(View v) {
-
-			// 友盟统计自定义统计事件
-			HashMap<String, String> map = new HashMap<String, String>();
-			map.put("name", name);
-			MobclickAgent.onEvent(DisasterView.this.getContext(), "HarmDetailCure", map);
-
-			Intent intent = HarmDetailsActivity.createIntent(id, HarmDetailsActivity.FLAG_CURE, getContext());
-			v.getContext().startActivity(intent);
 		}
 	}
 

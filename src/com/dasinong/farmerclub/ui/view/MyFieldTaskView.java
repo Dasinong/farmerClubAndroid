@@ -62,13 +62,19 @@ public class MyFieldTaskView extends LinearLayout {
 			ImageView iv_pic = (ImageView) item.findViewById(R.id.iv_pic);
 			TextView tv_title = (TextView) item.findViewById(R.id.tv_title);
 			TextView tv_content = (TextView) item.findViewById(R.id.tv_content);
-			String picUrl = taskSpecwEntity.steps.get(0).thumbnailPicture.split(",")[0];
-			if (!TextUtils.isEmpty(picUrl)) {
-				BitmapUtils bitmapUtils = new BitmapUtils(context);
-				bitmapUtils.display(iv_pic, NetConfig.NONGSHI_IMAGE + picUrl+".jpg");
+			if(taskSpecwEntity.steps.isEmpty()){
+				continue;
 			}
-			tv_title.setText(taskSpecwEntity.taskSpecName);
+			String picUrl = taskSpecwEntity.steps.get(0).thumbnailPicture.split(",")[0];
+			BitmapUtils bitmapUtils = new BitmapUtils(context);
+			bitmapUtils.configDefaultLoadFailedImage(R.drawable.task_default_pic);
+			if (!TextUtils.isEmpty(picUrl)) {
+				bitmapUtils.display(iv_pic, NetConfig.NONGSHI_IMAGE + picUrl+".jpg");
+			} else {
+				iv_pic.setImageResource(R.drawable.task_default_pic);
+			}
 			tv_content.setText(taskSpecwEntity.steps.get(0).description);
+			tv_title.setText(taskSpecwEntity.taskSpecName);
 
 			LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
 			params.setMargins(0, GraphicUtils.dip2px(context, 20), 0, 0);

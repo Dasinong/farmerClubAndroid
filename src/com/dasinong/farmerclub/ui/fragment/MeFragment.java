@@ -25,12 +25,15 @@ import com.dasinong.farmerclub.ui.RecommendRegistActivity;
 import com.dasinong.farmerclub.ui.RegisterPasswordActivity;
 import com.dasinong.farmerclub.ui.RegisterPhoneActivity;
 import com.dasinong.farmerclub.ui.SelectCropActivity;
+import com.dasinong.farmerclub.ui.SelectUserTypeActivity;
 import com.dasinong.farmerclub.ui.SmsSettingActivity;
 import com.dasinong.farmerclub.ui.SmsSubscribeActivity;
 import com.dasinong.farmerclub.ui.SubmitBusinessmanInfo;
 import com.dasinong.farmerclub.ui.TaskDetailsActivity;
 import com.dasinong.farmerclub.ui.WebBrowserActivity;
 import com.dasinong.farmerclub.ui.manager.AccountManager;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengDialogButtonListener;
@@ -62,10 +65,14 @@ public class MeFragment extends Fragment implements OnClickListener {
 	private RelativeLayout mCheckUpdateLayout;
 
 	private RelativeLayout mMyCouponLayout;
+	private String userType;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		userType = SharedPreferencesHelper.getString(getActivity(), Field.USER_TYPE, SelectUserTypeActivity.FARMER);
+		
 	}
 
 	@Override
@@ -98,6 +105,10 @@ public class MeFragment extends Fragment implements OnClickListener {
 		mUseLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_use);
 		mContactUsLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_contact_us);
 		mCheckUpdateLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_check_update);
+		
+		if(SelectUserTypeActivity.RETAILER.endsWith(userType)){
+			mMyCouponLayout.setVisibility(View.GONE);
+		}
 	}
 
 	@Override

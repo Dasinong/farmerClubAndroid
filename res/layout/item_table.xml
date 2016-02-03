@@ -11,19 +11,18 @@
         android:paddingTop="5dp" >
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_weight="1"
             android:text="使用作物"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_crop"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_marginLeft="40dp" />
     </TableRow>
 
     <TableRow
@@ -34,19 +33,18 @@
         android:paddingTop="5dp" >
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_weight="1"
             android:text="防止对象"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_disease"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_marginLeft="40dp" />
     </TableRow>
 
     <TableRow
@@ -57,19 +55,18 @@
         android:paddingTop="5dp" >
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_weight="1"
             android:text="用  药  量"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_volumn"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_marginLeft="40dp" />
     </TableRow>
 
     <TableRow
@@ -80,19 +77,18 @@
         android:paddingTop="5dp" >
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_weight="1"
             android:text="施用方法"
             android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_method"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_marginLeft="40dp"/>
     </TableRow>
 
     <TableRow
@@ -106,17 +102,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_weight="1"
             android:text="施药指导"
-            android:textSize="16sp" />
+            android:textSize="16sp"
+            android:layout_weight="1" />
 
         <com.dasinong.farmerclub.ui.view.MyTextView
             android:id="@+id/tv_guideline"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:textSize="16sp"
             android:layout_marginRight="5dp"
-            android:textSize="16sp" />
+            android:layout_weight="2"/>
     </TableRow>
 
 </TableLayout>

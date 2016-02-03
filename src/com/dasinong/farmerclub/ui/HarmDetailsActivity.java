@@ -50,7 +50,7 @@ public class HarmDetailsActivity extends BaseActivity implements OnClickListener
 	private String type;
 
 	public static final String FLAG_PREVENT = "prevent";
-	public static final String FLAG_CURE = "cure";
+//	public static final String FLAG_CURE = "cure";
 	public static final String FLAG_ITEM = "item";
 
 	@Override
@@ -198,10 +198,8 @@ public class HarmDetailsActivity extends BaseActivity implements OnClickListener
 		lv_detail.setAdapter(new HarmDetailAdapter(this, entity.data.solutions, entity.data.petPreventList.size(), true));
 
 		// 根据首页的点击的按钮跳到对应的位置 例如 我要治疗，我要预防 ...
-		if (FLAG_CURE.equals(type)) {
+		if (FLAG_PREVENT.equals(type)) {
 			lv_detail.setSelection(1);
-		} else if (FLAG_PREVENT.equals(type)) {
-			lv_detail.setSelection(entity.data.petSoluList.size());
 		} else {
 			lv_detail.setSelection(0);
 		}

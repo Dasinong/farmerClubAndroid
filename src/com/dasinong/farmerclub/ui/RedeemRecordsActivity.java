@@ -7,6 +7,7 @@ import java.util.List;
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.MyCouponsEntity.Coupon;
 import com.dasinong.farmerclub.net.NetConfig;
+import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.lidroid.xutils.BitmapUtils;
 
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class RedeemRecordsActivity extends BaseActivity {
 	private String title;
 	private String time;
 	private String url;
+	private TopbarView topBar;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -39,8 +41,14 @@ public class RedeemRecordsActivity extends BaseActivity {
 		url = getIntent().getStringExtra("url");
 
 		initView();
+		initTopBar();
 		setData();
 
+	}
+
+	private void initTopBar() {
+		topBar.setCenterText("兑换记录");
+		topBar.setLeftView(true, true);
 	}
 
 	private void setData() {
@@ -64,6 +72,7 @@ public class RedeemRecordsActivity extends BaseActivity {
 	}
 
 	private void initView() {
+		topBar = (TopbarView) findViewById(R.id.topbar);
 		iv_pic = (ImageView) findViewById(R.id.iv_pic);
 		tv_title = (TextView) findViewById(R.id.tv_title);
 		tv_time = (TextView) findViewById(R.id.tv_time);

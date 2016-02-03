@@ -1,5 +1,8 @@
 package com.dasinong.farmerclub.ui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.json.JSONObject;
 
 import android.content.Intent;
@@ -74,9 +77,12 @@ public class MainTabActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_tab_layout);
+		
 		String userType = SharedPreferencesHelper.getString(this, Field.USER_TYPE, SelectUserTypeActivity.FARMER);
+		int institutionId = SharedPreferencesHelper.getInt(this, Field.INSTITUTIONID, -1);
 		if(SelectUserTypeActivity.RETAILER.equals(userType)){
 			mTextviewArray[2] = "店铺";
+			mImageViewArray[2] = R.drawable.main_tab6_selector;
 		}
 		initData();
 		initView();

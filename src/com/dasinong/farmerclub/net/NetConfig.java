@@ -39,10 +39,10 @@ public class NetConfig {
 //	public static final String QRCODE_URL = "http://120.26.208.198:8080/pic/couponCampaign/QRCode/";
 //	public static final String COUPON_IMAGE = "http://120.26.208.198:8080/pic/couponCampaign/";
 	
-	public static final String BASE_URL = "http://120.26.208.198/farmerClub/";
+	public static final String BASE_URL = "http://120.26.208.198:8080/farmerClub/";
 	public static final String IMAGE_URL = "http://120.26.208.198:8080/avater/";
 	public static final String PET_IMAGE = "http://120.26.208.198:8080/pic/";
-	public static final String BAIKE_URL = "http://120.26.208.198/ploughHelper/baike?";
+	public static final String BAIKE_URL = "http://120.26.208.198:8080/ploughHelper/baike?";
 	public static final String QRCODE_URL = "http://120.26.208.198:8080/pic/couponCampaign/QRCode/";
 	public static final String COUPON_IMAGE = "http://120.26.208.198:8080/pic/couponCampaign/";
 	public static final String NONGSHI_IMAGE = "http://120.26.208.198:8080/nongshi/";

@@ -123,7 +123,7 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		if (user != null) {
 
 			BitmapUtils bitmapUtils = new BitmapUtils(this);
-
+			bitmapUtils.configDefaultLoadFailedImage(R.drawable.header_default);
 			if (user.getPictureId().startsWith("qqapp")) {
 				String url = null;
 				try {

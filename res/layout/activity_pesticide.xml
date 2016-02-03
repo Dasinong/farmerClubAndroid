@@ -122,7 +122,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="治疗害虫的药物"
+                        android:text="防治害虫的药物"
                         android:textColor="@color/color_999999"
                         android:textSize="@dimen/sp_15" />
                 </LinearLayout>
@@ -166,7 +166,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="消除杂草的药物"
+                        android:text="消除或抑制杂草的药物"
                         android:textColor="@color/color_999999"
                         android:textSize="@dimen/sp_15" />
                 </LinearLayout>
@@ -210,7 +210,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:text="抑制剂等药物"
+                        android:text="促进或抑制植物生长发育的药物"
                         android:textColor="@color/color_999999"
                         android:textSize="@dimen/sp_15" />
                 </LinearLayout>

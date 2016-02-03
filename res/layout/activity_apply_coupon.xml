@@ -241,7 +241,7 @@
                         android:paddingLeft="10dp"
                         android:text="第一年的新手"
                         android:textColor="@color/color_666666"
-                        android:textSize="13sp" />
+                        android:textSize="16sp" />
 
                     <RadioButton
                         style="@style/CustomRadioBtn"
@@ -251,7 +251,7 @@
                         android:paddingLeft="10dp"
                         android:text="2-3年有些经验"
                         android:textColor="@color/color_666666"
-                        android:textSize="13sp" />
+                        android:textSize="16sp" />
 
                     <RadioButton
                         style="@style/CustomRadioBtn"
@@ -261,7 +261,7 @@
                         android:paddingLeft="10dp"
                         android:text="3-5年的老手"
                         android:textColor="@color/color_666666"
-                        android:textSize="13sp" />
+                        android:textSize="16sp" />
 
                     <RadioButton
                         style="@style/CustomRadioBtn"
@@ -271,7 +271,7 @@
                         android:paddingLeft="10dp"
                         android:text="5-10年的专家"
                         android:textColor="@color/color_666666"
-                        android:textSize="13sp" />
+                        android:textSize="16sp" />
 
                     <RadioButton
                         style="@style/CustomRadioBtn"
@@ -281,7 +281,7 @@
                         android:paddingLeft="10dp"
                         android:text="10年以上的资深专家"
                         android:textColor="@color/color_666666"
-                        android:textSize="13sp" />
+                        android:textSize="16sp" />
                 </RadioGroup>
             </LinearLayout>
 

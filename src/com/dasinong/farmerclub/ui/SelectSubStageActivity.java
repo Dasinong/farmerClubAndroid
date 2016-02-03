@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -44,13 +45,16 @@ public class SelectSubStageActivity extends MyBaseActivity implements OnClickLis
 	private List<Integer> stageIdList;
 	private List<String> stageNameList;
 	private ChangeStageEntity entity;
+	public static Activity instance;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(0, 0);
 		setContentView(R.layout.activity_select_substage);
-
+		
+		instance = this;
+		
 		spinner_substage = (Spinner) findViewById(R.id.spinner_substage);
 		btn_no_sure_substage = (Button) findViewById(R.id.btn_no_sure_substage);
 		btn_sure_substage = (Button) findViewById(R.id.btn_sure_substage);

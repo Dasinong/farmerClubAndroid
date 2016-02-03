@@ -379,7 +379,7 @@ public class RequestService {
 	}
 	public void redeemCoupon(Context context, String couponId, String userId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getRedeemCouponParams(couponId, userId);
-		new NetRequest(context).get(RequestCode.REDEEM_COUPON, params, SubUrl.REDEEM_COUPON, callBack, clazz);
+		new NetRequest(context).requestPost(RequestCode.REDEEM_COUPON, params, SubUrl.REDEEM_COUPON, callBack, clazz);
 	}
 	public void getScannedCouponsGroupByCampaign(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getDefaultParams();

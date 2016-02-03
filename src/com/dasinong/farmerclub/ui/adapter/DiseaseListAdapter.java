@@ -45,6 +45,7 @@ public class DiseaseListAdapter extends MyBaseAdapter<PetDisSpecs> {
 		}
 		holder.desText.setText(item.sympthon);
 		holder.pic.setVisibility(View.VISIBLE);
+		bitmapUtils.configDefaultLoadFailedImage(R.drawable.big_harm_default);
 		bitmapUtils.display(holder.pic, NetConfig.PET_IMAGE+item.thumbnailId);
 		return view;
 	}

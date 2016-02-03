@@ -136,7 +136,7 @@ public class CouponFragment extends Fragment {
 		if (isFarmer) {
 			topBar.setCenterText("大户俱乐部福利");
 		} else {
-			topBar.setCenterText("我的店铺");
+			topBar.setCenterText("店铺券管理");
 		}
 	}
 

@@ -42,6 +42,7 @@ public class HarmPicAdapter extends PagerAdapter {
 		ImageView iv = (ImageView) view.findViewById(R.id.iv);
 		LinearLayout ll = (LinearLayout) view.findViewById(R.id.ll);
 		BitmapUtils bitmapUtils = new BitmapUtils(context);
+		bitmapUtils.configDefaultLoadFailedImage(R.drawable.big_harm_default);
 		bitmapUtils.display(iv, NetConfig.PET_IMAGE + images.get(position % images.size()).replace("../pic/", ""));
 		
 		container.addView(view);

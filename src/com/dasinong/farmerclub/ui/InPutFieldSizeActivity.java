@@ -11,6 +11,7 @@ import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.utils.StringHelper;
 import com.umeng.analytics.MobclickAgent;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -26,11 +27,13 @@ public class InPutFieldSizeActivity extends MyBaseActivity {
 	private EditText et_field_size;
 	private Button btn_sure_size;
 	private TopbarView topbar;
+	public static Activity instance;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_input_field_size);
+		instance = this;
 		tv_user_count = (TextView) findViewById(R.id.tv_user_count);
 		et_field_size = (EditText) findViewById(R.id.et_field_size);
 		btn_sure_size = (Button) findViewById(R.id.btn_sure_size);

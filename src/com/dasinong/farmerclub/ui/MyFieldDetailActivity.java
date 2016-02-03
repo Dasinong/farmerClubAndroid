@@ -55,6 +55,22 @@ public class MyFieldDetailActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_field_detail);
+		
+		if(IsInFieldActivity.instance != null){
+			IsInFieldActivity.instance.finish();
+		}
+		
+		if(SelectAreaActivity.instance != null){
+			SelectAreaActivity.instance.finish();
+		}
+		
+		if (InPutFieldSizeActivity.instance != null) {
+			InPutFieldSizeActivity.instance.finish();
+		}
+		
+		if(SelectSubStageActivity.instance != null){
+			SelectSubStageActivity.instance.finish();
+		}
 
 		initView();
 		initEvent();
@@ -148,6 +164,7 @@ public class MyFieldDetailActivity extends BaseActivity {
 	private void initTopBar(String cropName) {
 		topBar.setCenterText(cropName);
 		topBar.setRightText("加田");
+		topBar.setLeftView(true, true);
 		topBar.setRightClickListener(new OnClickListener() {
 
 			@Override

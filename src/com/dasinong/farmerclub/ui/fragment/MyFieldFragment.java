@@ -15,8 +15,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 
+import com.dasinong.farmerclub.DsnApplication;
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.CropSubscriptionsEntity;
@@ -33,6 +35,7 @@ import com.dasinong.farmerclub.ui.adapter.MyFieldCropAdapter.OnDelClickListener;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
+import com.dasinong.farmerclub.utils.GraphicUtils;
 import com.dasinong.farmerclub.utils.SerializableMap;
 import com.umeng.analytics.MobclickAgent;
 
@@ -45,6 +48,7 @@ public class MyFieldFragment extends Fragment {
 	private CropSubscriptionsEntity entity;
 	private MyFieldCropAdapter adapter;
 	private Button btn_add_crop;
+	private static boolean isFirst = true;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -70,7 +74,9 @@ public class MyFieldFragment extends Fragment {
 			return mRoot;
 		}
 		mRoot = View.inflate(getActivity(), R.layout.fragment_my_field, null);
+		queryAllCrop();
 		initView();
+		initTopBar();
 		initEvent();
 		return mRoot;
 	}
@@ -99,7 +105,7 @@ public class MyFieldFragment extends Fragment {
 						Bundle bundle = new Bundle();
 						bundle.putSerializable("fields", myMap);
 						intent.putExtras(bundle);
-						startActivity(intent);
+						startActivityForResult(intent,0);
 					} else {
 						mBaseActivity.showRemindDialog("正在种植", "加田后能收到更多针对这块田的种植指导哦！", "马上加田", "暂时没种", new MyDialogClickListener() {
 							
@@ -109,7 +115,7 @@ public class MyFieldFragment extends Fragment {
 								Intent intent = new Intent(getActivity(), IsInFieldActivity.class);
 								String strCropId = String.valueOf(entity.data.subscriptions.get(arg2).crop.cropId);
 								SharedPreferencesHelper.setString(getActivity(), Field.CROP_ID, strCropId);
-								startActivity(intent);
+								startActivityForResult(intent, 0);
 							}
 
 							@Override
@@ -119,7 +125,7 @@ public class MyFieldFragment extends Fragment {
 								Intent intent = new Intent(getActivity(), MyFieldDetailActivity.class);
 								intent.putExtra("cropId", strCropId);
 								intent.putExtra("cropName", entity.data.subscriptions.get(arg2).crop.cropName);
-								startActivity(intent);
+								startActivityForResult(intent,0);
 							}
 						});
 					}
@@ -137,7 +143,6 @@ public class MyFieldFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		MobclickAgent.onEvent(getActivity(), "MyFieldFragment");
-		queryAllCrop();
 	}
 
 	private void initTopBar() {
@@ -181,6 +186,24 @@ public class MyFieldFragment extends Fragment {
 				if (resultData.isOk()) {
 					entity = (CropSubscriptionsEntity) resultData;
 					if (entity.data != null && entity.data.subscriptions != null) {
+						if (entity.data.subscriptions.isEmpty()) {
+							lv_crop.setVisibility(View.GONE);
+							int height = getActivity().getWindowManager().getDefaultDisplay().getHeight();
+							LayoutParams layoutParams = (LayoutParams) btn_add_crop.getLayoutParams();
+							
+							layoutParams.setMargins(GraphicUtils.dip2px(getActivity(), 20), height/3, GraphicUtils.dip2px(getActivity(), 20), GraphicUtils.dip2px(getActivity(), 20));
+							btn_add_crop.setLayoutParams(layoutParams);
+							if(isFirst){
+								isFirst = false;
+								Intent intent = new Intent(getActivity(), SelectCropActivity.class);
+								startActivityForResult(intent, 0);
+							}
+						} else {
+							lv_crop.setVisibility(View.VISIBLE);
+							LayoutParams layoutParams = (LayoutParams) btn_add_crop.getLayoutParams();
+							layoutParams.setMargins(GraphicUtils.dip2px(getActivity(), 20), GraphicUtils.dip2px(getActivity(), 20), GraphicUtils.dip2px(getActivity(), 20), GraphicUtils.dip2px(getActivity(), 20));
+							btn_add_crop.setLayoutParams(layoutParams);
+						} 
 						setData(entity.data.subscriptions);
 					}
 				} else {
@@ -207,7 +230,7 @@ public class MyFieldFragment extends Fragment {
 			}
 		});
 		lv_crop.setAdapter(adapter);
-		initTopBar();
+//		initTopBar();
 	}
 
 	protected void deleteItem(final Subscriptions item) {
