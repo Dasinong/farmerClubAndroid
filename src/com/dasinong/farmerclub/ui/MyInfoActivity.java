@@ -364,6 +364,9 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 							dismissLoadingDialog();
 							Intent intent = new Intent(MyInfoActivity.this, RegisterPhoneActivity.class);
 							startActivity(intent);
+							if(MainTabActivity.activity != null){
+								MainTabActivity.activity.finish();
+							}
 						} else {
 							showToast(resultData.getMessage());
 							dismissLoadingDialog();

@@ -1,12 +1,18 @@
 package com.dasinong.farmerclub.ui;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.dasinong.farmerclub.R;
+import com.dasinong.farmerclub.entity.BaseEntity;
+import com.dasinong.farmerclub.entity.RetailerCampaignEntity;
+import com.dasinong.farmerclub.entity.ScannedCouponsEntity;
 import com.dasinong.farmerclub.entity.MyCouponsEntity.Coupon;
 import com.dasinong.farmerclub.net.NetConfig;
+import com.dasinong.farmerclub.net.RequestService;
+import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -34,16 +40,40 @@ public class RedeemRecordsActivity extends BaseActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_redeem_records);
-
-		couponList = (List<Coupon>) getIntent().getSerializableExtra("list");
-		title = getIntent().getStringExtra("title");
-		time = getIntent().getStringExtra("time");
-		url = getIntent().getStringExtra("url");
-
+		
+		int campaignId = getIntent().getIntExtra("campaignId", -1);
+		if(campaignId != -1){
+			requestData(campaignId);
+		}
+		
 		initView();
 		initTopBar();
-		setData();
+	}
 
+	private void requestData(int campaignId) {
+		startLoadingDialog();
+		RequestService.getInstance().getScannedCouponsByCampaignId(this, campaignId + "", ScannedCouponsEntity.class, new RequestListener() {
+
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				if(resultData.isOk()){
+					ScannedCouponsEntity entity = (ScannedCouponsEntity) resultData;
+					if(entity.data != null && entity.data.coupons != null && entity.data.campaign != null){
+						couponList = entity.data.coupons;
+						title = entity.data.campaign.name;
+						time = time2String(entity.data.campaign.redeemTimeStart, entity.data.campaign.redeemTimeStart);
+						url = entity.data.campaign.pictureUrls.get(0);
+						setData();
+					}
+				}
+				dismissLoadingDialog();
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+			}
+		} );
 	}
 
 	private void initTopBar() {
@@ -57,8 +87,13 @@ public class RedeemRecordsActivity extends BaseActivity {
 		tv_title.setText(title);
 		tv_time.setText("使用时间：" + time);
 		tv_count.setText(couponList.size() + "");
-		tv_all_amount.setText((couponList.size() * couponList.get(0).amount) + "");
-
+		if(couponList.isEmpty()){
+			tv_all_amount.setText("0");
+			return;
+		} else {
+			tv_all_amount.setText((couponList.size() * couponList.get(0).amount) + "");
+		}
+		
 		for (Coupon coupon : couponList) {
 			TableRow item = (TableRow) View.inflate(this, R.layout.item_redeem_record, null);
 			TextView tv_used_time = (TextView) item.findViewById(R.id.tv_used_time);
@@ -87,5 +122,19 @@ public class RedeemRecordsActivity extends BaseActivity {
 
 		date.setTime(time);
 		return sdf.format(date).toString();
+	}
+	
+
+	private String time2String(long start, long end) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
+		Date date = new Date();
+
+		date.setTime(start);
+		String strStart = sdf.format(date).toString();
+
+		date.setTime(end);
+		String strEnd = sdf.format(date).toString();
+
+		return strStart + "-" + strEnd;
 	}
 }

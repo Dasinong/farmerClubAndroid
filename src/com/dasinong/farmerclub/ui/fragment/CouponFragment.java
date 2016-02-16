@@ -23,7 +23,7 @@ import com.dasinong.farmerclub.entity.AllCouponEntity;
 import com.dasinong.farmerclub.entity.AllCouponEntity.CouponCampaign;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.MyCouponsEntity.Coupon;
-import com.dasinong.farmerclub.entity.ScannedCouponsEntity;
+import com.dasinong.farmerclub.entity.RetailerCampaignEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.BaseActivity;
@@ -34,6 +34,7 @@ import com.dasinong.farmerclub.ui.adapter.RetailerCouponAdapter;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
+import com.tencent.mm.sdk.modelmsg.ShowMessageFromWX;
 import com.umeng.analytics.MobclickAgent;
 
 public class CouponFragment extends Fragment {
@@ -42,7 +43,7 @@ public class CouponFragment extends Fragment {
 	private BaseActivity mBaseActivity;
 	private TopbarView topBar;
 	private boolean isFarmer = true;
-	private ScannedCouponsEntity scannedCouponEntity;
+	private RetailerCampaignEntity scannedCouponEntity;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -111,15 +112,14 @@ public class CouponFragment extends Fragment {
 
 	private void queryRetailerData() {
 		mBaseActivity.startLoadingDialog();
-		RequestService.getInstance().getScannedCouponsGroupByCampaign(getActivity(), ScannedCouponsEntity.class, new RequestListener() {
+		RequestService.getInstance().getScannableCampaigns(getActivity(), RetailerCampaignEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				if (resultData.isOk()) {
-					scannedCouponEntity = (ScannedCouponsEntity) resultData;
-					if (scannedCouponEntity.data != null && scannedCouponEntity.data.groupedCoupons != null
-							&& scannedCouponEntity.data.groupedCoupons.campaigns != null) {
-						setData(scannedCouponEntity.data.groupedCoupons.campaigns);
+					scannedCouponEntity = (RetailerCampaignEntity) resultData;
+					if (scannedCouponEntity.data != null && scannedCouponEntity.data.campaigns != null ) {
+						setData(scannedCouponEntity.data.campaigns);
 					}
 				}
 				mBaseActivity.dismissLoadingDialog();
@@ -150,13 +150,7 @@ public class CouponFragment extends Fragment {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					Intent intent = new Intent(getActivity(), RedeemRecordsActivity.class);
-					Map<Integer, List<Coupon>> map = scannedCouponEntity.data.groupedCoupons.scannedCouponsByCampaign;
-					List<Coupon> list = map.get(campaigns.get(position).id);
-					intent.putExtra("list", (Serializable) list);
-					intent.putExtra("title", campaigns.get(position).name);
-					String time = time2String(campaigns.get(position).redeemTimeStart, campaigns.get(position).redeemTimeEnd);
-					intent.putExtra("time", time);
-					intent.putExtra("url", campaigns.get(position).pictureUrls.get(0));
+					intent.putExtra("campaignId", campaigns.get(position).id);
 					startActivity(intent);
 				}
 			});
@@ -167,18 +161,5 @@ public class CouponFragment extends Fragment {
 	public void onResume() {
 		super.onResume();
 		MobclickAgent.onEvent(getActivity(), "CouponFragment");
-	}
-
-	private String time2String(long start, long end) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
-		Date date = new Date();
-
-		date.setTime(start);
-		String strStart = sdf.format(date).toString();
-
-		date.setTime(end);
-		String strEnd = sdf.format(date).toString();
-
-		return strStart + "-" + strEnd;
 	}
 }

@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dasinong.farmerclub"
     android:versionCode="4"
-    android:versionName="1.03" >
+    android:versionName="1.04_build_1" >
 
     <uses-sdk
         android:minSdkVersion="14"

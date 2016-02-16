@@ -18,7 +18,25 @@ public class User {
 	private String channel;
 	private int institutionId;
 	private String userType;
+	private int memberLevel;
+	private int memberPoints;
 	
+	public int getMemberLevel() {
+		return memberLevel;
+	}
+
+	public void setMemberLevel(int memberLevel) {
+		this.memberLevel = memberLevel;
+	}
+
+	public int getMemberPoints() {
+		return memberPoints;
+	}
+
+	public void setMemberPoints(int memberPoints) {
+		this.memberPoints = memberPoints;
+	}
+
 	public String getUserType() {
 		return userType;
 	}

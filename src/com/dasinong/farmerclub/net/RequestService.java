@@ -381,9 +381,13 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getRedeemCouponParams(couponId, userId);
 		new NetRequest(context).requestPost(RequestCode.REDEEM_COUPON, params, SubUrl.REDEEM_COUPON, callBack, clazz);
 	}
-	public void getScannedCouponsGroupByCampaign(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+	public void getScannableCampaigns(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getDefaultParams();
-		new NetRequest(context).get(RequestCode.GET_SCANNED_COUPONS_GROUP_BY_CAMPAIGN, params, SubUrl.GET_SCANNED_COUPONS_GROUP_BY_CAMPAIGN, callBack, clazz);
+		new NetRequest(context).get(RequestCode.GET_SCANNABLE_CAMPAIGNS, params, SubUrl.GET_SCANNABLE_CAMPAIGNS, callBack, clazz);
+	}
+	public void getScannedCouponsByCampaignId(Context context,String campaignId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetScannedCouponsByCampaignIdParams(campaignId);
+		new NetRequest(context).get(RequestCode.GET_SCANNED_COUPONS_BY_CAMPAIGN_ID, params, SubUrl.GET_SCANNED_COUPONS_BY_CAMPAIGN_ID, callBack, clazz);
 	}
 	
 }

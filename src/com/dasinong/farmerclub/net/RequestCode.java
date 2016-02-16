@@ -140,6 +140,8 @@ public final class RequestCode {
 	public static final int CLAIM_COUPON = REQUEST_COUPON + 1;
 	/** 使用优惠券 */
 	public static final int REDEEM_COUPON = CLAIM_COUPON + 1;
-	/** 获取扫描过的所有优惠券 */
-	public static final int GET_SCANNED_COUPONS_GROUP_BY_CAMPAIGN = REDEEM_COUPON + 1;
+	/** 获取店铺的campaign */
+	public static final int GET_SCANNABLE_CAMPAIGNS = REDEEM_COUPON + 1;
+	/** 根据campaignId获取该店主扫描过的优惠券 */
+	public static final int GET_SCANNED_COUPONS_BY_CAMPAIGN_ID = GET_SCANNABLE_CAMPAIGNS + 1;
 }

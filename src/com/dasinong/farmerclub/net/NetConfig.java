@@ -39,13 +39,15 @@ public class NetConfig {
 //	public static final String QRCODE_URL = "http://120.26.208.198:8080/pic/couponCampaign/QRCode/";
 //	public static final String COUPON_IMAGE = "http://120.26.208.198:8080/pic/couponCampaign/";
 	
-	public static final String BASE_URL = "http://120.26.208.198:8080/farmerClub/";
-	public static final String IMAGE_URL = "http://120.26.208.198:8080/avater/";
-	public static final String PET_IMAGE = "http://120.26.208.198:8080/pic/";
-	public static final String BAIKE_URL = "http://120.26.208.198:8080/ploughHelper/baike?";
-	public static final String QRCODE_URL = "http://120.26.208.198:8080/pic/couponCampaign/QRCode/";
-	public static final String COUPON_IMAGE = "http://120.26.208.198:8080/pic/couponCampaign/";
-	public static final String NONGSHI_IMAGE = "http://120.26.208.198:8080/nongshi/";
+	public static final String CURRENT_SERVICE = "http://120.26.208.198/";
+	
+	public static final String BASE_URL = CURRENT_SERVICE + "farmerClub/";
+	public static final String IMAGE_URL = CURRENT_SERVICE + "avater/";
+	public static final String PET_IMAGE = CURRENT_SERVICE + "pic/";
+	public static final String BAIKE_URL = CURRENT_SERVICE + "ploughHelper/baike?";
+	public static final String QRCODE_URL = CURRENT_SERVICE + "pic/couponCampaign/QRCode/";
+	public static final String COUPON_IMAGE = CURRENT_SERVICE + "pic/couponCampaign/";
+	public static final String NONGSHI_IMAGE = CURRENT_SERVICE + "nongshi/";
 	
 	private static final String KEY_REQUEST = "UHTN90SPOLKIRT6131NM0SEWGLPALczmf";
 
@@ -177,7 +179,9 @@ public class NetConfig {
 		
 		public static final String REDEEM_COUPON = "redeemCoupon";
 		
-		public static final String GET_SCANNED_COUPONS_GROUP_BY_CAMPAIGN = "getScannedCouponsGroupByCampaign";
+		public static final String GET_SCANNABLE_CAMPAIGNS = "getScannableCampaigns";
+		
+		public static final String GET_SCANNED_COUPONS_BY_CAMPAIGN_ID = "getScannedCouponsByCampaignId";
 	}
 
 	public static String getRequestUrl(String subUrl) {
@@ -769,6 +773,11 @@ public class NetConfig {
 		paramsMap.put(Params.city, city);
 		paramsMap.put(Params.lat, lat);
 		paramsMap.put(Params.lon, lon);
+		return getBaseParams(true, paramsMap);
+	}
+	public static Map<String, String> getGetScannedCouponsByCampaignIdParams(String campaignId) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.campaignId, campaignId);
 		return getBaseParams(true, paramsMap);
 	}
 	

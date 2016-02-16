@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.json.JSONObject;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -63,12 +64,18 @@ public class MainTabActivity extends BaseActivity {
 	private FragmentTabHost mTabHost;
 
 	private LayoutInflater layoutInflater;
+	
+	public static Activity activity;
 
-	private Class fragmentArray[] = { HomeFragment.class, MyFieldFragment.class, CouponFragment.class, EncyclopediaFragment.class, MeFragment.class };
-
-	private int mImageViewArray[] = { R.drawable.main_tab1_selector,R.drawable.main_tab2_selector,R.drawable.main_tab3_selector, R.drawable.main_tab4_selector, R.drawable.main_tab5_selector };
-
-	private String mTextviewArray[] = { "天气","我的田","福利社", "农事百科", "我" };
+//	private Class fragmentArray[] = { HomeFragment.class, MyFieldFragment.class, CouponFragment.class, EncyclopediaFragment.class, MeFragment.class };
+//
+//	private int mImageViewArray[] = { R.drawable.main_tab1_selector,R.drawable.main_tab2_selector,R.drawable.main_tab3_selector, R.drawable.main_tab4_selector, R.drawable.main_tab5_selector };
+//
+//	private String mTextviewArray[] = { "天气","我的田","福利社", "农事百科", "我" };
+	
+	private List<Class> fragmentList = new ArrayList<>();
+	private List<Integer> mImageViewList = new ArrayList<>();
+	private List<String> mTextViewList = new ArrayList<>();
 	
 	private int index;
 
@@ -78,11 +85,36 @@ public class MainTabActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_tab_layout);
 		
+		activity = this;
+		
+		fragmentList.add(HomeFragment.class);
+		fragmentList.add(MyFieldFragment.class);
+		fragmentList.add(EncyclopediaFragment.class);
+		fragmentList.add(MeFragment.class);
+		
+		mImageViewList.add(R.drawable.main_tab1_selector);
+		mImageViewList.add(R.drawable.main_tab2_selector);
+		mImageViewList.add(R.drawable.main_tab4_selector);
+		mImageViewList.add(R.drawable.main_tab5_selector);
+		
+		mTextViewList.add("天气");
+		mTextViewList.add("我的田");
+		mTextViewList.add("农事百科");
+		mTextViewList.add("我");
+		
 		String userType = SharedPreferencesHelper.getString(this, Field.USER_TYPE, SelectUserTypeActivity.FARMER);
 		int institutionId = SharedPreferencesHelper.getInt(this, Field.INSTITUTIONID, -1);
-		if(SelectUserTypeActivity.RETAILER.equals(userType)){
-			mTextviewArray[2] = "店铺";
-			mImageViewArray[2] = R.drawable.main_tab6_selector;
+		boolean isDaren = SharedPreferencesHelper.getBoolean(this, Field.ISDAREN, false);
+		boolean enableWelfare = SharedPreferencesHelper.getBoolean(this, Field.ENABLEWELFARE, false);
+		
+		if(enableWelfare){
+			fragmentList.add(2, CouponFragment.class);
+			mImageViewList.add(2,R.drawable.main_tab3_selector);
+			mTextViewList.add(2,"福利社");
+			if(SelectUserTypeActivity.RETAILER.equals(userType)){
+				mImageViewList.set(2, R.drawable.main_tab6_selector);
+				mTextViewList.set(2, "店铺");
+			}
 		}
 		initData();
 		initView();
@@ -186,11 +218,11 @@ public class MainTabActivity extends BaseActivity {
 
 		mTabHost.getTabWidget().setDividerDrawable(null);
 
-		int count = fragmentArray.length;
+		int count = fragmentList.size();
 
 		for (int i = 0; i < count; i++) {
-			TabSpec tabSpec = mTabHost.newTabSpec(mTextviewArray[i]).setIndicator(getTabItemView(i));
-			mTabHost.addTab(tabSpec, fragmentArray[i], null);
+			TabSpec tabSpec = mTabHost.newTabSpec(mTextViewList.get(i)).setIndicator(getTabItemView(i));
+			mTabHost.addTab(tabSpec, fragmentList.get(i), null);
 		}
 
 		if (index != 0) {
@@ -202,10 +234,10 @@ public class MainTabActivity extends BaseActivity {
 		View view = layoutInflater.inflate(R.layout.view_main_tab_item, null);
 
 		ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
-		imageView.setImageResource(mImageViewArray[index]);
+		imageView.setImageResource(mImageViewList.get(index));
 
 		TextView textView = (TextView) view.findViewById(R.id.textview);
-		textView.setText(mTextviewArray[index]);
+		textView.setText(mTextViewList.get(index));
 
 		return view;
 	}

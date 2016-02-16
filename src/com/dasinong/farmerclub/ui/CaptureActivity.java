@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.dasinong.farmerclub.DsnApplication;
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.BaseEntity;
+import com.dasinong.farmerclub.entity.CurrentCouponInfoEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
@@ -178,16 +179,26 @@ public class CaptureActivity extends BaseActivity implements Callback {
 				
 				if(!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(couponId)){
 					startLoadingDialog();
-					RequestService.getInstance().redeemCoupon(this, couponId, userId, BaseEntity.class, new RequestListener() {
+					RequestService.getInstance().redeemCoupon(this, couponId, userId, CurrentCouponInfoEntity.class, new RequestListener() {
 						
 						@Override
 						public void onSuccess(int requestCode, BaseEntity resultData) {
 							if(resultData.isOk()){
 								showToast("使用成功");
+								CurrentCouponInfoEntity entity = (CurrentCouponInfoEntity) resultData;
+								if(entity.data != null && entity.data.coupon != null){
+									Intent intent = new Intent(CaptureActivity.this, RedeemRecordsActivity.class);
+									intent.putExtra("campaignId", entity.data.coupon.campaignId);
+									startActivity(intent);
+								}
 							} else if("2101".equals(resultData.getRespCode())){
-								showToast("已使用的");
+								showToast("已使用的优惠券");
 							} else if("2102".equals(resultData.getRespCode())){
 								showToast("活动已过期");
+							} else if("2103".equals(resultData.getRespCode())){
+								showToast("未授权扫描该优惠券");
+							} else if("2014".equals(resultData.getRespCode())){
+								showToast("不能使用他人的优惠券");
 							} else {
 								showToast(R.string.please_check_netword);
 							}

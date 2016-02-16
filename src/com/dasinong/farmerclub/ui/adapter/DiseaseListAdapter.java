@@ -17,8 +17,6 @@ import com.lidroid.xutils.BitmapUtils;
 public class DiseaseListAdapter extends MyBaseAdapter<PetDisSpecs> {
 	
 	private BitmapUtils bitmapUtils;
-	
-//	private static final String URL = "http://120.26.208.198:8080/pic/";
 
 	public DiseaseListAdapter(Context ctx, List<PetDisSpecs> list, boolean flag) {
 		super(ctx, list, flag);
