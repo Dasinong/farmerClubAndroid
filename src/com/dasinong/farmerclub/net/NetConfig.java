@@ -182,6 +182,8 @@ public class NetConfig {
 		public static final String GET_SCANNABLE_CAMPAIGNS = "getScannableCampaigns";
 		
 		public static final String GET_SCANNED_COUPONS_BY_CAMPAIGN_ID = "getScannedCouponsByCampaignId";
+		
+		public static final String BROWSE_CPPRODUCT_BY_MODEL_AND_MANUFACTURER = "browseCPProductByModelAndManufacturer";
 	}
 
 	public static String getRequestUrl(String subUrl) {
@@ -269,6 +271,7 @@ public class NetConfig {
 		public static final String contactNumber = "contactNumber";
 		public static final String campaignId = "campaignId";
 		public static final String couponId = "couponId";
+		public static final String manufacturer = "manufacturer";
 
 	}
 
@@ -778,6 +781,12 @@ public class NetConfig {
 	public static Map<String, String> getGetScannedCouponsByCampaignIdParams(String campaignId) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.campaignId, campaignId);
+		return getBaseParams(true, paramsMap);
+	}
+	public static Map<String, String> getBrowseCPProductByModelAndManufacturerParams(String type, String manufacturer) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.model, type);
+		paramsMap.put(Params.manufacturer, manufacturer);
 		return getBaseParams(true, paramsMap);
 	}
 	

@@ -1,7 +1,10 @@
 package com.dasinong.farmerclub.ui;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map.Entry;
+import java.util.Set;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -86,15 +89,15 @@ public class SelectCropActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				List<String> cropIdList = new ArrayList<String>();
-				for (int i = 0; i < lv_crops.getChildCount(); i++) {
-					
-					LinearLayout root = (LinearLayout) lv_crops.getChildAt(i);
-					CheckBox checkBox = (CheckBox) root.getChildAt(0);
-					if (checkBox.isChecked()) {
-						cropIdList.add(entity.data.crops.get(i).cropId + "");
+				
+				HashMap<Integer,Boolean> isSelected = SelectCropAdapter.getIsSelected();
+				Set<Entry<Integer,Boolean>> entrySet = isSelected.entrySet();
+				for (Entry<Integer, Boolean> entry : entrySet) {
+					if(entry.getValue()){
+						String strCropId = entity.data.crops.get(entry.getKey()).cropId + "";
+						cropIdList.add(strCropId);
 					}
 				}
-
 				setSubscribeCrop(cropIdList);
 			}
 		});

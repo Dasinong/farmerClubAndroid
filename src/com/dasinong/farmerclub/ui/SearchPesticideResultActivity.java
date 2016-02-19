@@ -25,6 +25,7 @@ import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
@@ -38,7 +39,7 @@ public class SearchPesticideResultActivity extends BaseActivity {
 
 	private TopbarView mTopbarView;
 	
-	private String type;
+//	private String type;
 
 	private Handler mHandler = new Handler();
 	
@@ -49,22 +50,29 @@ public class SearchPesticideResultActivity extends BaseActivity {
 	private OverlayThread mOverlayThread;
 	private WindowManager mWindowManager;
 	private TextView mOverlay;
+//	private String manufacturer;
+
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_disease_list);
 		
-		type = getIntent().getStringExtra("type");
+		String type = getIntent().getStringExtra("type");
+		String manufacturer = getIntent().getStringExtra("manufacturer");
 		
 		initView();
-		setUpView();
+		setUpView(type);
 		initOverlay();
-		initData();
-		requestData();
+		if(TextUtils.isEmpty(manufacturer)){
+			initData(type);
+			requestData(type);
+		} else {
+			requestData(type, manufacturer);
+		}
 	}
 
-	private void initData() {
+	private void initData(final String type) {
 		
 		
 		new Thread(){
@@ -109,7 +117,10 @@ public class SearchPesticideResultActivity extends BaseActivity {
 		mOverlayThread = new OverlayThread();
 	}
 
-	private void setUpView() {
+	private void setUpView(String type) {
+		if("专业解决方案 有害生物控制".equals(type)){
+			type = "公共卫生";
+		}
 		mTopbarView.setCenterText(type);
 		mTopbarView.setLeftView(true, true);
 		
@@ -125,9 +136,32 @@ public class SearchPesticideResultActivity extends BaseActivity {
 		});
 	}
 
-	private void requestData() {
+	private void requestData(String type) {
 		startLoadingDialog();
 		RequestService.getInstance().browseCPProductByModel(this, type, PesticideListEntity.class, new RequestListener() {
+			
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				dismissLoadingDialog();
+				if(resultData.isOk()){
+					PesticideListEntity entity = (PesticideListEntity) resultData;
+					setAdapter(entity.getData());
+				}else{
+					showToast(resultData.getMessage());
+				}
+			}
+			
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+				
+			}
+		});
+	}
+	
+	private void requestData(String type, String manufacturer) {
+		startLoadingDialog();
+		RequestService.getInstance().browseCPProductByModelAndManufacturer(this, type, manufacturer, PesticideListEntity.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {

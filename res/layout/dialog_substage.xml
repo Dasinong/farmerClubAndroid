@@ -24,7 +24,8 @@
         android:divider="@null"
         android:dividerHeight="0dp"
         android:overScrollFooter="@android:color/transparent"
-        android:overScrollHeader="@android:color/transparent" />
+        android:overScrollHeader="@android:color/transparent"
+        android:background="@color/white" />
 
     <RelativeLayout
         android:layout_width="match_parent"

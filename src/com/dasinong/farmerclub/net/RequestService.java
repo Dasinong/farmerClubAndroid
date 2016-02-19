@@ -345,49 +345,65 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getDefaultParams();
 		new NetRequest(context).get(RequestCode.GET_CROP_SUBSCRIPTIONS, params, SubUrl.GET_CROP_SUBSCRIPTIONS, callBack, clazz);
 	}
+	
 	public void deleteCropSubscription(Context context,String id, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getDeleteCropSubscriptionParams(id);
 		new NetRequest(context).requestPost(RequestCode.DELETE_CROP_SUBSCRIPTION, params, SubUrl.DELETE_CROP_SUBSCRIPTION, callBack, clazz);
 	}
+	
 	public void getField(Context context,String id, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getGetFieldParams(id);
 		new NetRequest(context).get(RequestCode.GET_FIELD, params, SubUrl.GET_FIELD, callBack, clazz);
 	}
+	
 	public void getCropDetails(Context context,String cropId,String subStageId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getGetCropDetailsParams(cropId,subStageId);
 		new NetRequest(context).get(RequestCode.GET_CROP_DETAILS, params, SubUrl.GET_CROP_DETAILS, callBack, clazz);
 	}
+	
 	public void couponCampaigns(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getDefaultParams();
 		new NetRequest(context).get(RequestCode.COUPON_CAMPAIGNS, params, SubUrl.COUPON_CAMPAIGNS, callBack, clazz);
 	}
+	
 	public void getCoupons(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getDefaultParams();
 		new NetRequest(context).get(RequestCode.GET_COUPONS, params, SubUrl.GET_COUPONS, callBack, clazz);
 	}
+	
 	public void couponCampaigns(Context context,String id, String province, String city, String lat, String lon, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getCouponCampaignsParams(province, city, lat, lon);
 		new NetRequest(context).get(RequestCode.COUPON_CAMPAIGNS, params, SubUrl.COUPON_CAMPAIGNS + "/" + id, callBack, clazz);
 	}
+	
 	public void requestCoupon(Context context, String name, String company, String crop, String area, String yield,String experience, String productUseHistory, String contactNumber,  Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getRequestCouponParams(name, company, crop, area, yield, experience, productUseHistory, contactNumber);
 		new NetRequest(context).requestPost(RequestCode.REQUEST_COUPON, params, SubUrl.REQUEST_COUPON, callBack, clazz);
 	}
+	
 	public void claimCoupon(Context context, String campaignId,  Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getClaimCouponParams(campaignId);
 		new NetRequest(context).requestPost(RequestCode.CLAIM_COUPON, params, SubUrl.CLAIM_COUPON, callBack, clazz);
 	}
+	
 	public void redeemCoupon(Context context, String couponId, String userId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getRedeemCouponParams(couponId, userId);
 		new NetRequest(context).requestPost(RequestCode.REDEEM_COUPON, params, SubUrl.REDEEM_COUPON, callBack, clazz);
 	}
+	
 	public void getScannableCampaigns(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getDefaultParams();
 		new NetRequest(context).get(RequestCode.GET_SCANNABLE_CAMPAIGNS, params, SubUrl.GET_SCANNABLE_CAMPAIGNS, callBack, clazz);
 	}
+	
 	public void getScannedCouponsByCampaignId(Context context,String campaignId, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getGetScannedCouponsByCampaignIdParams(campaignId);
 		new NetRequest(context).get(RequestCode.GET_SCANNED_COUPONS_BY_CAMPAIGN_ID, params, SubUrl.GET_SCANNED_COUPONS_BY_CAMPAIGN_ID, callBack, clazz);
+	}
+	
+	public void browseCPProductByModelAndManufacturer(Context context, String type,String manufacturer, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getBrowseCPProductByModelAndManufacturerParams(type, manufacturer);
+		new NetRequest(context).get(RequestCode.BROWSE_CPPRODUCT_BY_MODEL_AND_MANUFACTURER, params, SubUrl.BROWSE_CPPRODUCT_BY_MODEL_AND_MANUFACTURER, callBack, clazz);
 	}
 	
 }

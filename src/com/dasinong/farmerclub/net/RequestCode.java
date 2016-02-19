@@ -144,4 +144,6 @@ public final class RequestCode {
 	public static final int GET_SCANNABLE_CAMPAIGNS = REDEEM_COUPON + 1;
 	/** 根据campaignId获取该店主扫描过的优惠券 */
 	public static final int GET_SCANNED_COUPONS_BY_CAMPAIGN_ID = GET_SCANNABLE_CAMPAIGNS + 1;
+	/** 获取basf旗下的产品 */
+	public static final int BROWSE_CPPRODUCT_BY_MODEL_AND_MANUFACTURER = GET_SCANNED_COUPONS_BY_CAMPAIGN_ID + 1;
 }

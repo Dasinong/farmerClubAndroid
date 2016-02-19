@@ -101,9 +101,9 @@ public class HarmDetailsActivity extends BaseActivity implements OnClickListener
 					if (entity.data != null) {
 						initHeaderData(entity);
 
+						entity.data.petSoluList = new ArrayList<Solution>();
+						entity.data.petPreventList = new ArrayList<Solution>();
 						if (entity.data.solutions != null && !entity.data.solutions.isEmpty()) {
-							entity.data.petSoluList = new ArrayList<Solution>();
-							entity.data.petPreventList = new ArrayList<Solution>();
 							for (Solution solution : entity.data.solutions) {
 								if (solution.isRemedy) {
 
@@ -113,9 +113,11 @@ public class HarmDetailsActivity extends BaseActivity implements OnClickListener
 								}
 							}
 						}
-						entity.data.solutions.clear();
-						entity.data.solutions.addAll(entity.data.petPreventList);
-						entity.data.solutions.addAll(entity.data.petSoluList);
+						if(!entity.data.solutions.isEmpty()){
+							entity.data.solutions.clear();
+							entity.data.solutions.addAll(entity.data.petPreventList);
+							entity.data.solutions.addAll(entity.data.petSoluList);
+						}
 
 						initTopBar(entity.data.petDisSpecName);
 
@@ -126,6 +128,7 @@ public class HarmDetailsActivity extends BaseActivity implements OnClickListener
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
+				error.printStackTrace();
 				dismissLoadingDialog();
 			}
 		});
@@ -195,6 +198,7 @@ public class HarmDetailsActivity extends BaseActivity implements OnClickListener
 	}
 
 	protected void initListView(final PetDisSpecEntity entity) {
+		
 		lv_detail.setAdapter(new HarmDetailAdapter(this, entity.data.solutions, entity.data.petPreventList.size(), true));
 
 		// 根据首页的点击的按钮跳到对应的位置 例如 我要治疗，我要预防 ...

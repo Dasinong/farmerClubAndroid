@@ -70,8 +70,10 @@ public class MyFieldTopView extends LinearLayout {
 	public void setData(int currentStageId, Crop crop, double area, List<StageEntity> subStageList) {
 
 		tv_crop_name.setText(crop.cropName);
-		BitmapUtils bitmapUtils = new BitmapUtils(mContext);
-		bitmapUtils.display(iv_crop_pic, NetConfig.PET_IMAGE + crop.iconUrl.replace("/pic/", ""));
+		if(!TextUtils.isEmpty(crop.iconUrl)){
+			BitmapUtils bitmapUtils = new BitmapUtils(mContext);
+			bitmapUtils.display(iv_crop_pic, NetConfig.PET_IMAGE + crop.iconUrl.replace("/pic/", ""));
+		}
 		if (area == 0) {
 			tv_field_size.setVisibility(View.GONE);
 		} else {

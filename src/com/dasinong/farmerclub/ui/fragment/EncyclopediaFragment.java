@@ -3,6 +3,7 @@ package com.dasinong.farmerclub.ui.fragment;
 import java.util.HashMap;
 
 import com.dasinong.farmerclub.R;
+import com.dasinong.farmerclub.ui.EncyclopediasBasfManualActivity;
 import com.dasinong.farmerclub.ui.EncyclopediasDiseaseActivity;
 import com.dasinong.farmerclub.ui.EncyclopediasPesticideActivity;
 import com.dasinong.farmerclub.ui.EncyclopediasVarietiesActivity;
@@ -56,9 +57,11 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 	private RelativeLayout mAskforLayout;
 	private RelativeLayout mNongyaoLayout;
 	private RelativeLayout mBinghaiLayout;
+	private RelativeLayout mBasfmanualLayout;
 	private RelativeLayout mIntelligentLayout;
 	
 	private ImageView mSearchView;
+
 	
 	public static final String TYPE = "type";
 	public static final String VARIETY = "variety";
@@ -95,8 +98,16 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 		mAskforLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_ask_for);
 		mNongyaoLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_nongyao);
 		mBinghaiLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_bingchongcaohai);
+		mBasfmanualLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_basf_manual);
 		mIntelligentLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_intelligent);
 		mSearchView = (ImageView) mContentView.findViewById(R.id.imageview_search);
+		View mBasfView = mContentView.findViewById(R.id.view_basf);
+		
+		int insitutionId = SharedPreferencesHelper.getInt(getActivity(), Field.INSTITUTIONID, -1);
+		if(insitutionId != 3){
+			mBasfmanualLayout.setVisibility(View.GONE);
+			mBasfView.setVisibility(View.GONE);
+		}
 	}
 
 	private void setUpView() {
@@ -107,6 +118,7 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 		mNongyaoLayout.setOnClickListener(this);
 		mBinghaiLayout.setOnClickListener(this);
 		mIntelligentLayout.setOnClickListener(this);
+		mBasfmanualLayout.setOnClickListener(this);
 		
 		mSearchEdit.setOnKeyListener(new OnKeyListener() {
 			
@@ -175,6 +187,10 @@ public class EncyclopediaFragment extends Fragment implements OnClickListener{
 			diseaseIntent.putExtra("title", "请选择作物");
 			getActivity().startActivity(diseaseIntent);
 //			showNotifyDialog();
+			break;
+		case R.id.layout_basf_manual:
+			Intent basfManualIntent = new Intent(getActivity(),EncyclopediasBasfManualActivity.class);
+			getActivity().startActivity(basfManualIntent);
 			break;
 		case R.id.layout_intelligent:
 			//友盟统计自定义统计事件

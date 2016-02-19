@@ -46,9 +46,8 @@
     <RelativeLayout
         android:id="@+id/layout_ask_for"
         android:layout_width="match_parent"
-        android:layout_height="70dp" 
-        android:background="@drawable/button_white_bg_selector"
-        >
+        android:layout_height="70dp"
+        android:background="@drawable/button_white_bg_selector" >
 
         <ImageView
             android:id="@+id/imageview1"
@@ -56,8 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
-            android:src="@drawable/seed" 
-            />
+            android:src="@drawable/seed" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -100,9 +98,8 @@
     <RelativeLayout
         android:id="@+id/layout_nongyao"
         android:layout_width="match_parent"
-        android:layout_height="70dp" 
-        android:background="@drawable/button_white_bg_selector"
-        >
+        android:layout_height="70dp"
+        android:background="@drawable/button_white_bg_selector" >
 
         <ImageView
             android:id="@+id/imageview2"
@@ -149,13 +146,12 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/color_DCE3E6" />
-    
+
     <RelativeLayout
         android:id="@+id/layout_bingchongcaohai"
         android:layout_width="match_parent"
-        android:layout_height="70dp" 
-        android:background="@drawable/button_white_bg_selector"
-        >
+        android:layout_height="70dp"
+        android:background="@drawable/button_white_bg_selector" >
 
         <ImageView
             android:id="@+id/imageview3"
@@ -202,16 +198,68 @@
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:background="@color/color_DCE3E6" />
-    
+
     <RelativeLayout
-        android:id="@+id/layout_intelligent"
+        android:id="@+id/layout_basf_manual"
         android:layout_width="match_parent"
-        android:layout_height="70dp" 
-        android:background="@drawable/button_white_bg_selector"
-        >
+        android:layout_height="70dp"
+        android:background="@drawable/button_white_bg_selector" >
 
         <ImageView
             android:id="@+id/imageview4"
+            android:layout_width="40dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/basf" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/imageview4"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="巴斯夫产品介绍"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_18" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="巴斯夫产品介绍"
+                android:textColor="@color/color_999999"
+                android:textSize="@dimen/sp_15" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="20dp"
+            android:src="@drawable/icon_more" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/view_basf"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/color_DCE3E6" />
+
+    <RelativeLayout
+        android:id="@+id/layout_intelligent"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@drawable/button_white_bg_selector" >
+
+        <ImageView
+            android:id="@+id/imageview5"
             android:layout_width="40dp"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -223,7 +271,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/imageview4"
+            android:layout_toRightOf="@+id/imageview5"
             android:orientation="vertical" >
 
             <TextView

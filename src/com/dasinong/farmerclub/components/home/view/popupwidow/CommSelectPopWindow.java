@@ -47,9 +47,7 @@ public class CommSelectPopWindow {
     private List<? extends CharSequence> items;
     private PopAdapter mAdapter;
     private int popWidth = LayoutParams.WRAP_CONTENT;
-    ;
     private int popHeight = LayoutParams.WRAP_CONTENT;
-    ;
     private boolean singleline = true;
 
     private PopItemSelectListener mItemSelectListener;

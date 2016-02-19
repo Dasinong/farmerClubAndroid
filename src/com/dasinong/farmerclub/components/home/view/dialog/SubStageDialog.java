@@ -41,8 +41,9 @@ public class SubStageDialog extends BaseDialog implements AdapterView.OnItemClic
 
 	@Override
 	protected void initView() {
+		
 		mListView = (ListView) contentView.findViewById(R.id.substage_listview);
-
+		
 	}
 
 	@Override
