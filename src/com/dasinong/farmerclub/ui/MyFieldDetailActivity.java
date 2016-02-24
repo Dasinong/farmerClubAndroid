@@ -50,6 +50,7 @@ public class MyFieldDetailActivity extends BaseActivity {
 	private boolean hasField = true;
 	private String cropId;
 	private String cropName;
+	private String strCurrentSubStageId = "-1";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -120,7 +121,7 @@ public class MyFieldDetailActivity extends BaseActivity {
 			cropId = getIntent().getStringExtra("cropId");
 			cropName = getIntent().getStringExtra("cropName");
 			initTopBar(cropName);
-			queryData(cropId, "-1");
+			queryData(cropId, strCurrentSubStageId);
 		}
 	}
 
@@ -207,6 +208,7 @@ public class MyFieldDetailActivity extends BaseActivity {
 	private void initEvent() {
 		view_top.setOnStageItemClickListener(new OnStageItemClickListener() {
 
+
 			@Override
 			public void onClick(int position) {
 				if (hasField) {
@@ -232,6 +234,7 @@ public class MyFieldDetailActivity extends BaseActivity {
 							});
 				} else {
 					queryData(cropId, cropEntity.data.crop.substagews.get(position).subStageId + "");
+					strCurrentSubStageId = cropEntity.data.crop.substagews.get(position).subStageId + "";
 				}
 			}
 		});

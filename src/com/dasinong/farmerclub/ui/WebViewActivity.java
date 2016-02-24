@@ -35,12 +35,14 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings.ZoomDensity;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 public class WebViewActivity extends BaseActivity {
 
 	private WebView webView;
 	private TopbarView topbar;
+	private LinearLayout ll_error_page;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +51,7 @@ public class WebViewActivity extends BaseActivity {
 
 		webView = (WebView) findViewById(R.id.webView);
 		topbar = (TopbarView) findViewById(R.id.topbar);
+		ll_error_page = (LinearLayout) findViewById(R.id.ll_error_page);
 		
 		topbar.setCenterText("详情页");
 		topbar.setLeftView(true, true);
@@ -105,6 +108,15 @@ public class WebViewActivity extends BaseActivity {
 
 			// 如果不需要其他对点击链接事件的处理返回true，否则返回false
 			return true;
+		}
+		
+		@Override
+		public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+			super.onReceivedError(view, errorCode, description, failingUrl);
+			
+			webView.setVisibility(View.GONE);
+			ll_error_page.setVisibility(View.VISIBLE);
+			
 		}
 	}
 	/**

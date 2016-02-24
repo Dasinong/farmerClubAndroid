@@ -149,7 +149,7 @@ public class CouponDetailActivity extends BaseActivity {
 	}
 
 	private void initTopBar() {
-		topBar.setCenterText("大户俱乐部福利");
+		topBar.setCenterText("大户俱乐部活动");
 		topBar.setLeftView(true, true);
 	}
 

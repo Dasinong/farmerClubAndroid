@@ -1,10 +1,6 @@
 package com.dasinong.farmerclub.ui.fragment;
 
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,20 +9,22 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.AllCouponEntity;
 import com.dasinong.farmerclub.entity.AllCouponEntity.CouponCampaign;
 import com.dasinong.farmerclub.entity.BaseEntity;
-import com.dasinong.farmerclub.entity.MyCouponsEntity.Coupon;
 import com.dasinong.farmerclub.entity.RetailerCampaignEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.BaseActivity;
+import com.dasinong.farmerclub.ui.CaptureActivity;
 import com.dasinong.farmerclub.ui.RedeemRecordsActivity;
 import com.dasinong.farmerclub.ui.SelectUserTypeActivity;
 import com.dasinong.farmerclub.ui.adapter.CouponAdapter;
@@ -34,7 +32,6 @@ import com.dasinong.farmerclub.ui.adapter.RetailerCouponAdapter;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
-import com.tencent.mm.sdk.modelmsg.ShowMessageFromWX;
 import com.umeng.analytics.MobclickAgent;
 
 public class CouponFragment extends Fragment {
@@ -44,6 +41,7 @@ public class CouponFragment extends Fragment {
 	private TopbarView topBar;
 	private boolean isFarmer = true;
 	private RetailerCampaignEntity scannedCouponEntity;
+	private LinearLayout ll_prompt;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -87,6 +85,7 @@ public class CouponFragment extends Fragment {
 	private void initView() {
 		topBar = (TopbarView) mContentView.findViewById(R.id.topbar);
 		lv_coupon = (ListView) mContentView.findViewById(R.id.lv_coupon);
+		ll_prompt = (LinearLayout) mContentView.findViewById(R.id.ll_prompt);
 	}
 
 	private void queryFarmerData() {
@@ -118,7 +117,7 @@ public class CouponFragment extends Fragment {
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				if (resultData.isOk()) {
 					scannedCouponEntity = (RetailerCampaignEntity) resultData;
-					if (scannedCouponEntity.data != null && scannedCouponEntity.data.campaigns != null ) {
+					if (scannedCouponEntity.data != null && scannedCouponEntity.data.campaigns != null) {
 						setData(scannedCouponEntity.data.campaigns);
 					}
 				}
@@ -134,9 +133,21 @@ public class CouponFragment extends Fragment {
 
 	private void initTopBar() {
 		if (isFarmer) {
-			topBar.setCenterText("大户俱乐部福利");
+			topBar.setCenterText("大户俱乐部活动");
 		} else {
 			topBar.setCenterText("店铺券管理");
+			topBar.setRightText("扫一扫");
+			topBar.setRightClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					// 友盟统计自定义统计事件
+					MobclickAgent.onEvent(getActivity(), "ScanQRcode");
+
+					Intent scanIntent = new Intent(getActivity(), CaptureActivity.class);
+					startActivity(scanIntent);
+				}
+			});
 		}
 	}
 
@@ -144,16 +155,24 @@ public class CouponFragment extends Fragment {
 		if (isFarmer) {
 			lv_coupon.setAdapter(new CouponAdapter(getActivity(), campaigns, false));
 		} else {
-			lv_coupon.setAdapter(new RetailerCouponAdapter(getActivity(), campaigns, false));
-			lv_coupon.setOnItemClickListener(new OnItemClickListener() {
+			if (campaigns.isEmpty()) {
+				ll_prompt.setVisibility(View.VISIBLE);
+				lv_coupon.setVisibility(View.GONE);
+			} else {
+				ll_prompt.setVisibility(View.GONE);
+				lv_coupon.setVisibility(View.VISIBLE);
+				lv_coupon.setAdapter(new RetailerCouponAdapter(getActivity(), campaigns, false));
+				lv_coupon.setOnItemClickListener(new OnItemClickListener() {
 
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					Intent intent = new Intent(getActivity(), RedeemRecordsActivity.class);
-					intent.putExtra("campaignId", campaigns.get(position).id);
-					startActivity(intent);
-				}
-			});
+					@Override
+					public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+						Intent intent = new Intent(getActivity(), RedeemRecordsActivity.class);
+						intent.putExtra("campaignId", campaigns.get(position).id);
+						startActivity(intent);
+					}
+				});
+			}
+
 		}
 	}
 

@@ -35,6 +35,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
 import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.BaseEntity;
@@ -52,6 +53,7 @@ public class ReportHarmActivity extends BaseActivity {
 	private ScrollView sv_all;
 	private EditText et_des;
 	private ImageButton btn_upload_images;
+	private TextView tv_crop_name;
 	private RadioGroup rg_harm_type;
 	private RadioGroup rg_happened;
 	private RadioGroup rg_distribution;
@@ -69,7 +71,7 @@ public class ReportHarmActivity extends BaseActivity {
 	private ArrayList<String> paths = new ArrayList<String>();
 	private int flag = 0;
 	// 作物名称
-	private String cropName = "水稻";
+	private String cropName;
 	// 灾害类型
 	private String disasterType = "";
 	// 灾害名称
@@ -112,6 +114,7 @@ public class ReportHarmActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_report_harm);
 		title = getIntent().getStringExtra("title");
+		cropName = getIntent().getStringExtra("cropName");
 
 		initView();
 
@@ -144,7 +147,8 @@ public class ReportHarmActivity extends BaseActivity {
 		sv_all = (ScrollView) findViewById(R.id.sv_all);
 
 		topbar = (TopbarView) findViewById(R.id.topbar);
-
+		
+		tv_crop_name = (TextView) findViewById(R.id.tv_crop_name);
 		rg_harm_type = (RadioGroup) findViewById(R.id.rg_harm_type);
 		rg_happened = (RadioGroup) findViewById(R.id.rg_happened);
 		rg_distribution = (RadioGroup) findViewById(R.id.rg_distribution);
@@ -161,6 +165,8 @@ public class ReportHarmActivity extends BaseActivity {
 		btn_upload_images = (ImageButton) findViewById(R.id.btn_upload_images);
 		noScrollgridview = (GridView) findViewById(R.id.noScrollgridview);
 		btn_submit_harm = (Button) findViewById(R.id.btn_submit_harm);
+		
+		tv_crop_name.setText(cropName);
 
 		btn_submit_harm.setOnClickListener(new OnClickListener() {
 
@@ -296,7 +302,7 @@ public class ReportHarmActivity extends BaseActivity {
 		if (!TextUtils.isEmpty(affectedArea)) {
 			affectedArea = affectedArea.substring(0, affectedArea.length() - 1);
 		}
-		cropName = "水稻";
+//		cropName = "水稻";
 		disasterName = et_harm_name.getText().toString();
 		fieldOperations = et_des.getText().toString();
 	}

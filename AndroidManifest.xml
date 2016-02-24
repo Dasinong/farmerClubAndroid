@@ -180,6 +180,9 @@
             android:name="com.dasinong.farmerclub.ui.EncyclopediasBasfManualActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity android:name="com.dasinong.farmerclub.ui.BindActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".ui.NotFarmWorkActivity"
             android:screenOrientation="portrait" >

@@ -8,7 +8,25 @@
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-
+    
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+        <LinearLayout
+            android:id="@+id/ll_prompt"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:background="@color/white"
+            android:visibility="gone" >
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="你还么有兑换过券哦！\n点击右上方的扫一扫，开始扫券吧！"
+                android:textSize="18sp"
+                android:textColor="@color/color_999999" />
+        </LinearLayout>
+        
     <ListView
         android:id="@+id/lv_coupon"
         android:layout_width="match_parent"
@@ -17,5 +35,7 @@
         android:layout_marginRight="20dp"
         android:scrollbars="none" >
     </ListView>
+    </RelativeLayout>
+
 
 </LinearLayout>

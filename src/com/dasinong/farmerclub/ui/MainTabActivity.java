@@ -110,7 +110,7 @@ public class MainTabActivity extends BaseActivity {
 		if(enableWelfare){
 			fragmentList.add(2, CouponFragment.class);
 			mImageViewList.add(2,R.drawable.main_tab3_selector);
-			mTextViewList.add(2,"福利社");
+			mTextViewList.add(2,"活动");
 			if(SelectUserTypeActivity.RETAILER.equals(userType)){
 				mImageViewList.set(2, R.drawable.main_tab6_selector);
 				mTextViewList.set(2, "店铺");

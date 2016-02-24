@@ -1,6 +1,9 @@
 package com.dasinong.farmerclub.ui.fragment;
 
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +17,7 @@ import android.widget.Toast;
 import com.dasinong.farmerclub.DsnApplication;
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.ui.AuthCodeActivity;
+import com.dasinong.farmerclub.ui.BindActivity;
 import com.dasinong.farmerclub.ui.CaptureActivity;
 import com.dasinong.farmerclub.ui.ContactUsActivity;
 import com.dasinong.farmerclub.ui.GuideActivity;
@@ -56,7 +60,9 @@ public class MeFragment extends Fragment implements OnClickListener {
 	private TopbarView mTopbarView;
 
 	private RelativeLayout mMyInfoLayout;
+	private RelativeLayout mDarenLayout;
 	private RelativeLayout mScancodeLayout;
+	private RelativeLayout mBindLayout;
 	private RelativeLayout mRecomentLayout;
 	private RelativeLayout mSmsSettingLayout;
 	private RelativeLayout mHelpLayout;
@@ -65,14 +71,27 @@ public class MeFragment extends Fragment implements OnClickListener {
 	private RelativeLayout mCheckUpdateLayout;
 
 	private RelativeLayout mMyCouponLayout;
-	private String userType;
 
+	private String userType;
+	private boolean isDaren;
+	private int memberPoints;
+	private String pictureId;
+
+	private boolean enableWelfare;
+
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
 		userType = SharedPreferencesHelper.getString(getActivity(), Field.USER_TYPE, SelectUserTypeActivity.FARMER);
 		
+		isDaren = SharedPreferencesHelper.getBoolean(getActivity(), Field.ISDAREN, false);
+		
+		enableWelfare = SharedPreferencesHelper.getBoolean(getActivity(), Field.ENABLEWELFARE, false);
+		
+		pictureId = SharedPreferencesHelper.getString(getActivity(), Field.PICTURE_ID, "");
+		memberPoints = SharedPreferencesHelper.getInt(getActivity(), Field.MEMBER_POINTS, 0);
 	}
 
 	@Override
@@ -97,6 +116,8 @@ public class MeFragment extends Fragment implements OnClickListener {
 		mTopbarView = (TopbarView) mContentView.findViewById(R.id.topbar);
 
 		mMyInfoLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_my_info);
+		mDarenLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_daren);
+		mBindLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_bind);
 		mScancodeLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_scancode);
 		mRecomentLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_recommend);
 		mMyCouponLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_my_coupon);
@@ -106,9 +127,14 @@ public class MeFragment extends Fragment implements OnClickListener {
 		mContactUsLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_contact_us);
 		mCheckUpdateLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_check_update);
 		
-		if(SelectUserTypeActivity.RETAILER.endsWith(userType)){
+		if(!(enableWelfare && !SelectUserTypeActivity.RETAILER.equals(userType))){
 			mMyCouponLayout.setVisibility(View.GONE);
 		}
+		
+		if(!isDaren){
+			mDarenLayout.setVisibility(View.GONE);
+		}
+		
 	}
 
 	@Override
@@ -138,7 +164,9 @@ public class MeFragment extends Fragment implements OnClickListener {
 		mTopbarView.setCenterText("我");
 
 		mMyInfoLayout.setOnClickListener(this);
+		mDarenLayout.setOnClickListener(this);
 		mScancodeLayout.setOnClickListener(this);
+		mBindLayout.setOnClickListener(this);
 		mRecomentLayout.setOnClickListener(this);
 		mMyCouponLayout.setOnClickListener(this);
 		mSmsSettingLayout.setOnClickListener(this);
@@ -161,6 +189,13 @@ public class MeFragment extends Fragment implements OnClickListener {
 				getActivity().startActivity(myInfoIntent);
 			}
 			break;
+		case R.id.layout_daren:
+			Intent darenIntent = new Intent(getActivity(), WebBrowserActivity.class);
+			String url = "http://120.26.208.198/jifen/index.html?avatarUrl=" + pictureId + "&memberPoints=" + memberPoints;
+			darenIntent.putExtra(WebBrowserActivity.URL, url);
+			darenIntent.putExtra(WebBrowserActivity.TITLE, "达人积分");
+			startActivity(darenIntent);
+			break;
 		case R.id.layout_scancode:// 扫一扫
 			Intent scanIntent = new Intent(getActivity(), CaptureActivity.class);
 
@@ -168,6 +203,10 @@ public class MeFragment extends Fragment implements OnClickListener {
 			MobclickAgent.onEvent(getActivity(), "ScanQRcode");
 
 			startActivity(scanIntent);
+			break;
+		case R.id.layout_bind:// 绑定机构
+			Intent bindIntent = new Intent(getActivity(), BindActivity.class);
+			startActivity(bindIntent);
 			break;
 		case R.id.layout_recommend:// 有奖推荐
 

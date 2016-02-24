@@ -52,7 +52,7 @@ public class CouponQRCodeActivity extends BaseActivity {
 	}
 
 	private void setData() {
-		topBar.setCenterText("大户俱乐部福利");
+		topBar.setCenterText("大户俱乐部活动");
 		topBar.setLeftView(true, true);
 		BitmapUtils bitmapUtils = new BitmapUtils(this);
 		bitmapUtils.display(iv_pic, NetConfig.COUPON_IMAGE + picUrl);

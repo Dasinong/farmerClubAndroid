@@ -30,7 +30,7 @@ public class MyCouponActivity extends BaseActivity {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_recommend);
+		setContentView(R.layout.activity_my_coupon);
 		
 		initView();
 		
@@ -47,7 +47,7 @@ public class MyCouponActivity extends BaseActivity {
 	}
 	
 	private void initTopBar() {
-		topBar.setCenterText("我的福利");
+		topBar.setCenterText("我的活动");
 		topBar.setLeftView(true, true);
 	}
 	

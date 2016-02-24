@@ -94,6 +94,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 	private void initData() {
 		phone = getIntent().getStringExtra("phone");
+		securityCode = getIntent().getIntExtra("securityCode",-1);
 		code = getIntent().getStringExtra("code");
 		formatedPhone = getIntent().getStringExtra("formatedPhone");
 		isAuthPhone = getIntent().getBooleanExtra("isAuthPhone", false);
@@ -304,7 +305,13 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 	private void authPempPwd(String verificationCode) {
 		startLoadingDialog();
-		RequestService.getInstance().loginWithSecCode(this, securityCode + "", phone, verificationCode, LoginRegEntity.class, new RequestListener() {
+		String strSecurityCode ;
+		if(securityCode == -1){
+			strSecurityCode = "";
+		} else {
+			strSecurityCode = securityCode + "";
+		}
+		RequestService.getInstance().loginWithSecCode(this, strSecurityCode, phone, verificationCode, LoginRegEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {

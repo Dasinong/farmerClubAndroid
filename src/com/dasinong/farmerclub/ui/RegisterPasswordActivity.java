@@ -3,6 +3,7 @@ package com.dasinong.farmerclub.ui;
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.LoginRegEntity;
+import com.dasinong.farmerclub.entity.SecurityCodeEntity;
 import com.dasinong.farmerclub.net.RequestCode;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
@@ -132,7 +133,7 @@ public class RegisterPasswordActivity extends BaseActivity {
 			return;
 		}
 		startLoadingDialog();
-		RequestService.getInstance().requestSecurityCode(this, phone, BaseEntity.class, new RequestListener() {
+		RequestService.getInstance().requestSecurityCode(this, phone, SecurityCodeEntity.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -143,8 +144,12 @@ public class RegisterPasswordActivity extends BaseActivity {
 //						formatedPhone = getIntent().getStringExtra("formatedPhone");
 //						isAuthPhone = getIntent().getBooleanExtra("isAuthPhone", false);
 					
+					SecurityCodeEntity entity = (SecurityCodeEntity) resultData;
+					int securityCode = entity.data;
+					
 					Intent intent = new Intent(RegisterPasswordActivity.this,AuthCodeActivity.class);
 					intent.putExtra("phone", phone);
+					intent.putExtra("securityCode", securityCode);
 					intent.putExtra("authPempPwd", true);
 					startActivity(intent);
 					finish();

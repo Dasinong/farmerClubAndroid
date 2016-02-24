@@ -48,6 +48,8 @@ public final class SharedPreferencesHelper {
         USER_TYPE, 
         ISDAREN, 
         ENABLEWELFARE,
+        MEMBER_POINTS,
+        PICTURE_ID,
     }
 
     ;

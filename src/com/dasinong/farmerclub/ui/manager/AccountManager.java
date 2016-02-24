@@ -47,6 +47,8 @@ public class AccountManager {
 		SharedPreferencesHelper.setString(context, Field.USER_TYPE, entity.getData().getUserType());
 		SharedPreferencesHelper.setBoolean(context, Field.ENABLEWELFARE, entity.getClientConfig().isEnableWelfare());
 		SharedPreferencesHelper.setBoolean(context, Field.ISDAREN, entity.getClientConfig().isDaren());
+		SharedPreferencesHelper.setInt(context, Field.MEMBER_POINTS, entity.getData().getMemberPoints());
+		SharedPreferencesHelper.setString(context, Field.PICTURE_ID, entity.getData().getPictureId());
 		
 		SharedPreferencesHelper.setArrayString(context, Field.USER_FIELDS, entity.getData().getFields());
 		SharedPreferencesHelper.setArrayString(context, Field.MONITOR_LOCATION_ID, entity.getData().getMonitorLocationId());
@@ -96,6 +98,8 @@ public class AccountManager {
 		SharedPreferencesHelper.setInt(context, Field.INSTITUTIONID, 0);
 		SharedPreferencesHelper.setBoolean(context, Field.ENABLEWELFARE, false);
 		SharedPreferencesHelper.setBoolean(context, Field.ISDAREN, false);
+		SharedPreferencesHelper.setInt(context, Field.MEMBER_POINTS, -1);
+		SharedPreferencesHelper.setString(context, Field.PICTURE_ID, "");
 	}
 	
 	public static boolean checkLogin(Context context){

@@ -160,9 +160,10 @@ public class EncyclopediasDiseaseActivity extends BaseActivity implements OnClic
 			break;
 		case R.id.layout_intelligent:
 			MobclickAgent.onEvent(this, "ReportHarm");
-			Intent intent4 = new Intent(this, ReportHarmActivity.class);
-			intent4.putExtra("title", "诊断病虫草害");
-			startActivity(intent4);
+			Intent intent = new Intent(this, ReportHarmActivity.class);
+			intent.putExtra("title", "诊断病虫草害");
+			intent.putExtra("cropName", cropName);
+			startActivity(intent);
 			break;
 		}
 	}

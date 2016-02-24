@@ -161,7 +161,6 @@ public class CaptureActivity extends BaseActivity implements Callback {
 			map.put("url",resultString);
 			MobclickAgent.onEvent(this, "ScanQRcodeSuccess", map);
 			
-//			userId=1525&couponId=1896
 			if(!isFarmer){
 				String userId = "";
 				String couponId = "";
