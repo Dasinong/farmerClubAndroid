@@ -1,9 +1,6 @@
 package com.dasinong.farmerclub.ui.fragment;
 
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,9 +11,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 
-import com.dasinong.farmerclub.DsnApplication;
 import com.dasinong.farmerclub.R;
-import com.dasinong.farmerclub.ui.AuthCodeActivity;
 import com.dasinong.farmerclub.ui.BindActivity;
 import com.dasinong.farmerclub.ui.CaptureActivity;
 import com.dasinong.farmerclub.ui.ContactUsActivity;
@@ -25,25 +20,19 @@ import com.dasinong.farmerclub.ui.MainTabActivity;
 import com.dasinong.farmerclub.ui.MyCouponActivity;
 import com.dasinong.farmerclub.ui.MyInfoActivity;
 import com.dasinong.farmerclub.ui.RecommendActivity;
-import com.dasinong.farmerclub.ui.RecommendRegistActivity;
-import com.dasinong.farmerclub.ui.RegisterPasswordActivity;
 import com.dasinong.farmerclub.ui.RegisterPhoneActivity;
-import com.dasinong.farmerclub.ui.SelectCropActivity;
 import com.dasinong.farmerclub.ui.SelectUserTypeActivity;
 import com.dasinong.farmerclub.ui.SmsSettingActivity;
-import com.dasinong.farmerclub.ui.SmsSubscribeActivity;
-import com.dasinong.farmerclub.ui.SubmitBusinessmanInfo;
-import com.dasinong.farmerclub.ui.TaskDetailsActivity;
 import com.dasinong.farmerclub.ui.WebBrowserActivity;
 import com.dasinong.farmerclub.ui.manager.AccountManager;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
+import com.dasinong.farmerclub.utils.AppInfoUtils;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.update.UmengDialogButtonListener;
 import com.umeng.update.UmengUpdateAgent;
 import com.umeng.update.UmengUpdateListener;
-import com.umeng.update.UpdateDialogActivity;
 import com.umeng.update.UpdateResponse;
 import com.umeng.update.UpdateStatus;
 
@@ -79,6 +68,8 @@ public class MeFragment extends Fragment implements OnClickListener {
 
 	private boolean enableWelfare;
 
+	private boolean isShow = true;
+
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -87,6 +78,15 @@ public class MeFragment extends Fragment implements OnClickListener {
 		userType = SharedPreferencesHelper.getString(getActivity(), Field.USER_TYPE, SelectUserTypeActivity.FARMER);
 		
 		isDaren = SharedPreferencesHelper.getBoolean(getActivity(), Field.ISDAREN, false);
+		
+		int refuId = SharedPreferencesHelper.getInt(getActivity(), Field.REFUID, -1);
+		int serverInstitutionId = SharedPreferencesHelper.getInt(getActivity(), Field.INSTITUTIONID, 0);
+		int appInstitutionId = AppInfoUtils.getInstitutionId(getActivity());
+
+		
+		if (refuId > 0 || serverInstitutionId > 0 || appInstitutionId > 0) {
+			isShow = false;
+		}
 		
 		enableWelfare = SharedPreferencesHelper.getBoolean(getActivity(), Field.ENABLEWELFARE, false);
 		
@@ -116,19 +116,29 @@ public class MeFragment extends Fragment implements OnClickListener {
 		mTopbarView = (TopbarView) mContentView.findViewById(R.id.topbar);
 
 		mMyInfoLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_my_info);
-		mDarenLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_daren);
-		mBindLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_bind);
-		mScancodeLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_scancode);
-		mRecomentLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_recommend);
 		mMyCouponLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_my_coupon);
+		mDarenLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_daren);
+		
+		mScancodeLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_scancode);
+		mBindLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_bind);
+		mRecomentLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_recommend);
 		mSmsSettingLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_sms_setting);
 		mHelpLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_help_center);
 		mUseLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_use);
 		mContactUsLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_contact_us);
 		mCheckUpdateLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_check_update);
 		
-		if(!(enableWelfare && !SelectUserTypeActivity.RETAILER.equals(userType))){
-			mMyCouponLayout.setVisibility(View.GONE);
+		// TODO 何时隐藏
+		
+		mSmsSettingLayout.setVisibility(View.GONE);
+		mContactUsLayout.setVisibility(View.GONE);
+		
+		if(!isShow){
+			mBindLayout.setVisibility(View.GONE);
+		}
+		
+		if(enableWelfare){
+			mMyCouponLayout.setVisibility(View.VISIBLE);
 		}
 		
 		if(!isDaren){

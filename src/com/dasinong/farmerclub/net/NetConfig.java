@@ -39,7 +39,7 @@ public class NetConfig {
 //	public static final String QRCODE_URL = "http://120.26.208.198:8080/pic/couponCampaign/QRCode/";
 //	public static final String COUPON_IMAGE = "http://120.26.208.198:8080/pic/couponCampaign/";
 	
-	public static final String CURRENT_SERVICE = "http://120.26.208.198:8080/";
+	public static final String CURRENT_SERVICE = "http://120.26.208.198/";
 	
 	public static final String BASE_URL = CURRENT_SERVICE + "farmerClub/";
 	public static final String IMAGE_URL = CURRENT_SERVICE + "avater/";

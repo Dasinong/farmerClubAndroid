@@ -25,6 +25,7 @@ import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.BaseActivity;
 import com.dasinong.farmerclub.ui.CaptureActivity;
+import com.dasinong.farmerclub.ui.MyCouponActivity;
 import com.dasinong.farmerclub.ui.RedeemRecordsActivity;
 import com.dasinong.farmerclub.ui.SelectUserTypeActivity;
 import com.dasinong.farmerclub.ui.adapter.CouponAdapter;
@@ -134,6 +135,15 @@ public class CouponFragment extends Fragment {
 	private void initTopBar() {
 		if (isFarmer) {
 			topBar.setCenterText("大户俱乐部活动");
+			topBar.setRightText("我的");
+			topBar.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Intent myCouponIntent = new Intent(getActivity(), MyCouponActivity.class);
+					startActivity(myCouponIntent);
+				}
+			});
 		} else {
 			topBar.setCenterText("店铺券管理");
 			topBar.setRightText("扫一扫");

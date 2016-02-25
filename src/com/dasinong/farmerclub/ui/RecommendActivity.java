@@ -34,15 +34,7 @@ public class RecommendActivity extends BaseActivity {
 
 		getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-		int refuId = SharedPreferencesHelper.getInt(this, Field.REFUID, -1);
-		int serverInstitutionId = SharedPreferencesHelper.getInt(this, Field.INSTITUTIONID, 0);
-		int appInstitutionId = AppInfoUtils.getInstitutionId(this);
-
 		refCode = SharedPreferencesHelper.getString(this, Field.REFCODE, "");
-
-		if (refuId > 0 || serverInstitutionId > 0 || appInstitutionId > 0) {
-			isShow = false;
-		}
 
 		initView();
 		initTopBar();

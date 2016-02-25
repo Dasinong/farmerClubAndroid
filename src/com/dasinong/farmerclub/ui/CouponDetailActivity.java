@@ -19,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ImageView.ScaleType;
 import android.widget.TableLayout.LayoutParams;
 import android.widget.TextView;
 
@@ -158,6 +159,8 @@ public class CouponDetailActivity extends BaseActivity {
 		
 		bitmapUtils.display(iv_top_image, NetConfig.COUPON_IMAGE + campaign.pictureUrls.get(0));
 		
+//		iv_top_image.setBackgroundResource(R.drawable.coupon_test);
+		
 		tv_title.setText(campaign.name);
 		
 		String claimTime = time2String(campaign.claimTimeStart, campaign.claimTimeEnd);
@@ -175,8 +178,9 @@ public class CouponDetailActivity extends BaseActivity {
 		for (int i = 0; i < campaign.pictureUrls.size(); i++) {
 			ImageView imageView = new ImageView(this);
 
-			LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, GraphicUtils.dip2px(this, 200));
+			LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, GraphicUtils.dip2px(this, 250));
 			params.setMargins(0, 0, 0, GraphicUtils.dip2px(this, 5));
+			imageView.setScaleType(ScaleType.FIT_XY);
 			imageView.setLayoutParams(params);
 			
 			bitmapUtils.display(imageView, NetConfig.COUPON_IMAGE + campaign.pictureUrls.get(i));
