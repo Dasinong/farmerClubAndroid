@@ -22,19 +22,15 @@ import android.widget.RadioGroup;
 
 public class ApplyCouponActivity extends BaseActivity {
 	private EditText et_name;
-	private EditText et_unit;
 	private EditText et_crop;
 	private EditText et_size;
-	private EditText et_last_yield;
-	private EditText et_phone;
+//	private EditText et_phone;
 	private RadioGroup rg_experience;
 	private Button btn_submit;
 	private String name;
-	private String unit;
 	private String crop;
 	private String size;
-	private String last_yield;
-	private String phone;
+//	private String phone;
 	private int checkedId;
 	private String experience;
 	private String campaignId;
@@ -64,11 +60,8 @@ public class ApplyCouponActivity extends BaseActivity {
 	private void initView() {
 		topBar = (TopbarView) findViewById(R.id.topbar);
 		et_name = (EditText) findViewById(R.id.et_name);
-		et_unit = (EditText) findViewById(R.id.et_unit);
 		et_crop = (EditText) findViewById(R.id.et_crop);
 		et_size = (EditText) findViewById(R.id.et_size);
-		et_last_yield = (EditText) findViewById(R.id.et_last_yield);
-		et_phone = (EditText) findViewById(R.id.et_phone);
 		rg_experience = (RadioGroup) findViewById(R.id.rg_experience);
 		btn_submit = (Button) findViewById(R.id.btn_submit);
 	}
@@ -79,7 +72,7 @@ public class ApplyCouponActivity extends BaseActivity {
 			public void onClick(View v) {
 				startLoadingDialog();
 				if(checkNull()){
-					RequestService.getInstance().requestCoupon(ApplyCouponActivity.this, name, unit, crop, size, last_yield, experience, "", phone, BaseEntity.class, new RequestListener(){
+					RequestService.getInstance().requestCoupon(ApplyCouponActivity.this, name, crop, size, experience, "", BaseEntity.class, new RequestListener(){
 						@Override
 						public void onSuccess(int requestCode, BaseEntity resultData) {
 							if(resultData.isOk()){
@@ -142,11 +135,8 @@ public class ApplyCouponActivity extends BaseActivity {
 
 	protected boolean checkNull() {
 		name = et_name.getText().toString().trim();
-		unit = et_unit.getText().toString().trim();
 		crop = et_crop.getText().toString().trim();
 		size = et_size.getText().toString().trim();
-		last_yield = et_last_yield.getText().toString().trim();
-		phone = et_phone.getText().toString().trim();
 		checkedId = rg_experience.getCheckedRadioButtonId();
 		
 		
@@ -160,14 +150,6 @@ public class ApplyCouponActivity extends BaseActivity {
 		}
 		if(TextUtils.isEmpty(size)){
 			showToast("请填写面积");
-			return false;
-		}
-		if(TextUtils.isEmpty(last_yield)){
-			showToast("请填写去年产量");
-			return false;
-		}
-		if(TextUtils.isEmpty(phone)){
-			showToast("请填写联系电话");
 			return false;
 		}
 		if(TextUtils.isEmpty(name)){

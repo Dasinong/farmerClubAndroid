@@ -70,6 +70,8 @@ public class MeFragment extends Fragment implements OnClickListener {
 
 	private boolean isShow = true;
 
+	private int serverInstitutionId;
+
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -79,8 +81,8 @@ public class MeFragment extends Fragment implements OnClickListener {
 		
 		isDaren = SharedPreferencesHelper.getBoolean(getActivity(), Field.ISDAREN, false);
 		
+		serverInstitutionId = SharedPreferencesHelper.getInt(getActivity(), Field.INSTITUTIONID, 0);
 		int refuId = SharedPreferencesHelper.getInt(getActivity(), Field.REFUID, -1);
-		int serverInstitutionId = SharedPreferencesHelper.getInt(getActivity(), Field.INSTITUTIONID, 0);
 		int appInstitutionId = AppInfoUtils.getInstitutionId(getActivity());
 
 		
@@ -128,10 +130,10 @@ public class MeFragment extends Fragment implements OnClickListener {
 		mContactUsLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_contact_us);
 		mCheckUpdateLayout = (RelativeLayout) mContentView.findViewById(R.id.layout_check_update);
 		
-		// TODO 何时隐藏
-		
-		mSmsSettingLayout.setVisibility(View.GONE);
-		mContactUsLayout.setVisibility(View.GONE);
+		if(serverInstitutionId == 3){
+			mSmsSettingLayout.setVisibility(View.GONE);
+			mContactUsLayout.setVisibility(View.GONE);
+		}
 		
 		if(!isShow){
 			mBindLayout.setVisibility(View.GONE);

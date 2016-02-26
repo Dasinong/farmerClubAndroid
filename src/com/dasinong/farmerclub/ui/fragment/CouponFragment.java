@@ -134,10 +134,26 @@ public class CouponFragment extends Fragment {
 
 	private void initTopBar() {
 		if (isFarmer) {
-			topBar.setCenterText("大户俱乐部活动");
+			int institutionId = SharedPreferencesHelper.getInt(getActivity(), Field.INSTITUTIONID, 0);
+			String title = "";
+			switch (institutionId) {
+			case 1:
+				title = "陶氏活动";
+				break;
+			case 2:
+				title = "燕化活动";
+				break;
+			case 3:
+				title = "巴斯夫活动";
+				break;
+			default:
+				title = "大户俱乐部活动";
+				break;
+			}
+			topBar.setCenterText(title);
 			topBar.setRightText("我的");
 			topBar.setOnClickListener(new OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					Intent myCouponIntent = new Intent(getActivity(), MyCouponActivity.class);

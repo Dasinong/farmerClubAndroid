@@ -11,9 +11,14 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTabHost;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -80,6 +85,10 @@ public class MainTabActivity extends BaseActivity {
 	private int index;
 
 	public static boolean isMustUpdate = false;
+	
+	private boolean isFirstInTo = true;
+
+	private LinearLayout ll_front;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -212,11 +221,29 @@ public class MainTabActivity extends BaseActivity {
 
 	protected void initView() {
 		layoutInflater = LayoutInflater.from(this);
+		
+		ll_front = (LinearLayout) findViewById(R.id.ll_front);
+		
+		Button button1 = (Button) findViewById(R.id.btn1);
+		Button button2 = (Button) findViewById(R.id.btn2);
+		Button btn_close = (Button) findViewById(R.id.btn_close);
 
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
 		mTabHost.getTabWidget().setDividerDrawable(null);
+		
+		mTabHost.setOnTabChangedListener(new OnTabChangeListener() {
+			@Override
+			public void onTabChanged(String tabId) {
+				if(isFirstInTo && "天气".equals(tabId)){
+					ll_front.setVisibility(View.VISIBLE);
+					isFirstInTo = false;
+				} else {
+					ll_front.setVisibility(View.GONE);
+				}
+			}
+		});
 
 		int count = fragmentList.size();
 
@@ -228,9 +255,35 @@ public class MainTabActivity extends BaseActivity {
 		if (index != 0) {
 			mTabHost.setCurrentTab(index);
 		}
+		
+		button1.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mTabHost.setCurrentTab(2);
+			}
+		});
+		
+		button2.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				mTabHost.setCurrentTab(3);
+			}
+		});
+		
+		btn_close.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				if(ll_front.getVisibility() == View.VISIBLE){
+					ll_front.setVisibility(View.GONE);
+				}
+			}
+		});
 	}
 
-	private View getTabItemView(int index) {
+	private View getTabItemView(final int index) {
 		View view = layoutInflater.inflate(R.layout.view_main_tab_item, null);
 
 		ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
@@ -240,18 +293,6 @@ public class MainTabActivity extends BaseActivity {
 		textView.setText(mTextViewList.get(index));
 
 		return view;
-	}
-
-	@Override
-	public void onResume() {
-		super.onResume();
-		// int targetTab = getIntent().getIntExtra(TARGET_TAB, -1);
-		//
-		// System.out.println("targetTab  " + targetTab);
-		//
-		// if(targetTab > 0){
-		// mTabHost.setCurrentTab(targetTab);
-		// }
 	}
 
 	@Override
@@ -276,5 +317,13 @@ public class MainTabActivity extends BaseActivity {
 			}
 		});
 	}
-
+	
+	@Override
+	public void onBackPressed() {
+		if(ll_front.getVisibility() == View.VISIBLE){
+			ll_front.setVisibility(View.GONE);
+			return;
+		}
+		super.onBackPressed();
+	}
 }

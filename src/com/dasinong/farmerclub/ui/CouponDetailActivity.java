@@ -75,10 +75,7 @@ public class CouponDetailActivity extends BaseActivity {
 		locationUtils = LocationUtils.getInstance();
 
 		initView();
-		
 		initLocation();
-
-		initTopBar();
 		initEvent();
 	}
 
@@ -121,6 +118,8 @@ public class CouponDetailActivity extends BaseActivity {
 					if (entity.data != null && entity.data.campaign != null) {
 						campaignId = entity.data.campaign.id;
 						formatData(entity.data.campaign);
+						
+						initTopBar(entity.data.campaign.name);
 					}
 				}
 				dismissLoadingDialog();
@@ -149,8 +148,8 @@ public class CouponDetailActivity extends BaseActivity {
 		setData(campaign);
 	}
 
-	private void initTopBar() {
-		topBar.setCenterText("大户俱乐部活动");
+	private void initTopBar(String title) {
+		topBar.setCenterText(title);
 		topBar.setLeftView(true, true);
 	}
 
@@ -158,8 +157,6 @@ public class CouponDetailActivity extends BaseActivity {
 		BitmapUtils bitmapUtils = new BitmapUtils(this);
 		
 		bitmapUtils.display(iv_top_image, NetConfig.COUPON_IMAGE + campaign.pictureUrls.get(0));
-		
-//		iv_top_image.setBackgroundResource(R.drawable.coupon_test);
 		
 		tv_title.setText(campaign.name);
 		

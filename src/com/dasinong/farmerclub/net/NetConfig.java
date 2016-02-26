@@ -264,7 +264,6 @@ public class NetConfig {
 		public static final String source = "source";
 		public static final String fieldName = "fieldName";
 		public static final String subStageId = "subStageId";
-		public static final String company = "company";
 		public static final String crop = "crop";
 		public static final String experience = "experience";
 		public static final String productUseHistory = "productUseHistory";
@@ -746,16 +745,13 @@ public class NetConfig {
 		paramsMap.put(Params.subStageId, subStageId);
 		return getBaseParams(true, paramsMap);
 	}
-	public static Map<String, String> getRequestCouponParams(String name, String company, String crop, String area, String yield,String experience, String productUseHistory, String contactNumber) {
+	public static Map<String, String> getRequestCouponParams(String name, String crop, String area, String experience, String productUseHistory) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.name, name);
-		paramsMap.put(Params.company, company);
 		paramsMap.put(Params.crop, crop);
 		paramsMap.put(Params.area, area);
-		paramsMap.put(Params.yield, yield);
 		paramsMap.put(Params.experience, experience);
 		paramsMap.put(Params.productUseHistory, productUseHistory);
-		paramsMap.put(Params.contactNumber, contactNumber);
 		return getBaseParams(true, paramsMap);
 	}
 	public static Map<String, String> getClaimCouponParams(String campaignId) {
