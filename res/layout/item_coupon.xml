@@ -4,60 +4,30 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/ll_summary"
+    <ImageView
+        android:id="@+id/iv_pic"
         android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:scaleType="fitXY" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <ImageView
-            android:id="@+id/iv_pic"
-            android:layout_width="match_parent"
-            android:layout_height="320dp"
-            android:scaleType="fitXY" />
-
-        <TextView
-            android:id="@+id/tv_title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="15dp"
-            android:textColor="@color/color_333333"
-            android:textSize="18sp"
-            android:ellipsize="end" />
-
-        <TextView
-            android:id="@+id/tv_amount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="12.5dp"
-            android:textColor="@color/color_CC0000"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/tv_time"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="12.5dp"
-            android:textColor="@color/color_999999"
-            android:textSize="14sp" />
-    </LinearLayout>
-
-    <Button
-        android:id="@+id/btn_apply"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
         android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"
-        android:text="立即领取"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:background="@drawable/button_green_bg_selector"
+        android:layout_marginTop="15dp"
+        android:ellipsize="end"
+        android:textColor="@color/color_333333"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="12.5dp"
+        android:textColor="@color/color_999999"
+        android:textSize="14sp"
         android:layout_marginBottom="15dp" />
-    
 
 </LinearLayout>

@@ -24,14 +24,14 @@ public class BindActivity extends BaseActivity {
 	private EditText inputCode;
 	private Button btnSure;
 	private TextView tvSkip;
+	private Button btn_scan;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_regist_recommend);
+		setContentView(R.layout.activity_bind);
 
 		initView();
-
 		initTopBar();
 	}
 
@@ -39,18 +39,16 @@ public class BindActivity extends BaseActivity {
 		topbar = (TopbarView) findViewById(R.id.topbar);
 		inputCode = (EditText) findViewById(R.id.et_input_recommend_code);
 		btnSure = (Button) findViewById(R.id.btn_sure);
-		tvSkip = (TextView) findViewById(R.id.tv_skip);
-
-		tvSkip.setVisibility(View.GONE);
-
+		btn_scan = (Button) findViewById(R.id.btn_scan);
+		
 		btnSure.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				String invCode = inputCode.getText().toString().trim();
 				invCode = invCode.toLowerCase();
-				String invRegex = "^[0-9a-z]{6}$";
-				if (!TextUtils.isEmpty(invCode) && invCode.matches(invRegex)) {
+//				String invRegex = "^[0-9a-z]{6}$";
+				if (invCode.length() == 4 || invCode.length() == 6) {
 					startLoadingDialog();
 					RequestService.getInstance().setRef(BindActivity.this, invCode, LoginRegEntity.class, new RequestListener() {
 						@Override
@@ -76,6 +74,15 @@ public class BindActivity extends BaseActivity {
 				} else {
 					showToast("请核对邀请码是否确");
 				}
+			}
+		});
+		
+		btn_scan.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View arg0) {
+				Intent intent = new Intent(BindActivity.this, CaptureActivity.class);
+				startActivity(intent);
 			}
 		});
 	}

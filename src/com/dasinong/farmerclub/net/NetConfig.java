@@ -39,15 +39,16 @@ public class NetConfig {
 //	public static final String QRCODE_URL = "http://120.26.208.198:8080/pic/couponCampaign/QRCode/";
 //	public static final String COUPON_IMAGE = "http://120.26.208.198:8080/pic/couponCampaign/";
 	
-	public static final String CURRENT_SERVICE = "http://120.26.208.198/";
+	public static final String CURRENT_SERVICE = "http://120.26.208.198:8080/";
 	
 	public static final String BASE_URL = CURRENT_SERVICE + "farmerClub/";
 	public static final String IMAGE_URL = CURRENT_SERVICE + "avater/";
 	public static final String PET_IMAGE = CURRENT_SERVICE + "pic/";
 	public static final String BAIKE_URL = CURRENT_SERVICE + "ploughHelper/baike?";
-	public static final String QRCODE_URL = CURRENT_SERVICE + "pic/couponCampaign/QRCode/";
+	public static final String COUPON_QRCODE_URL = CURRENT_SERVICE + "pic/couponCampaign/QRCode/";
 	public static final String COUPON_IMAGE = CURRENT_SERVICE + "pic/couponCampaign/";
 	public static final String NONGSHI_IMAGE = CURRENT_SERVICE + "nongshi/";
+	public static final String REF_QRCODE_URL = CURRENT_SERVICE + "pic/refCode/";
 	
 	private static final String KEY_REQUEST = "UHTN90SPOLKIRT6131NM0SEWGLPALczmf";
 
@@ -183,7 +184,7 @@ public class NetConfig {
 		
 		public static final String GET_SCANNED_COUPONS_BY_CAMPAIGN_ID = "getScannedCouponsByCampaignId";
 		
-		public static final String BROWSE_CPPRODUCT_BY_MODEL_AND_MANUFACTURER = "browseCPProductByModelAndManufacturer";
+		public static final String BROWSE_CUSTOMIZED_CPPRODUCT = "browseCustomizedCPProduct";
 	}
 
 	public static String getRequestUrl(String subUrl) {
@@ -271,6 +272,7 @@ public class NetConfig {
 		public static final String campaignId = "campaignId";
 		public static final String couponId = "couponId";
 		public static final String manufacturer = "manufacturer";
+		public static final String company = "company";
 
 	}
 
@@ -745,13 +747,16 @@ public class NetConfig {
 		paramsMap.put(Params.subStageId, subStageId);
 		return getBaseParams(true, paramsMap);
 	}
-	public static Map<String, String> getRequestCouponParams(String name, String crop, String area, String experience, String productUseHistory) {
+	public static Map<String, String> getRequestCouponParams(String name, String company, String crop, String area, String yield,String experience, String productUseHistory, String contactNumber) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.name, name);
+		paramsMap.put(Params.company, company);
 		paramsMap.put(Params.crop, crop);
 		paramsMap.put(Params.area, area);
+		paramsMap.put(Params.yield, yield);
 		paramsMap.put(Params.experience, experience);
 		paramsMap.put(Params.productUseHistory, productUseHistory);
+		paramsMap.put(Params.contactNumber, contactNumber);
 		return getBaseParams(true, paramsMap);
 	}
 	public static Map<String, String> getClaimCouponParams(String campaignId) {
@@ -779,7 +784,7 @@ public class NetConfig {
 		paramsMap.put(Params.campaignId, campaignId);
 		return getBaseParams(true, paramsMap);
 	}
-	public static Map<String, String> getBrowseCPProductByModelAndManufacturerParams(String type, String manufacturer) {
+	public static Map<String, String> getbrowseCustomizedCPProductParams(String type, String manufacturer) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.model, type);
 		paramsMap.put(Params.manufacturer, manufacturer);

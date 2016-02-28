@@ -180,7 +180,16 @@
             android:name="com.dasinong.farmerclub.ui.EncyclopediasBasfManualActivity"
             android:screenOrientation="portrait" >
         </activity>
-        <activity android:name="com.dasinong.farmerclub.ui.BindActivity"
+        <activity 
+            android:name="com.dasinong.farmerclub.ui.BindActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity 
+            android:name="com.dasinong.farmerclub.ui.SearchBasfPesticideResultActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity 
+            android:name="com.dasinong.farmerclub.ui.RetailerCouponActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity

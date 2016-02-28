@@ -29,6 +29,7 @@ import com.dasinong.farmerclub.DsnApplication;
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.CurrentCouponInfoEntity;
+import com.dasinong.farmerclub.entity.LoginRegEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
@@ -69,14 +70,14 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_scan_qrcoder);
-		
+
 		String type = SharedPreferencesHelper.getString(this, Field.USER_TYPE, SelectUserTypeActivity.FARMER);
-		if(SelectUserTypeActivity.RETAILER.equals(type)){
+		if (SelectUserTypeActivity.RETAILER.equals(type)) {
 			isFarmer = false;
 		} else {
 			isFarmer = true;
 		}
-		
+
 		// ViewUtil.addTopView(getApplicationContext(), this,
 		// R.string.scan_card);
 		CameraManager.init(getApplication());
@@ -155,77 +156,159 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		if (resultString.equals("")) {
 			Toast.makeText(CaptureActivity.this, "未能识别的二维码", Toast.LENGTH_SHORT).show();
 		} else {
-			
-			//友盟统计自定义统计事件
-			HashMap<String,String> map = new HashMap<String,String>();
-			map.put("url",resultString);
-			MobclickAgent.onEvent(this, "ScanQRcodeSuccess", map);
-			
-			if(!isFarmer){
-				String userId = "";
-				String couponId = "";
-				String[] split = resultString.split("&");
-				try {
-					userId = split[0].split("=")[1];
-					couponId = split[1].split("=")[1];
-				} catch (Exception e) {
-					
-					Intent intent = new Intent(this, WebViewActivity.class);
-					intent.putExtra("url", resultString);
-					startActivity(intent);
-					
-				}
-				
-				if(!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(couponId)){
-					startLoadingDialog();
-					RequestService.getInstance().redeemCoupon(this, couponId, userId, CurrentCouponInfoEntity.class, new RequestListener() {
-						
-						@Override
-						public void onSuccess(int requestCode, BaseEntity resultData) {
-							if(resultData.isOk()){
-								showToast("使用成功");
-								CurrentCouponInfoEntity entity = (CurrentCouponInfoEntity) resultData;
-								if(entity.data != null && entity.data.coupon != null){
-									Intent intent = new Intent(CaptureActivity.this, RedeemRecordsActivity.class);
-									intent.putExtra("campaignId", entity.data.coupon.campaignId);
-									startActivity(intent);
-								}
-							} else if("2101".equals(resultData.getRespCode())){
-								showToast("已使用的优惠券");
-							} else if("2102".equals(resultData.getRespCode())){
-								showToast("活动已过期");
-							} else if("2103".equals(resultData.getRespCode())){
-								showToast("未授权扫描该优惠券");
-							} else if("2014".equals(resultData.getRespCode())){
-								showToast("不能使用他人的优惠券");
-							} else {
-								showToast(R.string.please_check_netword);
-							}
-							dismissLoadingDialog();
-						}
-						
-						@Override
-						public void onFailed(int requestCode, Exception error, String msg) {
-							dismissLoadingDialog();
-						}
-					});
-				}
-				
-			} else {
-				Intent intent = new Intent(this, WebViewActivity.class);
-				
-				intent.putExtra("url", resultString);
-				startActivity(intent);
-			}
-			
 
-			// Intent resultIntent = new Intent();
-			// Bundle bundle = new Bundle();
-			// bundle.putString("result", resultString);
-			// resultIntent.putExtras(bundle);
-			// this.setResult(RESULT_OK, resultIntent);
+			// 友盟统计自定义统计事件
+			HashMap<String, String> map = new HashMap<String, String>();
+			map.put("url", resultString);
+			MobclickAgent.onEvent(this, "ScanQRcodeSuccess", map);
+
+			dispatchRequest(resultString);
+
+//			if (!isFarmer) {
+//				String userId = "";
+//				String couponId = "";
+//				String[] split = resultString.split("&");
+//				try {
+//					userId = split[0].split("=")[1];
+//					couponId = split[1].split("=")[1];
+//				} catch (Exception e) {
+//
+//					Intent intent = new Intent(this, WebViewActivity.class);
+//					intent.putExtra("url", resultString);
+//					startActivity(intent);
+//
+//				}
+//
+//				if (!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(couponId)) {
+//					startLoadingDialog();
+//					RequestService.getInstance().redeemCoupon(this, couponId, userId, CurrentCouponInfoEntity.class, new RequestListener() {
+//
+//						@Override
+//						public void onSuccess(int requestCode, BaseEntity resultData) {
+//							if (resultData.isOk()) {
+//								showToast("使用成功");
+//								CurrentCouponInfoEntity entity = (CurrentCouponInfoEntity) resultData;
+//								if (entity.data != null && entity.data.coupon != null) {
+//									Intent intent = new Intent(CaptureActivity.this, RedeemRecordsActivity.class);
+//									intent.putExtra("campaignId", entity.data.coupon.campaignId);
+//									startActivity(intent);
+//								}
+//							} else if ("2101".equals(resultData.getRespCode())) {
+//								showToast("已使用的优惠券");
+//							} else if ("2102".equals(resultData.getRespCode())) {
+//								showToast("活动已过期");
+//							} else if ("2103".equals(resultData.getRespCode())) {
+//								showToast("未授权扫描该优惠券");
+//							} else if ("2014".equals(resultData.getRespCode())) {
+//								showToast("不能使用他人的优惠券");
+//							} else {
+//								showToast(R.string.please_check_netword);
+//							}
+//							dismissLoadingDialog();
+//						}
+//
+//						@Override
+//						public void onFailed(int requestCode, Exception error, String msg) {
+//							dismissLoadingDialog();
+//						}
+//					});
+//				}
+//
+//			} else {
+//				Intent intent = new Intent(this, WebViewActivity.class);
+//
+//				intent.putExtra("url", resultString);
+//				startActivity(intent);
+//			}
+//
+//			// Intent resultIntent = new Intent();
+//			// Bundle bundle = new Bundle();
+//			// bundle.putString("result", resultString);
+//			// resultIntent.putExtras(bundle);
+//			// this.setResult(RESULT_OK, resultIntent);
 		}
 		CaptureActivity.this.finish();
+	}
+
+	private void dispatchRequest(String resultString) {
+		// function=refcode&code=860139
+		if (resultString.startsWith("function=")) {
+			String[] split = resultString.split("&");
+			if ("refcode".equals(split[0].split("=")[1])) {
+				String refCode = split[1].split("=")[1];
+				sendRefQuery(refCode);
+			} else {
+				String userId = split[0].split("=")[1];
+				String couponId = split[1].split("=")[1];
+				sendCouponQuery(userId, couponId);
+			}
+		} else {
+			Intent intent = new Intent(this, WebViewActivity.class);
+			intent.putExtra("url", resultString);
+			startActivity(intent);
+		}
+	}
+
+	private void sendCouponQuery(String userId, String couponId) {
+
+		startLoadingDialog();
+		RequestService.getInstance().redeemCoupon(this, couponId, userId, CurrentCouponInfoEntity.class, new RequestListener() {
+
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				if (resultData.isOk()) {
+					showToast("使用成功");
+					CurrentCouponInfoEntity entity = (CurrentCouponInfoEntity) resultData;
+					if (entity.data != null && entity.data.coupon != null) {
+						Intent intent = new Intent(CaptureActivity.this, RedeemRecordsActivity.class);
+						intent.putExtra("campaignId", entity.data.coupon.campaignId);
+						startActivity(intent);
+					}
+				} else if ("2101".equals(resultData.getRespCode())) {
+					showToast("已使用的优惠券");
+				} else if ("2102".equals(resultData.getRespCode())) {
+					showToast("活动已过期");
+				} else if ("2103".equals(resultData.getRespCode())) {
+					showToast("未授权扫描该优惠券");
+				} else if ("2014".equals(resultData.getRespCode())) {
+					showToast("不能使用他人的优惠券");
+				} else {
+					showToast(R.string.please_check_netword);
+				}
+				dismissLoadingDialog();
+			}
+
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+			}
+		});
+
+	}
+
+	private void sendRefQuery(String refCode) {
+		startLoadingDialog();
+		RequestService.getInstance().setRef(this, refCode, LoginRegEntity.class, new RequestListener() {
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				if (resultData.isOk()) {
+					LoginRegEntity entity = (LoginRegEntity) resultData;
+					showToast("验证成功");
+
+					SharedPreferencesHelper.setInt(CaptureActivity.this, Field.REFUID, entity.getData().getRefuid());
+					SharedPreferencesHelper.setInt(CaptureActivity.this, Field.INSTITUTIONID, entity.getData().getInstitutionId());
+
+				} else {
+					showToast(resultData.getMessage());
+				}
+				dismissLoadingDialog();
+			}
+
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+			}
+		});
 	}
 
 	private void initCamera(SurfaceHolder surfaceHolder) {

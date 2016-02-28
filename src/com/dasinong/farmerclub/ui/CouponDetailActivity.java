@@ -170,7 +170,11 @@ public class CouponDetailActivity extends BaseActivity {
 		
 		tv_redeem.setText(redeemTime);
 		
-		tv_amount.setText("¥" + campaign.amount + ".00");
+		if(campaign.amount != 0){
+			tv_amount.setText("¥" + campaign.amount + ".00");
+		} else {
+			tv_amount.setVisibility(View.GONE);
+		}
 		
 		for (int i = 0; i < campaign.pictureUrls.size(); i++) {
 			ImageView imageView = new ImageView(this);

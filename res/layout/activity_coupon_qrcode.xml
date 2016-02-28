@@ -34,15 +34,6 @@
                 android:textSize="18sp" />
 
             <TextView
-                android:id="@+id/tv_amount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="12.5dp"
-                android:textColor="@color/color_CC0000"
-                android:textSize="18sp" />
-
-            <TextView
                 android:id="@+id/tv_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,6 +70,22 @@
                 android:text="二维码只能扫描一次，请不要发给别人"
                 android:textColor="@color/color_CCCCCC"
                 android:textSize="14sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
+                android:layout_marginLeft="15dp"
+                android:gravity="center_vertical"
+                android:text="兑换地点"
+                android:textColor="@color/color_666666"
+                android:textSize="14sp" />
+
+            <LinearLayout
+                android:id="@+id/ll_exchange_place"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical" >
+            </LinearLayout>
         </LinearLayout>
     </ScrollView>
 

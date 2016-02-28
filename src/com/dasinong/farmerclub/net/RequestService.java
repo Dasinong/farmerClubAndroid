@@ -376,8 +376,8 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.COUPON_CAMPAIGNS, params, SubUrl.COUPON_CAMPAIGNS + "/" + id, callBack, clazz);
 	}
 	
-	public void requestCoupon(Context context, String name, String crop, String area,String experience, String productUseHistory, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getRequestCouponParams(name, crop, area, experience, productUseHistory);
+	public void requestCoupon(Context context, String name, String company, String crop, String area, String yield,String experience, String productUseHistory, String contactNumber,  Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getRequestCouponParams(name, company, crop, area, yield, experience, productUseHistory, contactNumber);
 		new NetRequest(context).requestPost(RequestCode.REQUEST_COUPON, params, SubUrl.REQUEST_COUPON, callBack, clazz);
 	}
 	
@@ -401,9 +401,9 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.GET_SCANNED_COUPONS_BY_CAMPAIGN_ID, params, SubUrl.GET_SCANNED_COUPONS_BY_CAMPAIGN_ID, callBack, clazz);
 	}
 	
-	public void browseCPProductByModelAndManufacturer(Context context, String type,String manufacturer, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getBrowseCPProductByModelAndManufacturerParams(type, manufacturer);
-		new NetRequest(context).get(RequestCode.BROWSE_CPPRODUCT_BY_MODEL_AND_MANUFACTURER, params, SubUrl.BROWSE_CPPRODUCT_BY_MODEL_AND_MANUFACTURER, callBack, clazz);
+	public void browseCustomizedCPProduct(Context context, String type,String manufacturer, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getbrowseCustomizedCPProductParams(type, manufacturer);
+		new NetRequest(context).get(RequestCode.BROWSE_CUSTOMIZED_CPPRODUCT, params, SubUrl.BROWSE_CUSTOMIZED_CPPRODUCT, callBack, clazz);
 	}
 	
 }

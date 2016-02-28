@@ -38,56 +38,43 @@ import android.widget.AdapterView.OnItemClickListener;
 public class SearchPesticideResultActivity extends BaseActivity {
 
 	private TopbarView mTopbarView;
-	
-//	private String type;
-
 	private Handler mHandler = new Handler();
-	
 	private ListView mListView;
-	
 	private LetterView letterView;
 	private HashMap<String, Integer> alphaIndexer;
 	private OverlayThread mOverlayThread;
 	private WindowManager mWindowManager;
 	private TextView mOverlay;
-//	private String manufacturer;
 
-	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_disease_list);
-		
+
 		String type = getIntent().getStringExtra("type");
-		String manufacturer = getIntent().getStringExtra("manufacturer");
-		
+
 		initView();
 		setUpView(type);
 		initOverlay();
-		if(TextUtils.isEmpty(manufacturer)){
-			initData(type);
-			requestData(type);
-		} else {
-			requestData(type, manufacturer);
-		}
+		initData(type);
+		requestData(type);
 	}
 
 	private void initData(final String type) {
-		
-		
-		new Thread(){
+
+		new Thread() {
 			public void run() {
 				CpproductbrowseDao dao = new CpproductbrowseDao(SearchPesticideResultActivity.this);
 				final List<Cpproductbrowse> query = dao.query(type);
 				mHandler.post(new Runnable() {
-					
+
 					@Override
 					public void run() {
 						setAdapter(query);
 					}
 				});
 			};
-			
+
 		}.start();
 	}
 
@@ -101,7 +88,7 @@ public class SearchPesticideResultActivity extends BaseActivity {
 				alphaIndexer.put(entity.title, i);
 			}
 		}
-		
+
 		PesticideListAdapter adapter = new PesticideListAdapter(this, query, false);
 		mListView.setAdapter(adapter);
 	}
@@ -109,7 +96,7 @@ public class SearchPesticideResultActivity extends BaseActivity {
 	private void initView() {
 		mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
 		mListView = (ListView) this.findViewById(R.id.list_sms_list);
-		
+
 		letterView = (LetterView) findViewById(R.id.letterview);
 		letterView.setOnTouchingLetterChangedListener(new letterViewListener());
 		letterView.setVisibility(View.VISIBLE);
@@ -118,12 +105,9 @@ public class SearchPesticideResultActivity extends BaseActivity {
 	}
 
 	private void setUpView(String type) {
-		if("专业解决方案 有害生物控制".equals(type)){
-			type = "公共卫生";
-		}
 		mTopbarView.setCenterText(type);
 		mTopbarView.setLeftView(true, true);
-		
+
 		mListView.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
@@ -139,57 +123,34 @@ public class SearchPesticideResultActivity extends BaseActivity {
 	private void requestData(String type) {
 		startLoadingDialog();
 		RequestService.getInstance().browseCPProductByModel(this, type, PesticideListEntity.class, new RequestListener() {
-			
+
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				dismissLoadingDialog();
-				if(resultData.isOk()){
+				if (resultData.isOk()) {
 					PesticideListEntity entity = (PesticideListEntity) resultData;
 					setAdapter(entity.getData());
-				}else{
+				} else {
 					showToast(resultData.getMessage());
 				}
 			}
-			
+
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
-				
+
 			}
 		});
 	}
-	
-	private void requestData(String type, String manufacturer) {
-		startLoadingDialog();
-		RequestService.getInstance().browseCPProductByModelAndManufacturer(this, type, manufacturer, PesticideListEntity.class, new RequestListener() {
-			
-			@Override
-			public void onSuccess(int requestCode, BaseEntity resultData) {
-				dismissLoadingDialog();
-				if(resultData.isOk()){
-					PesticideListEntity entity = (PesticideListEntity) resultData;
-					setAdapter(entity.getData());
-				}else{
-					showToast(resultData.getMessage());
-				}
-			}
-			
-			@Override
-			public void onFailed(int requestCode, Exception error, String msg) {
-				dismissLoadingDialog();
-				
-			}
-		});
-	}
-	
+
 	private void initOverlay() {
 		mHandler = new Handler();
 		LayoutInflater inflater = LayoutInflater.from(this);
 		mOverlay = (TextView) inflater.inflate(R.layout.contacts_overlay, null);
 		mOverlay.setVisibility(View.INVISIBLE);
 		WindowManager.LayoutParams lp = new WindowManager.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT,
-				WindowManager.LayoutParams.TYPE_APPLICATION, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE
-						| WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE, PixelFormat.TRANSLUCENT);
+				WindowManager.LayoutParams.TYPE_APPLICATION, WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_NOT_TOUCHABLE,
+				PixelFormat.TRANSLUCENT);
 		mWindowManager = (WindowManager) this.getSystemService(Context.WINDOW_SERVICE);
 		mWindowManager.addView(mOverlay, lp);
 	}
@@ -238,7 +199,7 @@ public class SearchPesticideResultActivity extends BaseActivity {
 		}
 
 	}
-	
+
 	public static List<Cpproductbrowse> sortContact(List<Cpproductbrowse> data) {
 		if (data == null) {
 			return null;
@@ -265,7 +226,7 @@ public class SearchPesticideResultActivity extends BaseActivity {
 		});
 
 		char mc = '*';
-//		List<Cpproductbrowse> newData = new ArrayList<Cpproductbrowse>();
+		// List<Cpproductbrowse> newData = new ArrayList<Cpproductbrowse>();
 		for (int i = 0; i < data.size(); i++) {
 			Cpproductbrowse friend = data.get(i);
 			friend.isTitle = false;
@@ -277,24 +238,25 @@ public class SearchPesticideResultActivity extends BaseActivity {
 
 			if (mc != c) {
 				mc = c;
-//				Cpproductbrowse f = new Cpproductbrowse();
-//				f.isTitle = true;
-//				newData.add(f);
-				
+				// Cpproductbrowse f = new Cpproductbrowse();
+				// f.isTitle = true;
+				// newData.add(f);
+
 				friend.isTitle = true;
 				friend.title = String.valueOf(c);
 			}
-//			newData.add(friend);
+			// newData.add(friend);
 		}
-		
+
 		return data;
 	}
+
 	private static char getFirstPy(String pinyin) {
-		if(null == pinyin || pinyin.length() == 0){
+		if (null == pinyin || pinyin.length() == 0) {
 			return '#';
-		}else{
+		} else {
 			return Character.toUpperCase(pinyin.charAt(0));
 		}
 	}
-	
+
 }

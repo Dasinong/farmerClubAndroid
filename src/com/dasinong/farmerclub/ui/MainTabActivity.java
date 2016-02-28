@@ -42,6 +42,7 @@ import com.dasinong.farmerclub.utils.AppInfoUtils;
 import com.dasinong.farmerclub.utils.LocationUtils;
 import com.dasinong.farmerclub.utils.Logger;
 import com.dasinong.farmerclub.utils.LocationUtils.LocationListener;
+import com.lidroid.xutils.db.annotation.Table;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.analytics.onlineconfig.UmengOnlineConfigureListener;
 import com.umeng.message.PushAgent;
@@ -62,65 +63,79 @@ import com.umeng.update.UpdateResponse;
  * @author ysl
  * @Description
  */
-public class MainTabActivity extends BaseActivity {
+public class MainTabActivity extends BaseActivity implements OnClickListener {
 
 	public static final String TARGET_TAB = "tagTab";
 
 	private FragmentTabHost mTabHost;
 
 	private LayoutInflater layoutInflater;
-	
+
 	public static Activity activity;
 
-//	private Class fragmentArray[] = { HomeFragment.class, MyFieldFragment.class, CouponFragment.class, EncyclopediaFragment.class, MeFragment.class };
-//
-//	private int mImageViewArray[] = { R.drawable.main_tab1_selector,R.drawable.main_tab2_selector,R.drawable.main_tab3_selector, R.drawable.main_tab4_selector, R.drawable.main_tab5_selector };
-//
-//	private String mTextviewArray[] = { "天气","我的田","福利社", "农事百科", "我" };
-	
+	// private Class fragmentArray[] = { HomeFragment.class,
+	// MyFieldFragment.class, CouponFragment.class, EncyclopediaFragment.class,
+	// MeFragment.class };
+	//
+	// private int mImageViewArray[] = {
+	// R.drawable.main_tab1_selector,R.drawable.main_tab2_selector,R.drawable.main_tab3_selector,
+	// R.drawable.main_tab4_selector, R.drawable.main_tab5_selector };
+	//
+	// private String mTextviewArray[] = { "天气","我的田","福利社", "农事百科", "我" };
+
 	private List<Class> fragmentList = new ArrayList<>();
 	private List<Integer> mImageViewList = new ArrayList<>();
 	private List<String> mTextViewList = new ArrayList<>();
-	
+
 	private int index;
 
 	public static boolean isMustUpdate = false;
-	
+
 	private boolean isFirstInTo = true;
 
 	private LinearLayout ll_front;
 
+	private TextView tv_coupon;
+
+	private TextView tv_product;
+
+	private TextView tv_weather;
+
+	private TextView tv_field;
+
+	private TextView tv_scan;
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_tab_layout);
-		
+
 		activity = this;
-		
+
 		fragmentList.add(HomeFragment.class);
 		fragmentList.add(MyFieldFragment.class);
 		fragmentList.add(EncyclopediaFragment.class);
 		fragmentList.add(MeFragment.class);
-		
+
 		mImageViewList.add(R.drawable.main_tab1_selector);
 		mImageViewList.add(R.drawable.main_tab2_selector);
 		mImageViewList.add(R.drawable.main_tab4_selector);
 		mImageViewList.add(R.drawable.main_tab5_selector);
-		
+
 		mTextViewList.add("天气");
 		mTextViewList.add("我的田");
 		mTextViewList.add("农事百科");
 		mTextViewList.add("我");
-		
+
 		String userType = SharedPreferencesHelper.getString(this, Field.USER_TYPE, SelectUserTypeActivity.FARMER);
 		int institutionId = SharedPreferencesHelper.getInt(this, Field.INSTITUTIONID, -1);
 		boolean isDaren = SharedPreferencesHelper.getBoolean(this, Field.ISDAREN, false);
 		boolean enableWelfare = SharedPreferencesHelper.getBoolean(this, Field.ENABLEWELFARE, false);
-		
-		if(enableWelfare){
+
+		if (enableWelfare) {
 			fragmentList.add(2, CouponFragment.class);
-			mImageViewList.add(2,R.drawable.main_tab3_selector);
-			mTextViewList.add(2,"活动");
-			if(SelectUserTypeActivity.RETAILER.equals(userType)){
+			mImageViewList.add(2, R.drawable.main_tab3_selector);
+			mTextViewList.add(2, "活动");
+			if (SelectUserTypeActivity.RETAILER.equals(userType)) {
 				mImageViewList.set(2, R.drawable.main_tab6_selector);
 				mTextViewList.set(2, "店铺");
 			}
@@ -182,7 +197,7 @@ public class MainTabActivity extends BaseActivity {
 			return;
 		}
 		int appInstitutionId = AppInfoUtils.getInstitutionId(this);
-		RequestService.getInstance().authcodeLoginReg(MainTabActivity.this, "13112345678", "", appInstitutionId+"", LoginRegEntity.class,
+		RequestService.getInstance().authcodeLoginReg(MainTabActivity.this, "13112345678", "", appInstitutionId + "", LoginRegEntity.class,
 				new NetRequest.RequestListener() {
 
 					@Override
@@ -221,26 +236,32 @@ public class MainTabActivity extends BaseActivity {
 
 	protected void initView() {
 		layoutInflater = LayoutInflater.from(this);
-		
+
 		ll_front = (LinearLayout) findViewById(R.id.ll_front);
-		
-		Button button1 = (Button) findViewById(R.id.btn1);
-		Button button2 = (Button) findViewById(R.id.btn2);
-		Button btn_close = (Button) findViewById(R.id.btn_close);
+
+		tv_coupon = (TextView) findViewById(R.id.tv_coupon);
+		tv_product = (TextView) findViewById(R.id.tv_product);
+		tv_weather = (TextView) findViewById(R.id.tv_weather);
+		tv_field = (TextView) findViewById(R.id.tv_field);
+		tv_scan = (TextView) findViewById(R.id.tv_scan);
 
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
 
 		mTabHost.getTabWidget().setDividerDrawable(null);
-		
+
 		mTabHost.setOnTabChangedListener(new OnTabChangeListener() {
 			@Override
 			public void onTabChanged(String tabId) {
-				if(isFirstInTo && "天气".equals(tabId)){
+				int institutionId = SharedPreferencesHelper.getInt(MainTabActivity.this, Field.INSTITUTIONID, 0);
+				if (isFirstInTo && "天气".equals(tabId) && institutionId == 3) {
 					ll_front.setVisibility(View.VISIBLE);
 					isFirstInTo = false;
 				} else {
-					ll_front.setVisibility(View.GONE);
+					if (ll_front.getVisibility() == View.VISIBLE || mTabHost.getVisibility() == View.GONE) {
+						ll_front.setVisibility(View.GONE);
+						mTabHost.setVisibility(View.VISIBLE);
+					}
 				}
 			}
 		});
@@ -255,32 +276,37 @@ public class MainTabActivity extends BaseActivity {
 		if (index != 0) {
 			mTabHost.setCurrentTab(index);
 		}
+
+		tv_coupon.setOnClickListener(this);
+		tv_product.setOnClickListener(this);
+		tv_weather.setOnClickListener(this);
+		tv_field.setOnClickListener(this);
+		tv_scan.setOnClickListener(this);
+	}
+
+	@Override
+	public void onClick(View v) {
 		
-		button1.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				mTabHost.setCurrentTab(2);
-			}
-		});
+		ll_front.setVisibility(View.GONE);
+		mTabHost.setVisibility(View.VISIBLE);
+		isFirstInTo = false;
 		
-		button2.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				mTabHost.setCurrentTab(3);
-			}
-		});
-		
-		btn_close.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if(ll_front.getVisibility() == View.VISIBLE){
-					ll_front.setVisibility(View.GONE);
-				}
-			}
-		});
+		switch (v.getId()) {
+		case R.id.tv_coupon:
+			mTabHost.setCurrentTab(2);
+			break;
+		case R.id.tv_product:
+			Intent productIntent = new Intent(this, EncyclopediasBasfManualActivity.class);
+			startActivity(productIntent);
+			break;
+		case R.id.tv_field:
+			mTabHost.setCurrentTab(1);
+			break;
+		case R.id.tv_scan:
+			Intent scanIntent = new Intent(this, CaptureActivity.class);
+			startActivity(scanIntent);
+			break;
+		}
 	}
 
 	private View getTabItemView(final int index) {
@@ -317,11 +343,12 @@ public class MainTabActivity extends BaseActivity {
 			}
 		});
 	}
-	
+
 	@Override
 	public void onBackPressed() {
-		if(ll_front.getVisibility() == View.VISIBLE){
+		if (ll_front.getVisibility() == View.VISIBLE) {
 			ll_front.setVisibility(View.GONE);
+			mTabHost.setVisibility(View.VISIBLE);
 			return;
 		}
 		super.onBackPressed();

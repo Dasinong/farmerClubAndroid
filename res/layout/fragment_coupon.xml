@@ -8,32 +8,127 @@
         android:id="@+id/topbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
-    
-    <RelativeLayout
+
+    <LinearLayout
+        android:id="@+id/ll_retail"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
-        <LinearLayout
-            android:id="@+id/ll_prompt"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/rl_coupon_management"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:background="@color/white"
-            android:visibility="gone" >
+            android:layout_height="50dp"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/button_white_bg_selector"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" >
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="你还么有兑换过券哦！\n点击右上方的扫一扫，开始扫券吧！"
-                android:textSize="18sp"
-                android:textColor="@color/color_999999" />
-        </LinearLayout>
-        
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/coupon_management"
+                android:gravity="bottom"
+                android:text="  活动券管理"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_16" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_more" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_retailer_info"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/button_white_bg_selector"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/retailer_info"
+                android:gravity="bottom"
+                android:text="  店铺基本信息"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_16" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_more" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_update_retailer"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/button_white_bg_selector"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/update_retailer"
+                android:gravity="bottom"
+                android:text="  升级为重点零售商"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_16" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_more" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_scan_qrcode"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/button_white_bg_selector"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/camera"
+                android:gravity="bottom"
+                android:text="  扫一扫"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_16" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_more" />
+        </RelativeLayout>
+    </LinearLayout>
+
     <ListView
         android:id="@+id/lv_coupon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none" >
     </ListView>
-    </RelativeLayout>
-
 
 </LinearLayout>

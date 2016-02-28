@@ -21,8 +21,7 @@ import android.widget.Toast;
 /**
  * @ClassName EncyclopediasPesticideActivity
  * @author linmu
- * @Decription 农药大全
- * @2015-7-21 下午9:18:42
+ * @Decription basf产品手册
  */
 public class EncyclopediasBasfManualActivity extends BaseActivity implements OnClickListener{
 
@@ -121,31 +120,31 @@ public class EncyclopediasBasfManualActivity extends BaseActivity implements OnC
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_ask_for:
-			Intent intent1 = new Intent(this,SearchPesticideResultActivity.class);
+			Intent intent1 = new Intent(this,SearchBasfPesticideResultActivity.class);
 			intent1.putExtra("type", "杀菌剂");
 			intent1.putExtra("manufacturer", "巴斯夫");
 			startActivity(intent1);
 			break;
 		case R.id.layout_nongyao:
-			Intent intent2 = new Intent(this,SearchPesticideResultActivity.class);
+			Intent intent2 = new Intent(this,SearchBasfPesticideResultActivity.class);
 			intent2.putExtra("type", "杀虫剂");
 			intent2.putExtra("manufacturer", "巴斯夫");
 			startActivity(intent2);
 			break;
 		case R.id.layout_bingchongcaohai:
-			Intent intent3 = new Intent(this,SearchPesticideResultActivity.class);
+			Intent intent3 = new Intent(this,SearchBasfPesticideResultActivity.class);
 			intent3.putExtra("type", "除草剂");
 			intent3.putExtra("manufacturer", "巴斯夫");
 			startActivity(intent3);
 			break;
 		case R.id.layout_intelligent:
-			Intent intent4 = new Intent(this,SearchPesticideResultActivity.class);
+			Intent intent4 = new Intent(this,SearchBasfPesticideResultActivity.class);
 			intent4.putExtra("type", "种衣剂");
 			intent4.putExtra("manufacturer", "巴斯夫");
 			startActivity(intent4);
 			break;
 		case R.id.layout_shamanji:
-			Intent intent5 = new Intent(this,SearchPesticideResultActivity.class);
+			Intent intent5 = new Intent(this,SearchBasfPesticideResultActivity.class);
 			intent5.putExtra("type", "专业解决方案 有害生物控制");
 			intent5.putExtra("manufacturer", "巴斯夫");
 			startActivity(intent5);

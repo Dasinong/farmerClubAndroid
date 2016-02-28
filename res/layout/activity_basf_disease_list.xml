@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <com.dasinong.farmerclub.ui.view.TopbarView
+        android:id="@+id/topbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+    </com.dasinong.farmerclub.ui.view.TopbarView>
+
+    <ListView
+        android:id="@+id/list_sms_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/topbar"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@color/color_DCE3E6"
+        android:dividerHeight="0.5dp"
+        android:scrollbars="none" />
+
+</RelativeLayout>

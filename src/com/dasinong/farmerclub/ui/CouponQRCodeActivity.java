@@ -1,28 +1,44 @@
 package com.dasinong.farmerclub.ui;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.TableLayout.LayoutParams;
 
 import com.dasinong.farmerclub.R;
+import com.dasinong.farmerclub.entity.AllCouponEntity.CouponCampaign;
+import com.dasinong.farmerclub.entity.AllCouponEntity.Store;
 import com.dasinong.farmerclub.net.NetConfig;
 import com.dasinong.farmerclub.ui.view.TopbarView;
+import com.dasinong.farmerclub.utils.GraphicUtils;
+import com.dasinong.farmerclub.utils.SerializableList;
 import com.lidroid.xutils.BitmapUtils;
 
 public class CouponQRCodeActivity extends BaseActivity {
 
 	private ImageView iv_pic;
 	private TextView tv_title;
-	private TextView tv_amount;
 	private TextView tv_time;
 	private ImageView iv_qrcode;
 	private TextView tv_coupon_id;
 	private String picUrl;
 	private String name;
-	private int amount;
 	private String time;
 	private long id;
 	private TopbarView topBar;
+	private List<Store> storeList;
+	private LinearLayout ll_exchange_place;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -31,24 +47,80 @@ public class CouponQRCodeActivity extends BaseActivity {
 
 		picUrl = getIntent().getStringExtra("picUrl");
 		name = getIntent().getStringExtra("name");
-		amount = getIntent().getIntExtra("amount", -1);
 		time = getIntent().getStringExtra("time");
 		id = getIntent().getLongExtra("id", -1);
+//		SerializableList serializableList = (SerializableList) getIntent().getExtras().getSerializable("stores");
+		storeList = (List<Store>) getIntent().getSerializableExtra("stores");
+		
+		System.out.println(storeList.size());
 
 		initView();
 
 		setData();
 
+		formatData(storeList);
+
+	}
+
+	private void formatData(List<Store> storeList) {
+		Map<String, List<Store>> map = new HashMap<String, List<Store>>();
+		if (storeList != null && !storeList.isEmpty()) {
+			for (int i = 0; i < storeList.size(); i++) {
+				if (!map.containsKey(storeList.get(i).province)) {
+					List<Store> list = new ArrayList<Store>();
+					list.add(storeList.get(i));
+					map.put(storeList.get(i).province, list);
+				} else {
+					map.get(storeList.get(i).province).add(storeList.get(i));
+				}
+			}
+		}
+		setStoreData(map);
+	}
+
+	private void setStoreData(Map<String, List<Store>> map) {
+		Set<String> keySet = map.keySet();
+		for (String province : keySet) {
+			TextView tv = new TextView(this);
+			LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, GraphicUtils.dip2px(this, 32.5f));
+			tv.setText(province);
+			tv.setPadding(GraphicUtils.dip2px(this, 15), 0, 0, 0);
+			tv.setTextColor(getResources().getColor(R.color.color_666666));
+			tv.setBackgroundResource(R.color.color_F5F5F5);
+			tv.setGravity(Gravity.CENTER_VERTICAL);
+			tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+
+			tv.setLayoutParams(params);
+			ll_exchange_place.addView(tv);
+			for (Store store : map.get(province)) {
+				View view = View.inflate(this, R.layout.item_exchange_place, null);
+				TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
+				TextView tv_address = (TextView) view.findViewById(R.id.tv_address);
+				TextView tv_phone = (TextView) view.findViewById(R.id.tv_phone);
+
+				tv_name.setText(store.name);
+				tv_address.setText(store.location);
+				tv_phone.setText(store.phone);
+
+				LinearLayout.LayoutParams dividerParams = new LayoutParams(LayoutParams.MATCH_PARENT, GraphicUtils.dip2px(this, 0.5f));
+				View divider = new View(this);
+				divider.setBackgroundResource(R.color.color_DBE3E5);
+				divider.setLayoutParams(dividerParams);
+				view.setPadding(0, GraphicUtils.dip2px(this, 15), 0, GraphicUtils.dip2px(this, 15));
+				ll_exchange_place.addView(view);
+				ll_exchange_place.addView(divider);
+			}
+		}
 	}
 
 	private void initView() {
 		topBar = (TopbarView) findViewById(R.id.topbar);
 		iv_pic = (ImageView) findViewById(R.id.iv_pic);
 		tv_title = (TextView) findViewById(R.id.tv_title);
-		tv_amount = (TextView) findViewById(R.id.tv_amount);
 		tv_time = (TextView) findViewById(R.id.tv_time);
 		iv_qrcode = (ImageView) findViewById(R.id.iv_qrcode);
 		tv_coupon_id = (TextView) findViewById(R.id.tv_coupon_id);
+		ll_exchange_place = (LinearLayout) findViewById(R.id.ll_exchange_place);
 	}
 
 	private void setData() {
@@ -58,9 +130,8 @@ public class CouponQRCodeActivity extends BaseActivity {
 		bitmapUtils.display(iv_pic, NetConfig.COUPON_IMAGE + picUrl);
 
 		tv_title.setText(name);
-		tv_amount.setText("¥" + amount + ".00");
 		tv_time.setText("兑换时间：" + time);
-		bitmapUtils.display(iv_qrcode, NetConfig.QRCODE_URL + id + ".png");
+		bitmapUtils.display(iv_qrcode, NetConfig.COUPON_QRCODE_URL + id + ".png");
 		tv_coupon_id.setText("券号 " + id);
 	}
 }

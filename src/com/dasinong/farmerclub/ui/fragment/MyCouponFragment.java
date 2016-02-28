@@ -1,5 +1,6 @@
 package com.dasinong.farmerclub.ui.fragment;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,6 +23,7 @@ import com.dasinong.farmerclub.entity.MyCouponsEntity.UseStatus;
 import com.dasinong.farmerclub.ui.CouponQRCodeActivity;
 import com.dasinong.farmerclub.ui.adapter.MyCouponAdapter;
 import com.dasinong.farmerclub.utils.GraphicUtils;
+import com.dasinong.farmerclub.utils.SerializableList;
 
 public class MyCouponFragment extends Fragment {
 
@@ -69,10 +71,11 @@ public class MyCouponFragment extends Fragment {
 					Intent intent = new Intent(getActivity(),CouponQRCodeActivity.class);
 					intent.putExtra("picUrl",notUsedCoupons.get(position).campaign.pictureUrls.get(0));
 					intent.putExtra("name", notUsedCoupons.get(position).campaign.name);
-					intent.putExtra("amount", notUsedCoupons.get(position).campaign.amount);
 					String time = time2String(notUsedCoupons.get(position).campaign.redeemTimeStart, notUsedCoupons.get(position).campaign.redeemTimeEnd);
 					intent.putExtra("time", time);
 					intent.putExtra("id", notUsedCoupons.get(position).id);
+					intent.putExtra("stores", (Serializable)notUsedCoupons.get(position).campaign.stores);
+					
 					startActivity(intent);
 				}
 			});

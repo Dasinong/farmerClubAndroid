@@ -7,16 +7,19 @@ import android.view.View.OnClickListener;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
+import com.dasinong.farmerclub.net.NetConfig;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.utils.AppInfoUtils;
+import com.lidroid.xutils.BitmapUtils;
 
 public class RecommendActivity extends BaseActivity {
 
@@ -26,6 +29,7 @@ public class RecommendActivity extends BaseActivity {
 	private EditText et_phone;
 	private Button btn_send;
 	private String refCode;
+	private ImageView iv_qrcode;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,8 +50,13 @@ public class RecommendActivity extends BaseActivity {
 		tv_recommend_code = (TextView) findViewById(R.id.tv_recommend_code);
 		et_phone = (EditText) findViewById(R.id.et_phone);
 		btn_send = (Button) findViewById(R.id.btn_send);
+		iv_qrcode = (ImageView) findViewById(R.id.iv_qrcode);
 		
-		tv_recommend_code.setText(refCode);
+		BitmapUtils bitmapUtils = new BitmapUtils(this);
+		String userId = SharedPreferencesHelper.getString(this, Field.USER_ID,"");
+		bitmapUtils.display(iv_qrcode, NetConfig.REF_QRCODE_URL+ userId + ".png");
+		
+		tv_recommend_code.setText("或直接输入：" + refCode);
 		btn_send.setOnClickListener(new OnClickListener() {
 
 			@Override

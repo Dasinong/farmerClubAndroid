@@ -1,5 +1,6 @@
 package com.dasinong.farmerclub.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class AllCouponEntity extends BaseEntity{
@@ -34,7 +35,7 @@ public class AllCouponEntity extends BaseEntity{
 		public String code;
 	}
 
-	public class Store {
+	public class Store implements Serializable{
 		public int id;
 		public String name;
 		public String desc;

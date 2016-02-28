@@ -1,14 +1,18 @@
 package com.dasinong.farmerclub.ui;
 
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import com.dasinong.farmerclub.R;
+import com.dasinong.farmerclub.entity.AllCouponEntity.Store;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.ClaimCouponEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.view.TopbarView;
+import com.dasinong.farmerclub.utils.SerializableList;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,13 +28,11 @@ public class ApplyCouponActivity extends BaseActivity {
 	private EditText et_name;
 	private EditText et_crop;
 	private EditText et_size;
-//	private EditText et_phone;
 	private RadioGroup rg_experience;
 	private Button btn_submit;
 	private String name;
 	private String crop;
 	private String size;
-//	private String phone;
 	private int checkedId;
 	private String experience;
 	private String campaignId;
@@ -72,15 +74,16 @@ public class ApplyCouponActivity extends BaseActivity {
 			public void onClick(View v) {
 				startLoadingDialog();
 				if(checkNull()){
-					RequestService.getInstance().requestCoupon(ApplyCouponActivity.this, name, crop, size, experience, "", BaseEntity.class, new RequestListener(){
+//					String name, String company, String crop, String area, String yield,String experience, String productUseHistory, String contactNumber
+					RequestService.getInstance().requestCoupon(ApplyCouponActivity.this, name, "", crop, size, "0", experience, "", "", BaseEntity.class, new RequestListener(){
 						@Override
 						public void onSuccess(int requestCode, BaseEntity resultData) {
 							if(resultData.isOk()){
 								dismissLoadingDialog();
 								claimCoupon();
 							} 
+							dismissLoadingDialog();
 						}
-
 
 						@Override
 						public void onFailed(int requestCode, Exception error, String msg) {
@@ -108,10 +111,10 @@ public class ApplyCouponActivity extends BaseActivity {
 						Intent intent = new Intent(ApplyCouponActivity.this, CouponQRCodeActivity.class);
 						intent.putExtra("picUrl",entity.data.coupon.campaign.pictureUrls.get(0));
 						intent.putExtra("name", entity.data.coupon.campaign.name);
-						intent.putExtra("amount", entity.data.coupon.campaign.amount);
 						String time = time2String(entity.data.coupon.campaign.redeemTimeStart, entity.data.coupon.campaign.redeemTimeEnd);
 						intent.putExtra("time", time);
 						intent.putExtra("id", entity.data.coupon.id);
+						intent.putExtra("stores", (Serializable)entity.data.coupon.campaign.stores);
 						startActivity(intent);
 						finish();
 					}
@@ -180,4 +183,5 @@ public class ApplyCouponActivity extends BaseActivity {
 
 		return strStart + "-" + strEnd;
 	}
+
 }
