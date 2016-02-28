@@ -12,7 +12,6 @@ import com.dasinong.farmerclub.entity.ClaimCouponEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.view.TopbarView;
-import com.dasinong.farmerclub.utils.SerializableList;
 
 import android.content.Intent;
 import android.os.Bundle;

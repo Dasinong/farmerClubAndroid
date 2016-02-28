@@ -23,7 +23,6 @@ import com.dasinong.farmerclub.entity.MyCouponsEntity.UseStatus;
 import com.dasinong.farmerclub.ui.CouponQRCodeActivity;
 import com.dasinong.farmerclub.ui.adapter.MyCouponAdapter;
 import com.dasinong.farmerclub.utils.GraphicUtils;
-import com.dasinong.farmerclub.utils.SerializableList;
 
 public class MyCouponFragment extends Fragment {
 

@@ -22,7 +22,6 @@ import com.dasinong.farmerclub.entity.AllCouponEntity.Store;
 import com.dasinong.farmerclub.net.NetConfig;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.utils.GraphicUtils;
-import com.dasinong.farmerclub.utils.SerializableList;
 import com.lidroid.xutils.BitmapUtils;
 
 public class CouponQRCodeActivity extends BaseActivity {
