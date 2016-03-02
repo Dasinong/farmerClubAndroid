@@ -19,6 +19,7 @@
             android:drawablePadding="5dp"
             android:text=""
             android:maxLines="1"
+            android:maxWidth="250dp"
             android:ellipsize="end"
             android:textColor="@drawable/topbar_text_selector"
             android:textSize="@dimen/home_text_size_36" />

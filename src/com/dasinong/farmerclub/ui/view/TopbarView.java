@@ -2,6 +2,7 @@ package com.dasinong.farmerclub.ui.view;
 
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.ui.BaseActivity;
+import com.dasinong.farmerclub.utils.GraphicUtils;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -74,6 +75,12 @@ public class TopbarView extends RelativeLayout {
 				}
 			});
 		}
+	}
+	
+	public void setDownArrow(){
+		mCenterText.setMaxWidth(GraphicUtils.dip2px(mContext, 144));
+		mCenterText.setCompoundDrawablesWithIntrinsicBounds(null, null, getResources().getDrawable(R.drawable.down_arrow), null);
+		mCenterText.setPadding(0, 0, 20, 0);
 	}
 	
 	public void setCenterText(String text){

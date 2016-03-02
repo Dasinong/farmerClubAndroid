@@ -237,6 +237,10 @@ public class CaptureActivity extends BaseActivity implements Callback {
 			if ("refcode".equals(split[0].split("=")[1])) {
 				String refCode = split[1].split("=")[1];
 				sendRefQuery(refCode);
+			} else if("coupon".equals(split[0].split("=")[1])){
+				String userId = split[1].split("=")[1];
+				String couponId = split[2].split("=")[1];
+				sendCouponQuery(userId, couponId);
 			} else {
 				String userId = split[0].split("=")[1];
 				String couponId = split[1].split("=")[1];

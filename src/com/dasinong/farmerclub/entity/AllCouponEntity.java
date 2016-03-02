@@ -3,10 +3,13 @@ package com.dasinong.farmerclub.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import com.dasinong.farmerclub.entity.MyCouponsEntity.Coupon;
+
 public class AllCouponEntity extends BaseEntity{
 	public Data data;
 
 	public class Data {
+		public List<Coupon> coupons;
 		public List<CouponCampaign> campaigns;
 	}
 

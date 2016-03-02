@@ -1,6 +1,11 @@
 package com.dasinong.farmerclub.ui.fragment;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -21,18 +26,18 @@ import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.AllCouponEntity;
 import com.dasinong.farmerclub.entity.AllCouponEntity.CouponCampaign;
 import com.dasinong.farmerclub.entity.BaseEntity;
+import com.dasinong.farmerclub.entity.MyCouponsEntity.Coupon;
 import com.dasinong.farmerclub.entity.RetailerCampaignEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.BaseActivity;
 import com.dasinong.farmerclub.ui.CaptureActivity;
 import com.dasinong.farmerclub.ui.CouponDetailActivity;
+import com.dasinong.farmerclub.ui.CouponQRCodeActivity;
 import com.dasinong.farmerclub.ui.MyCouponActivity;
-import com.dasinong.farmerclub.ui.RedeemRecordsActivity;
 import com.dasinong.farmerclub.ui.RetailerCouponActivity;
 import com.dasinong.farmerclub.ui.SelectUserTypeActivity;
 import com.dasinong.farmerclub.ui.adapter.CouponAdapter;
-import com.dasinong.farmerclub.ui.adapter.RetailerCouponAdapter;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
@@ -50,6 +55,7 @@ public class CouponFragment extends Fragment implements OnClickListener {
 	private RelativeLayout rl_coupon_management;
 	private RelativeLayout rl_retailer_info;
 	private RelativeLayout rl_update_retailer;
+	private Map<Integer, Coupon> userCouponStatus;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -100,7 +106,7 @@ public class CouponFragment extends Fragment implements OnClickListener {
 		rl_retailer_info = (RelativeLayout) mContentView.findViewById(R.id.rl_retailer_info);
 		rl_update_retailer = (RelativeLayout) mContentView.findViewById(R.id.rl_update_retailer);
 		lv_coupon = (ListView) mContentView.findViewById(R.id.lv_coupon);
-		
+
 		rl_scan_qrcode.setOnClickListener(this);
 		rl_coupon_management.setOnClickListener(this);
 		rl_retailer_info.setOnClickListener(this);
@@ -115,8 +121,9 @@ public class CouponFragment extends Fragment implements OnClickListener {
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				if (resultData.isOk()) {
 					AllCouponEntity entity = (AllCouponEntity) resultData;
-					if (entity.data != null && entity.data.campaigns != null) {
+					if (entity.data != null && entity.data.campaigns != null && entity.data.coupons != null) {
 						setData(entity.data.campaigns);
+						getUserCouponStatus(entity.data.coupons);
 					}
 				}
 				mBaseActivity.dismissLoadingDialog();
@@ -127,6 +134,15 @@ public class CouponFragment extends Fragment implements OnClickListener {
 				mBaseActivity.dismissLoadingDialog();
 			}
 		});
+	}
+
+	private void getUserCouponStatus(List<Coupon> coupons) {
+		userCouponStatus = new HashMap<>();
+		if (!coupons.isEmpty()) {
+			for (Coupon coupon : coupons) {
+				userCouponStatus.put(coupon.campaignId, coupon);
+			}
+		}
 	}
 
 	private void initTopBar() {
@@ -165,18 +181,38 @@ public class CouponFragment extends Fragment implements OnClickListener {
 	protected void setData(final List<CouponCampaign> campaigns) {
 		if (isFarmer) {
 			lv_coupon.setAdapter(new CouponAdapter(getActivity(), campaigns, false));
-			
+
 			lv_coupon.setOnItemClickListener(new OnItemClickListener() {
 
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					CouponCampaign item = (CouponCampaign) parent.getItemAtPosition(position);
-					Intent intent = new Intent(getActivity(),CouponDetailActivity.class);
-					intent.putExtra("campaignId", item.id);
-					startActivity(intent);
+					if (userCouponStatus.containsKey(item.id)) {
+						Coupon coupon = userCouponStatus.get(item.id);
+						if ("NOT_USED".equals(coupon.displayStatus)) {
+							Intent intent = new Intent(getActivity(), CouponQRCodeActivity.class);
+							intent.putExtra("picUrl", item.pictureUrls.get(0));
+							intent.putExtra("name", item.name);
+							String time = time2String(item.redeemTimeStart, item.redeemTimeEnd);
+							intent.putExtra("time", time);
+							intent.putExtra("stores", (Serializable) item.stores);
+							intent.putExtra("id", coupon.id);
+							startActivity(intent);
+						} else {
+							Intent intent = new Intent(getActivity(), CouponDetailActivity.class);
+							intent.putExtra("campaignId", item.id);
+							intent.putExtra("isApply", false);
+							startActivity(intent);
+						}
+					} else {
+						Intent intent = new Intent(getActivity(), CouponDetailActivity.class);
+						intent.putExtra("campaignId", item.id);
+						intent.putExtra("isApply", true);
+						startActivity(intent);
+					}
 				}
 			});
-		} 
+		}
 	}
 
 	@Override
@@ -204,6 +240,19 @@ public class CouponFragment extends Fragment implements OnClickListener {
 	public void onResume() {
 		super.onResume();
 		MobclickAgent.onEvent(getActivity(), "CouponFragment");
+	}
+
+	private String time2String(long start, long end) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
+		Date date = new Date();
+
+		date.setTime(start);
+		String strStart = sdf.format(date).toString();
+
+		date.setTime(end);
+		String strEnd = sdf.format(date).toString();
+
+		return strStart + "-" + strEnd;
 	}
 
 }

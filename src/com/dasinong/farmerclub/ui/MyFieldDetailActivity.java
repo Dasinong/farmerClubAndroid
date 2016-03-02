@@ -138,6 +138,9 @@ public class MyFieldDetailActivity extends BaseActivity {
 	}
 
 	private void initTopBar() {
+		if(fields.size() > 1){
+			topBar.setDownArrow();
+		}
 		topBar.setCenterText(fields.get(currentFieldId));
 		topBar.setRightText("加田");
 		topBar.setLeftView(true, true);

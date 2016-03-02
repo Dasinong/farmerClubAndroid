@@ -57,6 +57,7 @@ public class CouponDetailActivity extends BaseActivity {
 	private String province;
 	private String city;
 	private LocationUtils locationUtils;
+	private boolean isApplay;
 	
 	private Handler handler = new Handler(){
 		public void handleMessage(android.os.Message msg) {
@@ -73,6 +74,8 @@ public class CouponDetailActivity extends BaseActivity {
 		setContentView(R.layout.activity_coupon_detail);
 		
 		locationUtils = LocationUtils.getInstance();
+		
+		isApplay = getIntent().getBooleanExtra("isApply", true);
 
 		initView();
 		initLocation();
@@ -104,6 +107,12 @@ public class CouponDetailActivity extends BaseActivity {
 				startActivity(intent);
 			}
 		});
+		
+		if(!isApplay){
+			btn_apply.setClickable(false);
+			btn_apply.setBackgroundResource(R.color.color_999999);
+			btn_apply.setText("您已参加过此活动");
+		}
 	}
 	
 	private void queryData(String id) {
@@ -221,6 +230,12 @@ public class CouponDetailActivity extends BaseActivity {
 				ll_exchange_place.addView(view);
 				ll_exchange_place.addView(divider);
 			}
+		}
+		
+		if(campaign.stores.isEmpty()){
+			btn_apply.setClickable(false);
+			btn_apply.setBackgroundResource(R.color.color_999999);
+			btn_apply.setText("本区域暂未开放");
 		}
 	}
 	
