@@ -234,11 +234,18 @@ public class RegisterPasswordActivity extends BaseActivity {
 
 					Class clazz = null;
 					
-					boolean isFirst = SharedPreferencesHelper.getBoolean(RegisterPasswordActivity.this, Field.IS_SELECT_CROP, true);
-					if(isFirst){
-						clazz = RecommendRegistActivity.class;
-					} else  {
+					boolean isExist = SharedPreferencesHelper.getBoolean(RegisterPasswordActivity.this, Field.IS_USER_EXIST, true);
+					if(isExist){
+						int institutionId = SharedPreferencesHelper.getInt(RegisterPasswordActivity.this, Field.INSTITUTIONID, 0);
+						if(institutionId == 3){
+							Intent splashIntent = new Intent(RegisterPasswordActivity.this, SplashActivity.class);
+							startActivity(splashIntent);
+							RegisterPasswordActivity.this.finish();
+							return;
+						}
 						clazz = MainTabActivity.class;
+					} else  {
+						clazz = RecommendRegistActivity.class;
 					}
 					
 					Intent intent = new Intent(RegisterPasswordActivity.this,clazz);
@@ -312,11 +319,18 @@ public class RegisterPasswordActivity extends BaseActivity {
 
 				Class clazz = null;
 				
-				boolean isFirst = SharedPreferencesHelper.getBoolean(RegisterPasswordActivity.this, Field.IS_SELECT_CROP, true);
-				if(isFirst){
-					clazz = RecommendRegistActivity.class;
-				} else {
+				boolean isExist = SharedPreferencesHelper.getBoolean(RegisterPasswordActivity.this, Field.IS_USER_EXIST, true);
+				if(isExist){
+					int institutionId = SharedPreferencesHelper.getInt(RegisterPasswordActivity.this, Field.INSTITUTIONID, 0);
+					if(institutionId == 3){
+						Intent splashIntent = new Intent(RegisterPasswordActivity.this, SplashActivity.class);
+						startActivity(splashIntent);
+						RegisterPasswordActivity.this.finish();
+						return;
+					}
 					clazz = MainTabActivity.class;
+				} else {
+					clazz = RecommendRegistActivity.class;
 				}
 				
 				Intent intent = new Intent(RegisterPasswordActivity.this,clazz);

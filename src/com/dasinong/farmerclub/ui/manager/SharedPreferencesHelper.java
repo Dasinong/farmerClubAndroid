@@ -42,7 +42,7 @@ public final class SharedPreferencesHelper {
         CURRENT_VILLAGE_ID,
         CHANNEL,
         INSTITUTIONID,
-        IS_SELECT_CROP,
+        IS_USER_EXIST,
         CURRRENT_MONITOR_LOCATION_ID,
         CROP_ID,
         USER_TYPE, 

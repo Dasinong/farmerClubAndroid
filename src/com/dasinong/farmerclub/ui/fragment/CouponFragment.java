@@ -35,6 +35,7 @@ import com.dasinong.farmerclub.ui.CaptureActivity;
 import com.dasinong.farmerclub.ui.CouponDetailActivity;
 import com.dasinong.farmerclub.ui.CouponQRCodeActivity;
 import com.dasinong.farmerclub.ui.MyCouponActivity;
+import com.dasinong.farmerclub.ui.MyInfoActivity;
 import com.dasinong.farmerclub.ui.RetailerCouponActivity;
 import com.dasinong.farmerclub.ui.SelectUserTypeActivity;
 import com.dasinong.farmerclub.ui.adapter.CouponAdapter;
@@ -180,6 +181,7 @@ public class CouponFragment extends Fragment implements OnClickListener {
 
 	protected void setData(final List<CouponCampaign> campaigns) {
 		if (isFarmer) {
+			
 			lv_coupon.setAdapter(new CouponAdapter(getActivity(), campaigns, false));
 
 			lv_coupon.setOnItemClickListener(new OnItemClickListener() {
@@ -228,7 +230,9 @@ public class CouponFragment extends Fragment implements OnClickListener {
 			startActivity(retailerCouponIntent);
 			break;
 		case R.id.rl_retailer_info:
-			mBaseActivity.showToast("展示农资店基本信息，暂时缺接口");
+			Intent infoIntent = new Intent(getActivity(), MyInfoActivity.class);
+			infoIntent.putExtra("isRetailer", true);
+			startActivity(infoIntent);
 			break;
 		case R.id.rl_update_retailer:
 			mBaseActivity.showToast("展示升级页面，暂时缺H5页面");

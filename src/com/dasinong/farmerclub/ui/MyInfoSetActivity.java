@@ -66,6 +66,7 @@ public class MyInfoSetActivity extends BaseActivity {
 	private List<String> province;
 	private CityDaoImpl dao;
 	protected IsPassSetEntity entity;
+	private boolean isRetailer;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,6 +83,7 @@ public class MyInfoSetActivity extends BaseActivity {
 	private void initData() {
 		editType = getIntent().getIntExtra("editType", EDIT_PHONE);
 		isNewPwd = getIntent().getBooleanExtra("isNewPwd", false);
+		isRetailer = getIntent().getBooleanExtra("isRetailer",false);
 	}
 
 	private void initView() {
@@ -116,8 +118,13 @@ public class MyInfoSetActivity extends BaseActivity {
 			mEditText.setVisibility(View.VISIBLE);
 
 			mEditText.setVisibility(View.VISIBLE);
-			mTopbarView.setCenterText("真实姓名");
-			mEditText.setHint("真实姓名");
+			if(isRetailer){
+				mTopbarView.setCenterText("店铺名称");
+				mEditText.setHint("店铺名称");
+			} else {
+				mTopbarView.setCenterText("真实姓名");
+				mEditText.setHint("真实姓名");
+			}
 			break;
 		case EDIT_ADDRESS:
 			mSelectAreaLayout.setVisibility(View.VISIBLE);

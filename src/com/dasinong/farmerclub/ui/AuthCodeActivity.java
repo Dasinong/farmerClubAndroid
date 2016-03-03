@@ -94,7 +94,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 	private void initData() {
 		phone = getIntent().getStringExtra("phone");
-		securityCode = getIntent().getIntExtra("securityCode",-1);
+		securityCode = getIntent().getIntExtra("securityCode", -1);
 		code = getIntent().getStringExtra("code");
 		formatedPhone = getIntent().getStringExtra("formatedPhone");
 		isAuthPhone = getIntent().getBooleanExtra("isAuthPhone", false);
@@ -110,7 +110,7 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		initData();
 
 		SMSSDK.initSDK(this, APPKEY, APPSECRET);
-		
+
 		appInstitutionId = AppInfoUtils.getInstitutionId(this);
 
 		mTopbarView = (TopbarView) this.findViewById(R.id.topbar);
@@ -280,9 +280,9 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 		case R.id.btn_submit:
 			// 提交验证码
 			String verificationCode = etIdentifyNum.getText().toString().trim();
-			
+
 			MobclickAgent.onEvent(this, "InputAuthCode");
-			
+
 			if (isAuthPempPwd) {
 				authPempPwd(verificationCode);
 			} else {
@@ -305,8 +305,8 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 
 	private void authPempPwd(String verificationCode) {
 		startLoadingDialog();
-		String strSecurityCode ;
-		if(securityCode == -1){
+		String strSecurityCode;
+		if (securityCode == -1) {
 			strSecurityCode = "";
 		} else {
 			strSecurityCode = securityCode + "";
@@ -322,10 +322,17 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					AccountManager.saveAccount(AuthCodeActivity.this, entity);
 
 					Class clazz = null;
-					boolean isFirst = SharedPreferencesHelper.getBoolean(AuthCodeActivity.this, Field.IS_SELECT_CROP, true);
-					if (isFirst) {
+					boolean isExist = SharedPreferencesHelper.getBoolean(AuthCodeActivity.this, Field.IS_USER_EXIST, true);
+					if (isExist) {
+						int institutionId = SharedPreferencesHelper.getInt(AuthCodeActivity.this, Field.INSTITUTIONID, 0);
+						if (institutionId == 3) {
+							Intent splashIntent = new Intent(AuthCodeActivity.this, SplashActivity.class);
+							startActivity(splashIntent);
+							AuthCodeActivity.this.finish();
+							return;
+						}
 						clazz = MainTabActivity.class;
-					} else  {
+					} else {
 						clazz = RecommendRegistActivity.class;
 					}
 
@@ -402,9 +409,9 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 				((BaseActivity) AuthCodeActivity.this).dismissLoadingDialog();
 				if (resultData.isOk()) {
 					IsPassSetEntity entity = (IsPassSetEntity) resultData;
-					
-					SharedPreferencesHelper.setBoolean(AuthCodeActivity.this, Field.IS_SELECT_CROP, !entity.isData());
-					
+
+					SharedPreferencesHelper.setBoolean(AuthCodeActivity.this, Field.IS_USER_EXIST, entity.isData());
+
 					if (entity.isData()) {
 						requestCode();
 					} else {
@@ -567,12 +574,19 @@ public class AuthCodeActivity extends BaseActivity implements OnClickListener, T
 					AccountManager.saveAccount(AuthCodeActivity.this, entity);
 
 					Class clazz = null;
-					boolean isFirst = SharedPreferencesHelper.getBoolean(AuthCodeActivity.this, Field.IS_SELECT_CROP, true);
+					boolean isExist = SharedPreferencesHelper.getBoolean(AuthCodeActivity.this, Field.IS_USER_EXIST, true);
 
-					if (isFirst) {
-						clazz = RecommendRegistActivity.class;
-					} else {
+					if (isExist) {
+						int institutionId = SharedPreferencesHelper.getInt(AuthCodeActivity.this, Field.INSTITUTIONID, 0);
+						if (institutionId == 3) {
+							Intent splashIntent = new Intent(AuthCodeActivity.this, SplashActivity.class);
+							startActivity(splashIntent);
+							AuthCodeActivity.this.finish();
+							return;
+						}
 						clazz = MainTabActivity.class;
+					} else {
+						clazz = RecommendRegistActivity.class;
 					}
 
 					Intent intent = new Intent(AuthCodeActivity.this, clazz);

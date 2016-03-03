@@ -350,11 +350,11 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 
 					Class clazz = null;
 					
-					boolean isFirst = SharedPreferencesHelper.getBoolean(RegisterPhoneActivity.this, Field.IS_SELECT_CROP, true);
-					if(isFirst){
-						clazz = RecommendRegistActivity.class;
-					} else {
+					boolean isExist = SharedPreferencesHelper.getBoolean(RegisterPhoneActivity.this, Field.IS_USER_EXIST, true);
+					if(isExist){
 						clazz = MainTabActivity.class;
+					} else {
+						clazz = RecommendRegistActivity.class;
 					}
 					
 					Intent intent = new Intent(RegisterPhoneActivity.this,clazz);
@@ -383,11 +383,11 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 
 					Class clazz = null;
 					
-					boolean isFirst = SharedPreferencesHelper.getBoolean(RegisterPhoneActivity.this, Field.IS_SELECT_CROP, true);
-					if(isFirst){
-						clazz = RecommendRegistActivity.class;
-					} else  {
+					boolean isExist = SharedPreferencesHelper.getBoolean(RegisterPhoneActivity.this, Field.IS_USER_EXIST, true);
+					if(isExist){
 						clazz = MainTabActivity.class;
+					} else  {
+						clazz = RecommendRegistActivity.class;
 					}
 					
 					Intent intent = new Intent(RegisterPhoneActivity.this,clazz);
@@ -631,7 +631,7 @@ public class RegisterPhoneActivity extends BaseActivity implements OnClickListen
 
 					IsPassSetEntity entity = (IsPassSetEntity) resultData;
 					
-					SharedPreferencesHelper.setBoolean(RegisterPhoneActivity.this, Field.IS_SELECT_CROP, !entity.isData());
+					SharedPreferencesHelper.setBoolean(RegisterPhoneActivity.this, Field.IS_USER_EXIST, entity.isData());
 
 					if (entity.isData()) {
 						checkPwd(phone);

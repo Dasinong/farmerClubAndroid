@@ -16,6 +16,33 @@
         android:orientation="vertical" >
 
         <RelativeLayout
+            android:id="@+id/rl_scan_qrcode"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="0.5dp"
+            android:background="@drawable/button_white_bg_selector"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:drawableLeft="@drawable/camera"
+                android:gravity="bottom"
+                android:text="  扫一扫"
+                android:textColor="@color/color_333333"
+                android:textSize="@dimen/sp_16" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/icon_more" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/rl_coupon_management"
             android:layout_width="match_parent"
             android:layout_height="50dp"
@@ -76,7 +103,8 @@
             android:layout_marginTop="0.5dp"
             android:background="@drawable/button_white_bg_selector"
             android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
+            android:paddingRight="20dp"
+            android:visibility="gone" >
 
             <TextView
                 android:layout_width="wrap_content"
@@ -85,33 +113,6 @@
                 android:drawableLeft="@drawable/update_retailer"
                 android:gravity="bottom"
                 android:text="  升级为重点零售商"
-                android:textColor="@color/color_333333"
-                android:textSize="@dimen/sp_16" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:src="@drawable/icon_more" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/rl_scan_qrcode"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginTop="0.5dp"
-            android:background="@drawable/button_white_bg_selector"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp" >
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:drawableLeft="@drawable/camera"
-                android:gravity="bottom"
-                android:text="  扫一扫"
                 android:textColor="@color/color_333333"
                 android:textSize="@dimen/sp_16" />
 

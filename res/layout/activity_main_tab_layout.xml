@@ -13,110 +13,76 @@
         <FrameLayout
             android:id="@+id/realtabcontent"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white" />
+            android:layout_height="match_parent" />
 
         <LinearLayout
             android:id="@+id/ll_front"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/background"
+            android:background="@color/white"
             android:clickable="true"
             android:orientation="vertical"
             android:visibility="gone" >
 
-            <TextView
+            <ImageView
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="#398043"
-                android:gravity="center"
-                android:text="巴斯夫大户俱乐部"
-                android:textColor="@color/white"
-                android:textSize="23sp" />
+                android:layout_height="210dp"
+                android:background="@drawable/header1" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="70dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginTop="15dp"
                 android:orientation="vertical" >
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" >
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp" >
 
-                    <TextView
-                        android:id="@+id/tv_coupon"
+                    <ImageView
+                        android:id="@+id/iv_weather"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:background="#bb398043"
-                        android:gravity="center"
-                        android:text="巴斯夫活动"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                        android:background="@drawable/button1" />
 
-                    <TextView
-                        android:id="@+id/tv_product"
+                    <ImageView
+                        android:id="@+id/iv_product"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:background="#bb398043"
-                        android:gravity="center"
-                        android:text="巴斯夫产品"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                        android:background="@drawable/button2" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp" >
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="15dp" >
 
-                    <TextView
-                        android:id="@+id/tv_weather"
+                    <ImageView
+                        android:id="@+id/iv_daren"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
-                        android:layout_marginRight="5dp"
+                        android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:background="#bb398043"
-                        android:gravity="center"
-                        android:text="天气"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                        android:background="@drawable/button3" />
 
-                    <TextView
-                        android:id="@+id/tv_field"
+                    <ImageView
+                        android:id="@+id/iv_scan"
                         android:layout_width="0dp"
                         android:layout_height="120dp"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="20dp"
                         android:layout_weight="1"
-                        android:background="#bb398043"
-                        android:gravity="center"
-                        android:text="农事指导"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="35dp"
-                    android:gravity="center" >
-
-                    <TextView
-                        android:id="@+id/tv_scan"
-                        android:layout_width="140dp"
-                        android:layout_height="60dp"
-                        android:background="#bb398043"
-                        android:gravity="center"
-                        android:text="扫码"
-                        android:textColor="@color/white"
-                        android:textSize="20sp" />
+                        android:background="@drawable/button4" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

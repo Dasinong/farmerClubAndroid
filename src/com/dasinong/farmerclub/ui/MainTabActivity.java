@@ -95,15 +95,13 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 
 	private LinearLayout ll_front;
 
-	private TextView tv_coupon;
+	private ImageView iv_weather;
 
-	private TextView tv_product;
+	private ImageView iv_product;
 
-	private TextView tv_weather;
+	private ImageView iv_daren;
 
-	private TextView tv_field;
-
-	private TextView tv_scan;
+	private ImageView iv_scan;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -239,11 +237,10 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 
 		ll_front = (LinearLayout) findViewById(R.id.ll_front);
 
-		tv_coupon = (TextView) findViewById(R.id.tv_coupon);
-		tv_product = (TextView) findViewById(R.id.tv_product);
-		tv_weather = (TextView) findViewById(R.id.tv_weather);
-		tv_field = (TextView) findViewById(R.id.tv_field);
-		tv_scan = (TextView) findViewById(R.id.tv_scan);
+		iv_weather = (ImageView) findViewById(R.id.iv_weather);
+		iv_product = (ImageView) findViewById(R.id.iv_product);
+		iv_daren = (ImageView) findViewById(R.id.iv_daren);
+		iv_scan = (ImageView) findViewById(R.id.iv_scan);
 
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
@@ -277,11 +274,10 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 			mTabHost.setCurrentTab(index);
 		}
 
-		tv_coupon.setOnClickListener(this);
-		tv_product.setOnClickListener(this);
-		tv_weather.setOnClickListener(this);
-		tv_field.setOnClickListener(this);
-		tv_scan.setOnClickListener(this);
+		iv_weather.setOnClickListener(this);
+		iv_product.setOnClickListener(this);
+		iv_daren.setOnClickListener(this);
+		iv_scan.setOnClickListener(this);
 	}
 
 	@Override
@@ -292,17 +288,14 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 		isFirstInTo = false;
 		
 		switch (v.getId()) {
-		case R.id.tv_coupon:
-			mTabHost.setCurrentTab(2);
-			break;
-		case R.id.tv_product:
+		case R.id.iv_product:
 			Intent productIntent = new Intent(this, EncyclopediasBasfManualActivity.class);
 			startActivity(productIntent);
 			break;
-		case R.id.tv_field:
-			mTabHost.setCurrentTab(1);
+		case R.id.iv_daren:
+			mTabHost.setCurrentTab(2);
 			break;
-		case R.id.tv_scan:
+		case R.id.iv_scan:
 			Intent scanIntent = new Intent(this, CaptureActivity.class);
 			startActivity(scanIntent);
 			break;

@@ -198,6 +198,7 @@ public class MeFragment extends Fragment implements OnClickListener {
 			} else {
 				MobclickAgent.onEvent(getActivity(), "MyInfo");
 				Intent myInfoIntent = new Intent(getActivity(), MyInfoActivity.class);
+				myInfoIntent.putExtra("isRetailer", false);
 				getActivity().startActivity(myInfoIntent);
 			}
 			break;

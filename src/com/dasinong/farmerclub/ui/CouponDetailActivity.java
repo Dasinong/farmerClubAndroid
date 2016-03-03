@@ -185,7 +185,7 @@ public class CouponDetailActivity extends BaseActivity {
 			tv_amount.setVisibility(View.GONE);
 		}
 		
-		for (int i = 0; i < campaign.pictureUrls.size(); i++) {
+		for (int i = 1; i < campaign.pictureUrls.size(); i++) {
 			ImageView imageView = new ImageView(this);
 
 			LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, GraphicUtils.dip2px(this, 250));
