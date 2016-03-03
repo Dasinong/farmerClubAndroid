@@ -232,7 +232,11 @@ public class CaptureActivity extends BaseActivity implements Callback {
 
 	private void dispatchRequest(String resultString) {
 		// function=refcode&code=860139
-		if (resultString.startsWith("function=")) {
+		if (resultString.startsWith("http://")) {
+			Intent intent = new Intent(this, WebViewActivity.class);
+			intent.putExtra("url", resultString);
+			startActivity(intent);
+		} else {
 			String[] split = resultString.split("&");
 			if ("refcode".equals(split[0].split("=")[1])) {
 				String refCode = split[1].split("=")[1];
@@ -246,10 +250,6 @@ public class CaptureActivity extends BaseActivity implements Callback {
 				String couponId = split[1].split("=")[1];
 				sendCouponQuery(userId, couponId);
 			}
-		} else {
-			Intent intent = new Intent(this, WebViewActivity.class);
-			intent.putExtra("url", resultString);
-			startActivity(intent);
 		}
 	}
 

@@ -190,7 +190,7 @@ public class CouponDetailActivity extends BaseActivity {
 
 			LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, GraphicUtils.dip2px(this, 250));
 			params.setMargins(0, 0, 0, GraphicUtils.dip2px(this, 5));
-			imageView.setScaleType(ScaleType.FIT_XY);
+			imageView.setScaleType(ScaleType.CENTER_CROP);
 			imageView.setLayoutParams(params);
 			
 			bitmapUtils.display(imageView, NetConfig.COUPON_IMAGE + campaign.pictureUrls.get(i));
