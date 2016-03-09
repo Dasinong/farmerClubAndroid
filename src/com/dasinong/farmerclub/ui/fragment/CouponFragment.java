@@ -27,6 +27,7 @@ import com.dasinong.farmerclub.entity.AllCouponEntity;
 import com.dasinong.farmerclub.entity.AllCouponEntity.CouponCampaign;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.MyCouponsEntity.Coupon;
+import com.dasinong.farmerclub.entity.MyCouponsEntity.UseStatus;
 import com.dasinong.farmerclub.entity.RetailerCampaignEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
@@ -191,12 +192,12 @@ public class CouponFragment extends Fragment implements OnClickListener {
 					CouponCampaign item = (CouponCampaign) parent.getItemAtPosition(position);
 					if (userCouponStatus.containsKey(item.id)) {
 						Coupon coupon = userCouponStatus.get(item.id);
-						if ("NOT_USED".equals(coupon.displayStatus)) {
+						if (UseStatus.NOT_USED.equals(coupon.displayStatus)) {
 							Intent intent = new Intent(getActivity(), CouponQRCodeActivity.class);
 							intent.putExtra("picUrl", item.pictureUrls.get(0));
 							intent.putExtra("name", item.name);
-							String time = time2String(item.redeemTimeStart, item.redeemTimeEnd);
-							intent.putExtra("time", time);
+							int time = (int) (31 - (System.currentTimeMillis() - coupon.claimedAt) / (1000 * 24 * 3600));
+							intent.putExtra("time", time + "");
 							intent.putExtra("stores", (Serializable) item.stores);
 							intent.putExtra("id", coupon.id);
 							startActivity(intent);
@@ -245,18 +246,4 @@ public class CouponFragment extends Fragment implements OnClickListener {
 		super.onResume();
 		MobclickAgent.onEvent(getActivity(), "CouponFragment");
 	}
-
-	private String time2String(long start, long end) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
-		Date date = new Date();
-
-		date.setTime(start);
-		String strStart = sdf.format(date).toString();
-
-		date.setTime(end);
-		String strEnd = sdf.format(date).toString();
-
-		return strStart + "-" + strEnd;
-	}
-
 }

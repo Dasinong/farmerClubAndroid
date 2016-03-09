@@ -129,7 +129,9 @@
         android:id="@+id/lv_coupon"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none" >
+        android:scrollbars="none"
+        android:dividerHeight="10dp"
+        android:divider="@color/color_DBE3E5" >
     </ListView>
 
 </LinearLayout>

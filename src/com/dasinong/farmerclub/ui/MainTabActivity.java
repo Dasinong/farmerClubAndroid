@@ -102,6 +102,8 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 	private ImageView iv_daren;
 
 	private ImageView iv_scan;
+	
+	private boolean isRetailer;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -134,6 +136,7 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 			mImageViewList.add(2, R.drawable.main_tab3_selector);
 			mTextViewList.add(2, "活动");
 			if (SelectUserTypeActivity.RETAILER.equals(userType)) {
+				isRetailer = true;
 				mImageViewList.set(2, R.drawable.main_tab6_selector);
 				mTextViewList.set(2, "店铺");
 			}
@@ -241,6 +244,10 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 		iv_product = (ImageView) findViewById(R.id.iv_product);
 		iv_daren = (ImageView) findViewById(R.id.iv_daren);
 		iv_scan = (ImageView) findViewById(R.id.iv_scan);
+		
+		if(isRetailer){
+			iv_scan.setBackgroundResource(R.drawable.button4_2);
+		}
 
 		mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
 		mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
@@ -289,8 +296,7 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 		
 		switch (v.getId()) {
 		case R.id.iv_product:
-			Intent productIntent = new Intent(this, EncyclopediasBasfManualActivity.class);
-			startActivity(productIntent);
+			mTabHost.setCurrentTab(1);
 			break;
 		case R.id.iv_daren:
 			mTabHost.setCurrentTab(2);

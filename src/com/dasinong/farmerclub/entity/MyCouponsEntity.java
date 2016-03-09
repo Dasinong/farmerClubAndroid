@@ -24,7 +24,7 @@ public class MyCouponsEntity extends BaseEntity {
 		public CouponCampaign campaign;
 		public long ownerId;
 		public long scannerId;
-		public String displayStatus;
+		public UseStatus displayStatus;
 		public long redeemedAt;
 		public long claimedAt;
 		public long createdAt;

@@ -43,7 +43,7 @@ public class MyCouponFragment extends Fragment {
 		super();
 		this.fragmentPosition = position;
 		for (Coupon coupon : list) {
-			if (UseStatus.NOT_USED.text.equals(coupon.displayStatus)) {
+			if (UseStatus.NOT_USED.equals(coupon.displayStatus)) {
 				notUsedCoupons.add(coupon);
 			} else {
 				usedOrExpiredCoupons.add(coupon);
@@ -70,8 +70,8 @@ public class MyCouponFragment extends Fragment {
 					Intent intent = new Intent(getActivity(),CouponQRCodeActivity.class);
 					intent.putExtra("picUrl",notUsedCoupons.get(position).campaign.pictureUrls.get(0));
 					intent.putExtra("name", notUsedCoupons.get(position).campaign.name);
-					String time = time2String(notUsedCoupons.get(position).campaign.redeemTimeStart, notUsedCoupons.get(position).campaign.redeemTimeEnd);
-					intent.putExtra("time", time);
+					int time = (int) (31 - (System.currentTimeMillis() - notUsedCoupons.get(position).claimedAt) / (1000 * 24 * 3600));
+					intent.putExtra("time", time + "");
 					intent.putExtra("id", notUsedCoupons.get(position).id);
 					intent.putExtra("stores", (Serializable)notUsedCoupons.get(position).campaign.stores);
 					
@@ -85,18 +85,5 @@ public class MyCouponFragment extends Fragment {
 		listView.setPadding(GraphicUtils.dip2px(getActivity(), 15), 0, GraphicUtils.dip2px(getActivity(), 15), 0);
 
 		return listView;
-	}
-	
-	private String time2String(long start, long end) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
-		Date date = new Date();
-
-		date.setTime(start);
-		String strStart = sdf.format(date).toString();
-
-		date.setTime(end);
-		String strEnd = sdf.format(date).toString();
-
-		return strStart + "-" + strEnd;
 	}
 }

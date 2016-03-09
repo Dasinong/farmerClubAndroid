@@ -110,8 +110,8 @@ public class ApplyCouponActivity extends BaseActivity {
 						Intent intent = new Intent(ApplyCouponActivity.this, CouponQRCodeActivity.class);
 						intent.putExtra("picUrl",entity.data.coupon.campaign.pictureUrls.get(0));
 						intent.putExtra("name", entity.data.coupon.campaign.name);
-						String time = time2String(entity.data.coupon.campaign.redeemTimeStart, entity.data.coupon.campaign.redeemTimeEnd);
-						intent.putExtra("time", time);
+						int time = (int) (31 - (System.currentTimeMillis() - entity.data.coupon.claimedAt) / (1000 * 24 * 3600));
+						intent.putExtra("time", time + "");
 						intent.putExtra("id", entity.data.coupon.id);
 						intent.putExtra("stores", (Serializable)entity.data.coupon.campaign.stores);
 						startActivity(intent);
@@ -169,18 +169,4 @@ public class ApplyCouponActivity extends BaseActivity {
 		experience = experiences[(checkedId-1) % 5];
 		return true;
 	}
-	
-	private String time2String(long start, long end) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
-		Date date = new Date();
-
-		date.setTime(start);
-		String strStart = sdf.format(date).toString();
-
-		date.setTime(end);
-		String strEnd = sdf.format(date).toString();
-
-		return strStart + "-" + strEnd;
-	}
-
 }

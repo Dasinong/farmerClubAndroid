@@ -48,10 +48,7 @@ public class CouponQRCodeActivity extends BaseActivity {
 		name = getIntent().getStringExtra("name");
 		time = getIntent().getStringExtra("time");
 		id = getIntent().getLongExtra("id", -1);
-//		SerializableList serializableList = (SerializableList) getIntent().getExtras().getSerializable("stores");
 		storeList = (List<Store>) getIntent().getSerializableExtra("stores");
-		
-		System.out.println(storeList.size());
 
 		initView();
 
@@ -129,7 +126,7 @@ public class CouponQRCodeActivity extends BaseActivity {
 		bitmapUtils.display(iv_pic, NetConfig.COUPON_IMAGE + picUrl);
 
 		tv_title.setText(name);
-		tv_time.setText("兑换时间：" + time);
+		tv_time.setText("剩余时间：" + time + "天");
 		bitmapUtils.display(iv_qrcode, NetConfig.COUPON_QRCODE_URL + id + ".png");
 		tv_coupon_id.setText("券号 " + id);
 	}

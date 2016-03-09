@@ -92,7 +92,7 @@ public class RecommendActivity extends BaseActivity {
 	}
 
 	private void initTopBar() {
-		topbar.setCenterText("有奖推荐");
+		topbar.setCenterText("我的二维码");
 		topbar.setLeftView(true, true);
 	}
 }

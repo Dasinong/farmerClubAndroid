@@ -6,11 +6,13 @@ import java.util.List;
 
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.MyCouponsEntity.Coupon;
+import com.dasinong.farmerclub.entity.MyCouponsEntity.UseStatus;
 import com.dasinong.farmerclub.net.NetConfig;
 import com.lidroid.xutils.BitmapUtils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -38,15 +40,26 @@ public class MyCouponAdapter extends MyBaseAdapter<Coupon> {
 		} else {
 			viewHolder = (ViewHolder) view.getTag();
 		}
-		
+
 		BitmapUtils bitmapUtils = new BitmapUtils(context);
 		bitmapUtils.display(viewHolder.iv_pic, NetConfig.COUPON_IMAGE + list.get(pos).campaign.pictureUrls.get(0));
 
 		viewHolder.tv_title.setText(list.get(pos).campaign.name);
 
-		String redeemTime = time2String(list.get(pos).campaign.redeemTimeStart, list.get(pos).campaign.redeemTimeEnd);
-
-		viewHolder.tv_time.setText("使用时间" + redeemTime);
+		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
+		Date date = new Date();
+		if (UseStatus.USED.equals(list.get(pos).displayStatus)) {
+			date.setTime(list.get(pos).redeemedAt);
+			String usedDate = sdf.format(date).toString();
+			viewHolder.tv_time.setText("使用日期：" + usedDate);
+		} else if (UseStatus.EXPIRED.equals(list.get(pos).displayStatus)) {
+			date.setTime(list.get(pos).claimedAt + 31 * 24 * 3600 * 1000);
+			String overdueData = sdf.format(date).toString();
+			viewHolder.tv_time.setText("过期日期：" + overdueData);
+		} else {
+			int day = (int) (31 - (System.currentTimeMillis() - list.get(pos).claimedAt) / (1000 * 24 * 3600));
+			viewHolder.tv_time.setText("剩余兑换时间：" + day + " 天");
+		}
 		return view;
 	}
 
@@ -54,18 +67,5 @@ public class MyCouponAdapter extends MyBaseAdapter<Coupon> {
 		ImageView iv_pic;
 		TextView tv_title;
 		TextView tv_time;
-	}
-
-	private String time2String(long start, long end) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
-		Date date = new Date();
-
-		date.setTime(start);
-		String strStart = sdf.format(date).toString();
-
-		date.setTime(end);
-		String strEnd = sdf.format(date).toString();
-
-		return strStart + "-" + strEnd;
 	}
 }

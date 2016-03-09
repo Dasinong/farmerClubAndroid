@@ -91,6 +91,8 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 
 	private TextView tv_des_addres;
 
+	private TextView tv_des_phone;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -221,6 +223,7 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		
 		tv_des_name = (TextView) findViewById(R.id.tv_des_name);
 		tv_des_addres = (TextView) findViewById(R.id.tv_des_addres);
+		tv_des_phone = (TextView) findViewById(R.id.tv_des_phone);
 
 		
 		mLogoutLayout = this.findViewById(R.id.layout_logout);
@@ -232,6 +235,7 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 			
 			tv_des_name.setText("店铺名称");
 			tv_des_addres.setText("店铺地址");
+			tv_des_phone.setText("联系方式");
 		}
 		
 	}
