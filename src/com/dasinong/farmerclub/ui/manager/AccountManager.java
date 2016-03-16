@@ -43,12 +43,18 @@ public class AccountManager {
 		SharedPreferencesHelper.setInt(context, Field.REFUID, entity.getData().getRefuid());
 		SharedPreferencesHelper.setInt(context, Field.INSTITUTIONID, entity.getData().getInstitutionId());
 		SharedPreferencesHelper.setString(context, Field.CHANNEL, entity.getData().getChannel());
-		SharedPreferencesHelper.setString(context, Field.USER_AUTH_TOKEN, entity.getAccessToken());
 		SharedPreferencesHelper.setString(context, Field.USER_TYPE, entity.getData().getUserType());
-		SharedPreferencesHelper.setBoolean(context, Field.ENABLEWELFARE, entity.getClientConfig().isEnableWelfare());
-		SharedPreferencesHelper.setBoolean(context, Field.ISDAREN, entity.getClientConfig().isDaren());
 		SharedPreferencesHelper.setInt(context, Field.MEMBER_POINTS, entity.getData().getMemberPoints());
 		SharedPreferencesHelper.setString(context, Field.PICTURE_ID, entity.getData().getPictureId());
+		
+		if(entity.getClientConfig() != null){
+			SharedPreferencesHelper.setBoolean(context, Field.ENABLEWELFARE, entity.getClientConfig().isEnableWelfare());
+			SharedPreferencesHelper.setBoolean(context, Field.ISDAREN, entity.getClientConfig().isDaren());
+		}
+		
+		if(!TextUtils.isEmpty(entity.getAccessToken())){
+			SharedPreferencesHelper.setString(context, Field.USER_AUTH_TOKEN, entity.getAccessToken());
+		}
 		
 		SharedPreferencesHelper.setArrayString(context, Field.USER_FIELDS, entity.getData().getFields());
 		SharedPreferencesHelper.setArrayString(context, Field.MONITOR_LOCATION_ID, entity.getData().getMonitorLocationId());

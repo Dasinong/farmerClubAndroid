@@ -192,6 +192,10 @@
             android:name="com.dasinong.farmerclub.ui.RetailerCouponActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity 
+            android:name="com.dasinong.farmerclub.ui.ScanProductResultActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".ui.NotFarmWorkActivity"
             android:screenOrientation="portrait" >
@@ -212,12 +216,6 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.GuideActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.AddCropActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".ui.AllVarietyActivity"
             android:screenOrientation="portrait" />
         <activity 
             android:name=".ui.SelectCropActivity"

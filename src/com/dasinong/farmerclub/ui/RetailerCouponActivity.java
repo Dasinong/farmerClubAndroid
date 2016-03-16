@@ -68,6 +68,7 @@ public class RetailerCouponActivity extends BaseActivity {
 
 	private void initTopBar() {
 		topBar.setCenterText("店铺券管理");
+		topBar.setLeftView(true, true);
 		topBar.setRightText("扫一扫");
 		topBar.setRightClickListener(new OnClickListener() {
 

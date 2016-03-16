@@ -1,6 +1,14 @@
 package com.dasinong.farmerclub.ui;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Vector;
 
@@ -61,6 +69,8 @@ public class CaptureActivity extends BaseActivity implements Callback {
 	private static final float BEEP_VOLUME = 0.10f;
 	private boolean vibrate;
 	private TopbarView topbar;
+	private String appFileDir;
+	private boolean isFarmer;
 
 	// private Button cancelScanButton;
 
@@ -70,6 +80,8 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_scan_qrcoder);
+
+		appFileDir = getFilesDir().getAbsolutePath();
 
 		String type = SharedPreferencesHelper.getString(this, Field.USER_TYPE, SelectUserTypeActivity.FARMER);
 		if (SelectUserTypeActivity.RETAILER.equals(type)) {
@@ -152,7 +164,6 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		inactivityTimer.onActivity();
 		playBeepSoundAndVibrate();
 		String resultString = result.getText();
-		// FIXME
 		if (resultString.equals("")) {
 			Toast.makeText(CaptureActivity.this, "未能识别的二维码", Toast.LENGTH_SHORT).show();
 		} else {
@@ -163,93 +174,124 @@ public class CaptureActivity extends BaseActivity implements Callback {
 			MobclickAgent.onEvent(this, "ScanQRcodeSuccess", map);
 
 			dispatchRequest(resultString);
-
-//			if (!isFarmer) {
-//				String userId = "";
-//				String couponId = "";
-//				String[] split = resultString.split("&");
-//				try {
-//					userId = split[0].split("=")[1];
-//					couponId = split[1].split("=")[1];
-//				} catch (Exception e) {
-//
-//					Intent intent = new Intent(this, WebViewActivity.class);
-//					intent.putExtra("url", resultString);
-//					startActivity(intent);
-//
-//				}
-//
-//				if (!TextUtils.isEmpty(userId) && !TextUtils.isEmpty(couponId)) {
-//					startLoadingDialog();
-//					RequestService.getInstance().redeemCoupon(this, couponId, userId, CurrentCouponInfoEntity.class, new RequestListener() {
-//
-//						@Override
-//						public void onSuccess(int requestCode, BaseEntity resultData) {
-//							if (resultData.isOk()) {
-//								showToast("使用成功");
-//								CurrentCouponInfoEntity entity = (CurrentCouponInfoEntity) resultData;
-//								if (entity.data != null && entity.data.coupon != null) {
-//									Intent intent = new Intent(CaptureActivity.this, RedeemRecordsActivity.class);
-//									intent.putExtra("campaignId", entity.data.coupon.campaignId);
-//									startActivity(intent);
-//								}
-//							} else if ("2101".equals(resultData.getRespCode())) {
-//								showToast("已使用的优惠券");
-//							} else if ("2102".equals(resultData.getRespCode())) {
-//								showToast("活动已过期");
-//							} else if ("2103".equals(resultData.getRespCode())) {
-//								showToast("未授权扫描该优惠券");
-//							} else if ("2014".equals(resultData.getRespCode())) {
-//								showToast("不能使用他人的优惠券");
-//							} else {
-//								showToast(R.string.please_check_netword);
-//							}
-//							dismissLoadingDialog();
-//						}
-//
-//						@Override
-//						public void onFailed(int requestCode, Exception error, String msg) {
-//							dismissLoadingDialog();
-//						}
-//					});
-//				}
-//
-//			} else {
-//				Intent intent = new Intent(this, WebViewActivity.class);
-//
-//				intent.putExtra("url", resultString);
-//				startActivity(intent);
-//			}
-//
-//			// Intent resultIntent = new Intent();
-//			// Bundle bundle = new Bundle();
-//			// bundle.putString("result", resultString);
-//			// resultIntent.putExtras(bundle);
-//			// this.setResult(RESULT_OK, resultIntent);
 		}
 		CaptureActivity.this.finish();
 	}
 
 	private void dispatchRequest(String resultString) {
-		// function=refcode&code=860139
 		if (resultString.startsWith("http://")) {
 			Intent intent = new Intent(this, WebViewActivity.class);
 			intent.putExtra("url", resultString);
 			startActivity(intent);
 		} else {
-			String[] split = resultString.split("&");
-			if ("refcode".equals(split[0].split("=")[1])) {
-				String refCode = split[1].split("=")[1];
-				sendRefQuery(refCode);
-			} else if("coupon".equals(split[0].split("=")[1])){
-				String userId = split[1].split("=")[1];
-				String couponId = split[2].split("=")[1];
-				sendCouponQuery(userId, couponId);
+			if(resultString.contains("&")){
+				String[] split = resultString.split("&");
+				if ("refcode".equals(split[0].split("=")[1])) {
+					String refCode = split[1].split("=")[1];
+					sendRefQuery(refCode);
+				} else if ("coupon".equals(split[0].split("=")[1])) {
+					String userId = split[1].split("=")[1];
+					String couponId = split[2].split("=")[1];
+					sendCouponQuery(userId, couponId);
+				}
+			} else if (resultString.length() == 25 && !isFarmer) {
+				String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date(System.currentTimeMillis()));
+				writerFile(resultString);
 			} else {
-				String userId = split[0].split("=")[1];
-				String couponId = split[1].split("=")[1];
-				sendCouponQuery(userId, couponId);
+				showToast("请扫描有效二维码");
 			}
+		}
+	}
+
+	private void writerFile(String resultString) {
+		File dir = new File(appFileDir + File.separator + "log");
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+		
+		// TODO 创建测试数据
+//		createTestFile();
+
+		String fileName = getFileName();
+		writFileData(fileName, resultString);
+	}
+
+	private void createTestFile() {
+        try {
+            int start = 20160312;
+            for (int i = 0; i < 5; i++) {
+                File file = new File(appFileDir + File.separator + "log" + File.separator + (start + i) + "153622" + ".txt");
+                if (!file.exists()) {
+                    file.createNewFile();
+                    writFileData(file.getName(), "这是测试数据");
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        File dir = new File(appFileDir + File.separator + "log");
+
+        System.out.println("创建文件完毕，当前文件数量为 ： " + dir.listFiles().length);
+
+        for (File file : dir.listFiles()) {
+            System.out.println("当前文件名都有" + file.getName());
+        }
+	}
+
+	private String getFileName() {
+		String fileName = null;
+		// 判断当前日期是否存在文件
+		File dir = new File(appFileDir + File.separator + "log");
+		String currentDay = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
+		if (dir.isDirectory() && dir.listFiles().length > 0) {
+			File[] files = dir.listFiles();
+			for (File file : files) {
+				if (currentDay.equals(file.getName().substring(0, 8))) {
+					fileName = file.getName();
+				}
+			}
+		}
+		if (TextUtils.isEmpty(fileName)) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+			fileName = sdf.format(new Date(System.currentTimeMillis())) + ".txt";
+		}
+		return fileName;
+	}
+
+	private void writFileData(String fileName, String resultString) {
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date(System.currentTimeMillis()));
+		String text = "*****" + currentTime + resultString + "7"+System.getProperty("line.separator");
+		boolean isSuccess = false;
+		try {
+			FileOutputStream fos = new FileOutputStream(appFileDir + File.separator + "log" + File.separator + fileName, true);
+			byte[] bytes = text.getBytes();
+			fos.write(bytes);
+			fos.flush();
+			fos.close();
+			
+			isSuccess = true;
+			
+// 			测试读取文件中存储的内容			
+//			FileReader reader = new FileReader(appFileDir + File.separator + "log" + File.separator + fileName);
+//			BufferedReader br = new BufferedReader(reader);
+//			String s = br.readLine();
+//			while(s != null){
+//				System.out.println(s);
+//				s = br.readLine();
+//			}
+//			br.close();
+//			reader.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+			isSuccess = false;
+		} 
+		if(isSuccess){
+			Intent intent = new Intent(this, ScanProductResultActivity.class);
+			intent.putExtra("boxcode", resultString);
+			startActivity(intent);
+		} else {
+			showToast("扫描失败，请重新扫描");
 		}
 	}
 
@@ -403,6 +445,4 @@ public class CaptureActivity extends BaseActivity implements Callback {
 			mediaPlayer.seekTo(0);
 		}
 	};
-	private boolean isFarmer;
-
 }

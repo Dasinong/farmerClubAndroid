@@ -80,14 +80,10 @@ public class RecommendRegistActivity extends BaseActivity implements OnClickList
 							LoginRegEntity entity = (LoginRegEntity) resultData;
 							RecommendRegistActivity.this.showToast("验证成功");
 							
-							SharedPreferencesHelper.setInt(RecommendRegistActivity.this, Field.REFUID, entity.getData().getRefuid());
-							SharedPreferencesHelper.setInt(RecommendRegistActivity.this, Field.INSTITUTIONID, entity.getData().getInstitutionId());
-//							Class clazz = null;
-//							if(entity.getData().getInstitutionId() == 0){
-//								clazz = AddCropActivity.class;
-//							} else {
-//								clazz = SelectCropActivity.class;
-//							}
+//							SharedPreferencesHelper.setInt(RecommendRegistActivity.this, Field.REFUID, entity.getData().getRefuid());
+//							SharedPreferencesHelper.setInt(RecommendRegistActivity.this, Field.INSTITUTIONID, entity.getData().getInstitutionId());
+							
+							AccountManager.saveAccount(RecommendRegistActivity.this, entity);
 							
 							Intent selectIntent = new Intent(RecommendRegistActivity.this, SelectUserTypeActivity.class);
 							RecommendRegistActivity.this.startActivity(selectIntent);

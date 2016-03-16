@@ -185,6 +185,8 @@ public class NetConfig {
 		public static final String GET_SCANNED_COUPONS_BY_CAMPAIGN_ID = "getScannedCouponsByCampaignId";
 		
 		public static final String BROWSE_CUSTOMIZED_CPPRODUCT = "browseCustomizedCPProduct";
+		
+		public static final String GET_WINSAFE_PRODUCT_INFO = "getWinsafeProductInfo";
 	}
 
 	public static String getRequestUrl(String subUrl) {
@@ -273,6 +275,7 @@ public class NetConfig {
 		public static final String couponId = "couponId";
 		public static final String manufacturer = "manufacturer";
 		public static final String company = "company";
+		public static final String boxcode = "boxcode";
 
 	}
 
@@ -788,6 +791,11 @@ public class NetConfig {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.model, type);
 		paramsMap.put(Params.manufacturer, manufacturer);
+		return getBaseParams(true, paramsMap);
+	}
+	public static Map<String, String> getGetWinsafeProductInfoParams(String boxCode) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.boxcode, boxCode);
 		return getBaseParams(true, paramsMap);
 	}
 	

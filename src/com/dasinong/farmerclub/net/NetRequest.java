@@ -433,6 +433,67 @@ public class NetRequest {
 			}
 		});
 	}
+	
+	/**
+	 * 上传本地日志文件	
+	 */
+	public <T> void uploadLog(final int requestCode, String url, File file, final Class<? extends BaseEntity> clazz,
+			final RequestListener callback) {
+		RequestParams params = new RequestParams();
+
+		Logger.e(LogTag.HTTP, "uploadPath:" + file.getAbsolutePath() + "\r\n" + "url:" + url);
+
+		String token = AccountManager.getAuthToken(context);
+
+//		for (int i = 0; i < paths.size(); i++) {
+//			params.addBodyParameter("file" + i, new File(paths.get(i)));
+//		}
+		params.addBodyParameter("file", file);
+		params.addBodyParameter(Params.token, token);
+
+		HttpUtils http = new HttpUtils();
+		http.send(HttpMethod.POST, url, params, new RequestCallBack<String>() {
+
+			@Override
+			public void onStart() {
+				Logger.d(LogTag.HTTP, "upload  onStart");
+			}
+
+			@Override
+			public void onLoading(long total, long current, boolean isUploading) {
+				Logger.d(LogTag.HTTP, "total:" + total + "--current:" + current + "--isUploading:" + isUploading);
+			}
+
+			@Override
+			public void onSuccess(ResponseInfo<String> responseInfo) {
+				Logger.d(LogTag.HTTP, "total:" + responseInfo.result);
+				String response = responseInfo.result;
+				try {
+					Logger.d(LogTag.HTTP, response);
+
+					BaseEntity result = new Gson().fromJson(response, clazz);
+					if (result == null) {
+						callback.onFailed(requestCode, new NullPointerException(), "data:" + response);
+						return;
+					}
+
+					if (result.isAuthTokenInvalid()) {
+						AccountManager.logout(context);
+					}
+
+					callback.onSuccess(requestCode, result);
+				} catch (Exception e) {
+					callback.onFailed(requestCode, e, e.getClass().toString());
+				}
+			}
+
+			@Override
+			public void onFailure(HttpException error, String msg) {
+				Logger.d(LogTag.HTTP, "error:" + Log.getStackTraceString(error) + "--msg:" + msg);
+				callback.onFailed(requestCode, error, msg);
+			}
+		});
+	}
 
 	private static Map<String, String> checkNull(Map<String, String> map) {
 		if (map != null && map.size() >= 0) {

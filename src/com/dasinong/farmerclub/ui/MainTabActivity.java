@@ -1,6 +1,9 @@
 package com.dasinong.farmerclub.ui;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.json.JSONObject;
@@ -29,6 +32,7 @@ import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.LocationResult;
 import com.dasinong.farmerclub.entity.LoginRegEntity;
 import com.dasinong.farmerclub.net.NetRequest;
+import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.fragment.CouponFragment;
 import com.dasinong.farmerclub.ui.fragment.EncyclopediaFragment;
@@ -102,7 +106,7 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 	private ImageView iv_daren;
 
 	private ImageView iv_scan;
-	
+
 	private boolean isRetailer;
 
 	public void onCreate(Bundle savedInstanceState) {
@@ -111,20 +115,9 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 
 		activity = this;
 
-		fragmentList.add(HomeFragment.class);
-		fragmentList.add(MyFieldFragment.class);
-		fragmentList.add(EncyclopediaFragment.class);
-		fragmentList.add(MeFragment.class);
+		initList();
 
-		mImageViewList.add(R.drawable.main_tab1_selector);
-		mImageViewList.add(R.drawable.main_tab2_selector);
-		mImageViewList.add(R.drawable.main_tab4_selector);
-		mImageViewList.add(R.drawable.main_tab5_selector);
-
-		mTextViewList.add("天气");
-		mTextViewList.add("我的田");
-		mTextViewList.add("农事百科");
-		mTextViewList.add("我");
+		checkAndUploadLog();
 
 		String userType = SharedPreferencesHelper.getString(this, Field.USER_TYPE, SelectUserTypeActivity.FARMER);
 		int institutionId = SharedPreferencesHelper.getInt(this, Field.INSTITUTIONID, -1);
@@ -183,14 +176,62 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 		// 获取用户唯一标示
 		String device_token = UmengRegistrar.getRegistrationId(this);
 
-		// startLoadingDialog();
+	}
 
-		// if(getIntent() != null){
-		// index = getIntent().getIntExtra("index", 0);
-		// if(index != 0){
-		// mTabHost.setCurrentTab(index);
-		// }
-		// }
+	private void checkAndUploadLog() {
+		List<File> fileList = new ArrayList<>();
+		String appFileDir = getFilesDir().getAbsolutePath();
+		File dir = new File(appFileDir + File.separator + "log");
+		String currentDay = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
+		int intCurrentDay = Integer.valueOf(currentDay);
+		if (dir.isDirectory() && dir.listFiles().length > 0) {
+			File[] files = dir.listFiles();
+			for (File file : files) {
+				int fileDay = Integer.valueOf(file.getName().substring(0, 8));
+				if (fileDay < intCurrentDay) {
+					fileList.add(file);
+				}
+			}
+		}
+
+		if (!fileList.isEmpty()) {
+			for (final File file : fileList) {
+				RequestService.getInstance().uploadLog(this, file, BaseEntity.class, new RequestListener() {
+					
+					@Override
+					public void onSuccess(int requestCode, BaseEntity resultData) {
+						if(resultData.isOk()){
+							file.delete();
+							System.out.println("上传成功 +++++  " + file.getName());
+						} else {
+							System.out.println("上传失败  ++++++ " + file.getName());
+						}
+					}
+					
+					@Override
+					public void onFailed(int requestCode, Exception error, String msg) {
+						System.out.println("上传失败  ++++++ " + file.getName());
+					}
+				});
+			}
+		}
+	}
+
+	private void initList() {
+		fragmentList.add(HomeFragment.class);
+		fragmentList.add(MyFieldFragment.class);
+		fragmentList.add(EncyclopediaFragment.class);
+		fragmentList.add(MeFragment.class);
+
+		mImageViewList.add(R.drawable.main_tab1_selector);
+		mImageViewList.add(R.drawable.main_tab2_selector);
+		mImageViewList.add(R.drawable.main_tab4_selector);
+		mImageViewList.add(R.drawable.main_tab5_selector);
+
+		mTextViewList.add("天气");
+		mTextViewList.add("我的田");
+		mTextViewList.add("农事百科");
+		mTextViewList.add("我");
 	}
 
 	private void login() {
@@ -244,8 +285,8 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 		iv_product = (ImageView) findViewById(R.id.iv_product);
 		iv_daren = (ImageView) findViewById(R.id.iv_daren);
 		iv_scan = (ImageView) findViewById(R.id.iv_scan);
-		
-		if(isRetailer){
+
+		if (isRetailer) {
 			iv_scan.setBackgroundResource(R.drawable.button4_2);
 		}
 
@@ -289,11 +330,11 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		
+
 		ll_front.setVisibility(View.GONE);
 		mTabHost.setVisibility(View.VISIBLE);
 		isFirstInTo = false;
-		
+
 		switch (v.getId()) {
 		case R.id.iv_product:
 			mTabHost.setCurrentTab(1);

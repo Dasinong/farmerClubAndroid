@@ -1,5 +1,6 @@
 package com.dasinong.farmerclub.net;
 
+import java.io.File;
 import java.util.List;
 import java.util.Map;
 
@@ -404,6 +405,15 @@ public class RequestService {
 	public void browseCustomizedCPProduct(Context context, String type,String manufacturer, Class<? extends BaseEntity> clazz, RequestListener callBack) {
 		Map<String, String> params = NetConfig.getbrowseCustomizedCPProductParams(type, manufacturer);
 		new NetRequest(context).get(RequestCode.BROWSE_CUSTOMIZED_CPPRODUCT, params, SubUrl.BROWSE_CUSTOMIZED_CPPRODUCT, callBack, clazz);
+	}
+	
+	public void uploadLog(Context context, File file, Class <? extends BaseEntity> clazz, RequestListener callBack) {
+		new NetRequest(context).uploadLog(0, NetConfig.BASE_URL + "stockScan", file, clazz, callBack);
+	}
+	
+	public void getWinsafeProductInfo(Context context, String boxCode, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetWinsafeProductInfoParams(boxCode);
+		new NetRequest(context).get(RequestCode.GET_WINSAFE_PRODUCT_INFO, params, SubUrl.GET_WINSAFE_PRODUCT_INFO, callBack, clazz);
 	}
 	
 }
