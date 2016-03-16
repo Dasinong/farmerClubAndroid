@@ -415,5 +415,9 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getGetWinsafeProductInfoParams(boxCode);
 		new NetRequest(context).get(RequestCode.GET_WINSAFE_PRODUCT_INFO, params, SubUrl.GET_WINSAFE_PRODUCT_INFO, callBack, clazz);
 	}
+	public void checkBSFStock(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getDefaultParams();
+		new NetRequest(context).get(RequestCode.CHECK_BSF_STOCK, params, SubUrl.CHECK_BSF_STOCK, callBack, clazz);
+	}
 	
 }

@@ -148,4 +148,6 @@ public final class RequestCode {
 	public static final int BROWSE_CUSTOMIZED_CPPRODUCT = GET_SCANNED_COUPONS_BY_CAMPAIGN_ID + 1;
 	/** 获取箱码相关的产品信息 */
 	public static final int GET_WINSAFE_PRODUCT_INFO = BROWSE_CUSTOMIZED_CPPRODUCT + 1;
+	/** 获取入库列表 */
+	public static final int CHECK_BSF_STOCK = GET_WINSAFE_PRODUCT_INFO + 1;
 }

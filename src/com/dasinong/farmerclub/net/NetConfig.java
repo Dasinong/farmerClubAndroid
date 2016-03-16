@@ -187,6 +187,8 @@ public class NetConfig {
 		public static final String BROWSE_CUSTOMIZED_CPPRODUCT = "browseCustomizedCPProduct";
 		
 		public static final String GET_WINSAFE_PRODUCT_INFO = "getWinsafeProductInfo";
+		
+		public static final String CHECK_BSF_STOCK = "checkBSFStock";
 	}
 
 	public static String getRequestUrl(String subUrl) {

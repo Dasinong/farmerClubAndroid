@@ -1,10 +1,24 @@
 package com.dasinong.farmerclub.ui;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.ObjectInputStream.GetField;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.BaseEntity;
+import com.dasinong.farmerclub.entity.ScanProductEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 
+import android.R.fraction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -46,7 +60,7 @@ public class ScanProductResultActivity extends BaseActivity implements OnClickLi
 
 		btn_finish = (Button) findViewById(R.id.btn_finish);
 		btn_continue = (Button) findViewById(R.id.btn_continue);
-		
+
 		tv_box_code.setText(boxcode);
 
 		btn_finish.setOnClickListener(this);
@@ -54,34 +68,73 @@ public class ScanProductResultActivity extends BaseActivity implements OnClickLi
 	}
 
 	private void queryData() {
-		RequestService.getInstance().getWinsafeProductInfo(this, boxcode, BaseEntity.class, new RequestListener() {
+		RequestService.getInstance().getWinsafeProductInfo(this, boxcode, ScanProductEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
-				if(resultData.isOk()){
-					setData();
+				if (resultData.isOk()) {
+					ScanProductEntity entity = (ScanProductEntity) resultData;
+					if (entity.data != null) {
+
+						String spName = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis())) + entity.data.proid;
+
+						int count = SharedPreferencesHelper.getInt(ScanProductResultActivity.this, spName, 0);
+
+						SharedPreferencesHelper.setInt(ScanProductResultActivity.this, spName, count + 1);
+
+						entity.data.count = String.valueOf(count + 1);
+						setData(entity);
+					}
 				} else {
 					setData();
+					writeFailedFile();
 				}
 			}
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				setData();
+				writeFailedFile();
 			}
 		});
 	}
 
-	protected void setData() {
-		setDataToView("",tv_name);
-		setDataToView("",tv_number);
-		setDataToView("",tv_volume);
-		setDataToView("",tv_count);
+	private void writeFailedFile() {
+		File dir = new File(getFilesDir().getAbsolutePath() + File.separator + "failed");
+		if (!dir.exists()) {
+			dir.mkdir();
+		}
+		String fileName = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis())) + ".txt";
+		File file = new File(dir, fileName);
+		try {
+			FileWriter fw = new FileWriter(file, true);
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(boxcode);
+			bw.newLine();
+			bw.close();
+			fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void setData() {
+		setDataToView("", tv_name);
+		setDataToView("", tv_number);
+		setDataToView("", tv_volume);
+		setDataToView("", tv_count);
+	}
+
+	private void setData(ScanProductEntity entity) {
+		setDataToView(entity.data.proname, tv_name);
+		setDataToView(entity.data.proid, tv_number);
+		setDataToView(entity.data.prospecial, tv_volume);
+		setDataToView(entity.data.count, tv_count);
 	}
 
 	private void setDataToView(String text, TextView view) {
-		if(TextUtils.isEmpty(text)){
-			((View)view.getParent()).setVisibility(View.INVISIBLE);
+		if (TextUtils.isEmpty(text)) {
+			((View) view.getParent()).setVisibility(View.INVISIBLE);
 		} else {
 			view.setText(text);
 		}
@@ -94,7 +147,7 @@ public class ScanProductResultActivity extends BaseActivity implements OnClickLi
 			this.finish();
 			break;
 		case R.id.btn_continue:
-			Intent intent = new Intent(this,CaptureActivity.class);
+			Intent intent = new Intent(this, CaptureActivity.class);
 			startActivity(intent);
 			finish();
 			break;

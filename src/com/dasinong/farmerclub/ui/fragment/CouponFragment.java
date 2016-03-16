@@ -39,6 +39,7 @@ import com.dasinong.farmerclub.ui.MyCouponActivity;
 import com.dasinong.farmerclub.ui.MyInfoActivity;
 import com.dasinong.farmerclub.ui.RetailerCouponActivity;
 import com.dasinong.farmerclub.ui.SelectUserTypeActivity;
+import com.dasinong.farmerclub.ui.StorageManagerActivity;
 import com.dasinong.farmerclub.ui.adapter.CouponAdapter;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
@@ -56,7 +57,7 @@ public class CouponFragment extends Fragment implements OnClickListener {
 	private RelativeLayout rl_scan_qrcode;
 	private RelativeLayout rl_coupon_management;
 	private RelativeLayout rl_retailer_info;
-	private RelativeLayout rl_update_retailer;
+	private RelativeLayout rl_storage_manager;
 	private Map<Integer, Coupon> userCouponStatus;
 
 	@Override
@@ -106,13 +107,13 @@ public class CouponFragment extends Fragment implements OnClickListener {
 		rl_scan_qrcode = (RelativeLayout) mContentView.findViewById(R.id.rl_scan_qrcode);
 		rl_coupon_management = (RelativeLayout) mContentView.findViewById(R.id.rl_coupon_management);
 		rl_retailer_info = (RelativeLayout) mContentView.findViewById(R.id.rl_retailer_info);
-		rl_update_retailer = (RelativeLayout) mContentView.findViewById(R.id.rl_update_retailer);
+		rl_storage_manager = (RelativeLayout) mContentView.findViewById(R.id.rl_storage_manager);
 		lv_coupon = (ListView) mContentView.findViewById(R.id.lv_coupon);
 
 		rl_scan_qrcode.setOnClickListener(this);
 		rl_coupon_management.setOnClickListener(this);
 		rl_retailer_info.setOnClickListener(this);
-		rl_update_retailer.setOnClickListener(this);
+		rl_storage_manager.setOnClickListener(this);
 
 	}
 
@@ -235,8 +236,9 @@ public class CouponFragment extends Fragment implements OnClickListener {
 			infoIntent.putExtra("isRetailer", true);
 			startActivity(infoIntent);
 			break;
-		case R.id.rl_update_retailer:
-			mBaseActivity.showToast("展示升级页面，暂时缺H5页面");
+		case R.id.rl_storage_manager:
+			Intent storageManagerIntent = new Intent(getActivity(), StorageManagerActivity.class);
+			startActivity(storageManagerIntent);
 			break;
 		}
 	}

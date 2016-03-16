@@ -196,6 +196,14 @@
             android:name="com.dasinong.farmerclub.ui.ScanProductResultActivity"
             android:screenOrientation="portrait">
         </activity>
+        <activity 
+            android:name="com.dasinong.farmerclub.ui.StorageManagerActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity 
+            android:name="com.dasinong.farmerclub.ui.StorageDetailActivity"
+            android:screenOrientation="portrait">
+        </activity>
         <activity
             android:name=".ui.NotFarmWorkActivity"
             android:screenOrientation="portrait" >

@@ -184,7 +184,7 @@ public class CaptureActivity extends BaseActivity implements Callback {
 			intent.putExtra("url", resultString);
 			startActivity(intent);
 		} else {
-			if(resultString.contains("&")){
+			if (resultString.contains("&")) {
 				String[] split = resultString.split("&");
 				if ("refcode".equals(split[0].split("=")[1])) {
 					String refCode = split[1].split("=")[1];
@@ -208,35 +208,35 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		if (!dir.exists()) {
 			dir.mkdir();
 		}
-		
+
 		// TODO 创建测试数据
-//		createTestFile();
+		// createTestFile();
 
 		String fileName = getFileName();
 		writFileData(fileName, resultString);
 	}
 
 	private void createTestFile() {
-        try {
-            int start = 20160312;
-            for (int i = 0; i < 5; i++) {
-                File file = new File(appFileDir + File.separator + "log" + File.separator + (start + i) + "153622" + ".txt");
-                if (!file.exists()) {
-                    file.createNewFile();
-                    writFileData(file.getName(), "这是测试数据");
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        
-        File dir = new File(appFileDir + File.separator + "log");
+		try {
+			int start = 20160312;
+			for (int i = 0; i < 5; i++) {
+				File file = new File(appFileDir + File.separator + "log" + File.separator + (start + i) + "153622" + ".txt");
+				if (!file.exists()) {
+					file.createNewFile();
+					writFileData(file.getName(), "这是测试数据");
+				}
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        System.out.println("创建文件完毕，当前文件数量为 ： " + dir.listFiles().length);
+		File dir = new File(appFileDir + File.separator + "log");
 
-        for (File file : dir.listFiles()) {
-            System.out.println("当前文件名都有" + file.getName());
-        }
+		System.out.println("创建文件完毕，当前文件数量为 ： " + dir.listFiles().length);
+
+		for (File file : dir.listFiles()) {
+			System.out.println("当前文件名都有" + file.getName());
+		}
 	}
 
 	private String getFileName() {
@@ -261,38 +261,41 @@ public class CaptureActivity extends BaseActivity implements Callback {
 
 	private void writFileData(String fileName, String resultString) {
 		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date(System.currentTimeMillis()));
-		String text = "*****" + currentTime + resultString + "7"+System.getProperty("line.separator");
+		String text = "*****" + currentTime + resultString + "7" + System.getProperty("line.separator");
+		File currentFile = new File(appFileDir + File.separator + "log" + File.separator + fileName);
 		boolean isSuccess = false;
 		try {
-			FileOutputStream fos = new FileOutputStream(appFileDir + File.separator + "log" + File.separator + fileName, true);
+			FileReader reader = new FileReader(currentFile);
+			BufferedReader br = new BufferedReader(reader);
+			String line = br.readLine();
+			while (line != null) {
+				if(line.contains(resultString)){
+					showToast("已扫过的二维码");
+					System.out.println("此处执行");
+					return;
+				}
+				line = br.readLine();
+			}
+			br.close();
+			reader.close();
+			
+			FileOutputStream fos = new FileOutputStream(currentFile, true);
 			byte[] bytes = text.getBytes();
 			fos.write(bytes);
 			fos.flush();
 			fos.close();
-			
 			isSuccess = true;
-			
-// 			测试读取文件中存储的内容			
-//			FileReader reader = new FileReader(appFileDir + File.separator + "log" + File.separator + fileName);
-//			BufferedReader br = new BufferedReader(reader);
-//			String s = br.readLine();
-//			while(s != null){
-//				System.out.println(s);
-//				s = br.readLine();
-//			}
-//			br.close();
-//			reader.close();
 		} catch (Exception e) {
 			e.printStackTrace();
 			isSuccess = false;
-		} 
-		if(isSuccess){
-			Intent intent = new Intent(this, ScanProductResultActivity.class);
-			intent.putExtra("boxcode", resultString);
-			startActivity(intent);
-		} else {
-			showToast("扫描失败，请重新扫描");
 		}
+		 if(isSuccess){
+			 Intent intent = new Intent(this, ScanProductResultActivity.class);
+			 intent.putExtra("boxcode", resultString);
+			 startActivity(intent);
+		 } else {
+			 showToast("扫描失败，请重新扫描");
+		 }
 	}
 
 	private void sendCouponQuery(String userId, String couponId) {
