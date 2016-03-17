@@ -44,6 +44,12 @@ public class StorageDetailActivity extends BaseActivity {
 	private String getCount() {
 		String spName = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis())) + id;
 		int currentCount = SharedPreferencesHelper.getInt(this, spName, 0);
+		
+		System.out.println("currentCount          " + currentCount);
+		
+		System.out.println("count    " + count);
+		
+		
 		return (currentCount + count) + "";
 	}
 

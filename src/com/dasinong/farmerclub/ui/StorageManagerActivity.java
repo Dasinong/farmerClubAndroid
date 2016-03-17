@@ -6,7 +6,6 @@ import java.util.List;
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.ProductListEntity;
-import com.dasinong.farmerclub.entity.ProductListEntity.Data;
 import com.dasinong.farmerclub.entity.ProductListEntity.Product;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
@@ -57,8 +56,8 @@ public class StorageManagerActivity extends BaseActivity {
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				if(resultData.isOk()){
 					ProductListEntity entity = (ProductListEntity) resultData;
-					if(entity.data != null && entity.data.productList != null){
-						setData(entity.data.productList);
+					if(entity.data != null ){
+						setData(entity.data);
 					}
 				}
 			}

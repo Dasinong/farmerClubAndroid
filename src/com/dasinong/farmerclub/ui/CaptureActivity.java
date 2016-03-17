@@ -265,6 +265,11 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		File currentFile = new File(appFileDir + File.separator + "log" + File.separator + fileName);
 		boolean isSuccess = false;
 		try {
+			
+			if(!currentFile.exists()){
+				currentFile.createNewFile();
+			}
+			
 			FileReader reader = new FileReader(currentFile);
 			BufferedReader br = new BufferedReader(reader);
 			String line = br.readLine();
