@@ -3,58 +3,44 @@ package com.dasinong.farmerclub.ui;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
-import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 import org.hybridsquad.android.library.CropHandler;
 import org.hybridsquad.android.library.CropHelper;
 import org.hybridsquad.android.library.CropParams;
 
-import cn.smssdk.SMSSDK;
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.LoginRegEntity;
 import com.dasinong.farmerclub.entity.User;
 import com.dasinong.farmerclub.net.NetConfig;
-import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
-import com.dasinong.farmerclub.ui.fragment.MeFragment;
+import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.manager.AccountManager;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
-import com.dasinong.farmerclub.utils.GraphicUtils;
 import com.dasinong.farmerclub.utils.Logger;
-import com.dasinong.farmerclub.utils.PhotoUtils;
 import com.lidroid.xutils.BitmapUtils;
-import com.lidroid.xutils.HttpUtils;
-import com.lidroid.xutils.exception.HttpException;
-import com.lidroid.xutils.http.RequestParams;
-import com.lidroid.xutils.http.ResponseInfo;
-import com.lidroid.xutils.http.callback.RequestCallBack;
-import com.lidroid.xutils.http.client.HttpRequest.HttpMethod;
 import com.tencent.tauth.Tencent;
-
-import android.app.Activity;
-import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.DialogInterface.OnCancelListener;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.text.TextUtils;
-import android.util.Log;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
-import android.widget.Toast;
 
 public class MyInfoActivity extends BaseActivity implements OnClickListener, CropHandler {
 
@@ -93,12 +79,16 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 
 	private TextView tv_des_phone;
 
+	private String userId;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_info);
 		
 		isRetailer = getIntent().getBooleanExtra("isRetailer", false);
+		
+		userId = SharedPreferencesHelper.getString(this, Field.USER_ID, "");
 
 		initView();
 		setUpView();
@@ -378,35 +368,8 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		backBtn.setOnClickListener(new OnClickListener() {
 			public void onClick(View v) {
 
-				Tencent mTencent = Tencent.createInstance("1104723671", getApplicationContext());
-				if (mTencent != null && mTencent.isSessionValid()) {
-					mTencent.logout(MyInfoActivity.this);
-				}
-				startLoadingDialog();
-				RequestService.getInstance().logout(MyInfoActivity.this, BaseEntity.class, new RequestListener() {
-
-					@Override
-					public void onSuccess(int requestCode, BaseEntity resultData) {
-						if (resultData.isOk()) {
-							AccountManager.logout(MyInfoActivity.this);
-							showToast(resultData.getMessage());
-							dismissLoadingDialog();
-							Intent intent = new Intent(MyInfoActivity.this, RegisterPhoneActivity.class);
-							startActivity(intent);
-							if(MainTabActivity.activity != null){
-								MainTabActivity.activity.finish();
-							}
-						} else {
-							showToast(resultData.getMessage());
-							dismissLoadingDialog();
-						}
-					}
-
-					@Override
-					public void onFailed(int requestCode, Exception error, String msg) {
-						dismissLoadingDialog();
-					}
-				});
+				uploadFileLog();
+				logout();
 
 				dialog.dismiss();
 				finish();
@@ -414,6 +377,64 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		});
 		dialog.setCanceledOnTouchOutside(true);
 		dialog.show();
+	}
+	
+	protected void uploadFileLog() {
+		String appFileDir = getFilesDir().getAbsolutePath();
+		File dir = new File(appFileDir + File.separator + userId);
+		if(dir.exists() && dir.listFiles().length > 0){
+			for (final File file : dir.listFiles()) {
+				RequestService.getInstance().uploadLog(this, file, BaseEntity.class, new RequestListener() {
+					
+					@Override
+					public void onSuccess(int requestCode, BaseEntity resultData) {
+						if(resultData.isOk()){
+							file.delete();
+							System.out.println("上传成功 +++++  " + file.getName());
+						} else {
+							System.out.println("上传失败  ++++++ " + file.getName());
+						}
+					}
+					
+					@Override
+					public void onFailed(int requestCode, Exception error, String msg) {
+						System.out.println("上传失败  ++++++ " + file.getName());
+					}
+				});
+			}
+		}
+	}
+
+	private void logout() {
+		Tencent mTencent = Tencent.createInstance("1104723671", getApplicationContext());
+		if (mTencent != null && mTencent.isSessionValid()) {
+			mTencent.logout(MyInfoActivity.this);
+		}
+		startLoadingDialog();
+		RequestService.getInstance().logout(MyInfoActivity.this, BaseEntity.class, new RequestListener() {
+
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				if (resultData.isOk()) {
+					AccountManager.logout(MyInfoActivity.this);
+					showToast(resultData.getMessage());
+					dismissLoadingDialog();
+					Intent intent = new Intent(MyInfoActivity.this, RegisterPhoneActivity.class);
+					startActivity(intent);
+					if(MainTabActivity.activity != null){
+						MainTabActivity.activity.finish();
+					}
+				} else {
+					showToast(resultData.getMessage());
+					dismissLoadingDialog();
+				}
+			}
+
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+			}
+		});
 	}
 
 	private void authPhoneCode() {

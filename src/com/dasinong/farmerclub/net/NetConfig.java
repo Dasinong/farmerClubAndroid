@@ -278,6 +278,7 @@ public class NetConfig {
 		public static final String manufacturer = "manufacturer";
 		public static final String company = "company";
 		public static final String boxcode = "boxcode";
+		public static final String stocking = "stocking";
 
 	}
 
@@ -752,6 +753,12 @@ public class NetConfig {
 		paramsMap.put(Params.subStageId, subStageId);
 		return getBaseParams(true, paramsMap);
 	}
+	public static Map<String, String> getGetCouponsParams(String lat,String lon) {
+		Map<String, String> paramsMap = new HashMap<String, String>();
+		paramsMap.put(Params.lat, lat);
+		paramsMap.put(Params.lon, lon);
+		return getBaseParams(true, paramsMap);
+	}
 	public static Map<String, String> getRequestCouponParams(String name, String company, String crop, String area, String yield,String experience, String productUseHistory, String contactNumber) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.name, name);
@@ -764,9 +771,11 @@ public class NetConfig {
 		paramsMap.put(Params.contactNumber, contactNumber);
 		return getBaseParams(true, paramsMap);
 	}
-	public static Map<String, String> getClaimCouponParams(String campaignId) {
+	public static Map<String, String> getClaimCouponParams(String campaignId, String lat, String lon) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.campaignId, campaignId);
+		paramsMap.put(Params.lat, lat);
+		paramsMap.put(Params.lon, lon);
 		return getBaseParams(true, paramsMap);
 	}
 	public static Map<String, String> getRedeemCouponParams(String couponId, String userId) {
@@ -795,9 +804,10 @@ public class NetConfig {
 		paramsMap.put(Params.manufacturer, manufacturer);
 		return getBaseParams(true, paramsMap);
 	}
-	public static Map<String, String> getGetWinsafeProductInfoParams(String boxCode) {
+	public static Map<String, String> getGetWinsafeProductInfoParams(String boxCode,boolean stocking) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.boxcode, boxCode);
+		paramsMap.put(Params.stocking, String.valueOf(stocking));
 		return getBaseParams(true, paramsMap);
 	}
 	

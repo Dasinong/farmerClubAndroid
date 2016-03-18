@@ -37,19 +37,6 @@ public class StorageManagerActivity extends BaseActivity {
 
 	private void qureyData() {
 		
-//		ProductListEntity entity = new ProductListEntity();
-//		entity.data = new Data();
-//		entity.data.productList = new ArrayList<>();
-//		for (int i = 0; i < 3; i++) {
-//			Product p = entity.new Product();
-//			p.id = i;
-//			p.name = "百润" + i;
-//			p.volume = "123";
-//			p.count = 5;
-//			entity.data.productList.add(p);
-//		}
-//		setData(entity.data.productList);
-		
 		RequestService.getInstance().checkBSFStock(this, ProductListEntity.class, new RequestListener() {
 			
 			@Override

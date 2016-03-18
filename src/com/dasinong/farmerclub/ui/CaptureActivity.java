@@ -69,7 +69,6 @@ public class CaptureActivity extends BaseActivity implements Callback {
 	private static final float BEEP_VOLUME = 0.10f;
 	private boolean vibrate;
 	private TopbarView topbar;
-	private String appFileDir;
 	private boolean isFarmer;
 
 	// private Button cancelScanButton;
@@ -80,8 +79,6 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_scan_qrcoder);
-
-		appFileDir = getFilesDir().getAbsolutePath();
 
 		String type = SharedPreferencesHelper.getString(this, Field.USER_TYPE, SelectUserTypeActivity.FARMER);
 		if (SelectUserTypeActivity.RETAILER.equals(type)) {
@@ -188,119 +185,24 @@ public class CaptureActivity extends BaseActivity implements Callback {
 				String[] split = resultString.split("&");
 				if ("refcode".equals(split[0].split("=")[1])) {
 					String refCode = split[1].split("=")[1];
-					sendRefQuery(refCode);
+					Intent intent = new Intent();
+					intent.putExtra("refcode", refCode);
+					setResult(RESULT_OK,intent);
+//					sendRefQuery(refCode);
 				} else if ("coupon".equals(split[0].split("=")[1])) {
 					String userId = split[1].split("=")[1];
 					String couponId = split[2].split("=")[1];
 					sendCouponQuery(userId, couponId);
 				}
 			} else if (resultString.length() == 25 && !isFarmer) {
-				String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date(System.currentTimeMillis()));
-				writerFile(resultString);
+//				String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date(System.currentTimeMillis()));
+				 Intent intent = new Intent(this, ScanProductResultActivity.class);
+				 intent.putExtra("boxcode", resultString);
+				 startActivity(intent);
 			} else {
 				showToast("请扫描有效二维码");
 			}
 		}
-	}
-
-	private void writerFile(String resultString) {
-		File dir = new File(appFileDir + File.separator + "log");
-		if (!dir.exists()) {
-			dir.mkdir();
-		}
-
-		// TODO 创建测试数据
-		// createTestFile();
-
-		String fileName = getFileName();
-		writFileData(fileName, resultString);
-	}
-
-	private void createTestFile() {
-		try {
-			int start = 20160312;
-			for (int i = 0; i < 5; i++) {
-				File file = new File(appFileDir + File.separator + "log" + File.separator + (start + i) + "153622" + ".txt");
-				if (!file.exists()) {
-					file.createNewFile();
-					writFileData(file.getName(), "这是测试数据");
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		File dir = new File(appFileDir + File.separator + "log");
-
-		System.out.println("创建文件完毕，当前文件数量为 ： " + dir.listFiles().length);
-
-		for (File file : dir.listFiles()) {
-			System.out.println("当前文件名都有" + file.getName());
-		}
-	}
-
-	private String getFileName() {
-		String fileName = null;
-		// 判断当前日期是否存在文件
-		File dir = new File(appFileDir + File.separator + "log");
-		String currentDay = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
-		if (dir.isDirectory() && dir.listFiles().length > 0) {
-			File[] files = dir.listFiles();
-			for (File file : files) {
-				if (currentDay.equals(file.getName().substring(0, 8))) {
-					fileName = file.getName();
-				}
-			}
-		}
-		if (TextUtils.isEmpty(fileName)) {
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-			fileName = sdf.format(new Date(System.currentTimeMillis())) + ".txt";
-		}
-		return fileName;
-	}
-
-	private void writFileData(String fileName, String resultString) {
-		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date(System.currentTimeMillis()));
-		String text = "*****" + currentTime + resultString + "7" + System.getProperty("line.separator");
-		File currentFile = new File(appFileDir + File.separator + "log" + File.separator + fileName);
-		boolean isSuccess = false;
-		try {
-			
-			if(!currentFile.exists()){
-				currentFile.createNewFile();
-			}
-			
-			FileReader reader = new FileReader(currentFile);
-			BufferedReader br = new BufferedReader(reader);
-			String line = br.readLine();
-			while (line != null) {
-				if(line.contains(resultString)){
-					showToast("已扫过的二维码");
-					System.out.println("此处执行");
-					return;
-				}
-				line = br.readLine();
-			}
-			br.close();
-			reader.close();
-			
-			FileOutputStream fos = new FileOutputStream(currentFile, true);
-			byte[] bytes = text.getBytes();
-			fos.write(bytes);
-			fos.flush();
-			fos.close();
-			isSuccess = true;
-		} catch (Exception e) {
-			e.printStackTrace();
-			isSuccess = false;
-		}
-		 if(isSuccess){
-			 Intent intent = new Intent(this, ScanProductResultActivity.class);
-			 intent.putExtra("boxcode", resultString);
-			 startActivity(intent);
-		 } else {
-			 showToast("扫描失败，请重新扫描");
-		 }
 	}
 
 	private void sendCouponQuery(String userId, String couponId) {

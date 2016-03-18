@@ -50,6 +50,8 @@ public final class SharedPreferencesHelper {
         ENABLEWELFARE,
         MEMBER_POINTS,
         PICTURE_ID,
+        CURRENT_LAT,
+        CURRENT_LON,
     }
 
     ;

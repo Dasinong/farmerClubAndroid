@@ -5,6 +5,7 @@ import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.LoginRegEntity;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
+import com.dasinong.farmerclub.ui.manager.AccountManager;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
@@ -47,30 +48,8 @@ public class BindActivity extends BaseActivity {
 			public void onClick(View v) {
 				String invCode = inputCode.getText().toString().trim();
 				invCode = invCode.toLowerCase();
-//				String invRegex = "^[0-9a-z]{6}$";
 				if (invCode.length() == 4 || invCode.length() == 6) {
-					startLoadingDialog();
-					RequestService.getInstance().setRef(BindActivity.this, invCode, LoginRegEntity.class, new RequestListener() {
-						@Override
-						public void onSuccess(int requestCode, BaseEntity resultData) {
-							if (resultData.isOk()) {
-								LoginRegEntity entity = (LoginRegEntity) resultData;
-								showToast("验证成功");
-
-								SharedPreferencesHelper.setInt(BindActivity.this, Field.REFUID, entity.getData().getRefuid());
-								SharedPreferencesHelper.setInt(BindActivity.this, Field.INSTITUTIONID, entity.getData().getInstitutionId());
-								
-							} else {
-								showToast(resultData.getMessage());
-							}
-							dismissLoadingDialog();
-						}
-
-						@Override
-						public void onFailed(int requestCode, Exception error, String msg) {
-							dismissLoadingDialog();
-						}
-					});
+					setRefCode(invCode);
 				} else {
 					showToast("请核对邀请码是否确");
 				}
@@ -82,7 +61,34 @@ public class BindActivity extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(BindActivity.this, CaptureActivity.class);
-				startActivity(intent);
+				startActivityForResult(intent, 0);
+			}
+		});
+	}
+	
+
+	private void setRefCode(String invCode) {
+		startLoadingDialog();
+		RequestService.getInstance().setRef(BindActivity.this, invCode, LoginRegEntity.class, new RequestListener() {
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				if (resultData.isOk()) {
+					LoginRegEntity entity = (LoginRegEntity) resultData;
+					showToast("验证成功");
+					
+					AccountManager.saveAccount(BindActivity.this, entity);
+					
+					finish();
+					
+				} else {
+					showToast(resultData.getMessage());
+				}
+				dismissLoadingDialog();
+			}
+
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
 			}
 		});
 	}
@@ -90,5 +96,11 @@ public class BindActivity extends BaseActivity {
 	private void initTopBar() {
 		topbar.setCenterText("请填写邀请人");
 		topbar.setLeftView(true, true);
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		String refCode = data.getStringExtra("refcode");
+		setRefCode(refCode);
 	}
 }

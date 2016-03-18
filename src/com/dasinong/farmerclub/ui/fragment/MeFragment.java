@@ -12,6 +12,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.dasinong.farmerclub.R;
+import com.dasinong.farmerclub.net.NetConfig;
 import com.dasinong.farmerclub.ui.BindActivity;
 import com.dasinong.farmerclub.ui.CaptureActivity;
 import com.dasinong.farmerclub.ui.ContactUsActivity;
@@ -72,6 +73,8 @@ public class MeFragment extends Fragment implements OnClickListener {
 
 	private int serverInstitutionId;
 
+	private boolean isFarmer = true;
+
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -88,6 +91,11 @@ public class MeFragment extends Fragment implements OnClickListener {
 		
 		if (refuId > 0 || serverInstitutionId > 0 || appInstitutionId > 0) {
 			isShow = false;
+		}
+		
+		String userType = SharedPreferencesHelper.getString(getActivity(), Field.USER_TYPE, SelectUserTypeActivity.FARMER);
+		if (SelectUserTypeActivity.RETAILER.equals(userType)) {
+			isFarmer = false;
 		}
 		
 		enableWelfare = SharedPreferencesHelper.getBoolean(getActivity(), Field.ENABLEWELFARE, false);
@@ -139,8 +147,10 @@ public class MeFragment extends Fragment implements OnClickListener {
 			mBindLayout.setVisibility(View.GONE);
 		}
 		
-		if(enableWelfare){
+		if(enableWelfare && isFarmer){
 			mMyCouponLayout.setVisibility(View.VISIBLE);
+		} else {
+			mMyCouponLayout.setVisibility(View.GONE);
 		}
 		
 		if(!isDaren){
@@ -202,9 +212,10 @@ public class MeFragment extends Fragment implements OnClickListener {
 				getActivity().startActivity(myInfoIntent);
 			}
 			break;
-		case R.id.layout_daren:
+		case R.id.layout_daren:// 达人页面
 			Intent darenIntent = new Intent(getActivity(), WebBrowserActivity.class);
-			String url = "http://120.26.208.198/jifen/index.html?avatarUrl=" + pictureId + "&memberPoints=" + memberPoints;
+			String userId = SharedPreferencesHelper.getString(getActivity(), Field.USER_ID, "");
+			String url = NetConfig.BASE_URL + "daren?userId="+userId;
 			darenIntent.putExtra(WebBrowserActivity.URL, url);
 			darenIntent.putExtra(WebBrowserActivity.TITLE, "达人积分");
 			startActivity(darenIntent);
@@ -230,7 +241,7 @@ public class MeFragment extends Fragment implements OnClickListener {
 				getActivity().startActivity(intent);
 			}
 			break;
-		case R.id.layout_my_coupon:
+		case R.id.layout_my_coupon: // 我的优惠券
 			MobclickAgent.onEvent(getActivity(), "MyCoupon");
 			// TODO 判断用户类型
 			if(AccountManager.checkLogin(getActivity())){

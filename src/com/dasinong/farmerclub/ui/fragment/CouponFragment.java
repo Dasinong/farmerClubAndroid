@@ -197,8 +197,7 @@ public class CouponFragment extends Fragment implements OnClickListener {
 							Intent intent = new Intent(getActivity(), CouponQRCodeActivity.class);
 							intent.putExtra("picUrl", item.pictureUrls.get(0));
 							intent.putExtra("name", item.name);
-							int time = (int) (31 - (System.currentTimeMillis() - coupon.claimedAt) / (1000 * 24 * 3600));
-							intent.putExtra("time", time + "");
+							intent.putExtra("time", coupon.claimedAt);
 							intent.putExtra("stores", (Serializable) item.stores);
 							intent.putExtra("id", coupon.id);
 							startActivity(intent);

@@ -11,6 +11,8 @@ import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.ClaimCouponEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 
 import android.content.Intent;
@@ -37,6 +39,8 @@ public class ApplyCouponActivity extends BaseActivity {
 	private String campaignId;
 	private String [] experiences = {"第一年的新手","2-3年有些经验","3-5年的老手","5-10年的专家","10年以上的资深专家"};
 	private TopbarView topBar;
+	private String lat;
+	private String lon;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,8 @@ public class ApplyCouponActivity extends BaseActivity {
 		setContentView(R.layout.activity_apply_coupon);
 		
 		int id = getIntent().getIntExtra("campaignId", -1);
+		lat = SharedPreferencesHelper.getString(this, Field.CURRENT_LAT, "");
+		lon = SharedPreferencesHelper.getString(this, Field.CURRENT_LON, "");
 		if (id != -1) {
 			campaignId = String.valueOf(id);
 		}
@@ -99,7 +105,7 @@ public class ApplyCouponActivity extends BaseActivity {
 	
 	private void claimCoupon() {
 		startLoadingDialog();
-		RequestService.getInstance().claimCoupon(this, campaignId, ClaimCouponEntity.class, new RequestListener() {
+		RequestService.getInstance().claimCoupon(this, campaignId, lat, lon, ClaimCouponEntity.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -110,8 +116,7 @@ public class ApplyCouponActivity extends BaseActivity {
 						Intent intent = new Intent(ApplyCouponActivity.this, CouponQRCodeActivity.class);
 						intent.putExtra("picUrl",entity.data.coupon.campaign.pictureUrls.get(0));
 						intent.putExtra("name", entity.data.coupon.campaign.name);
-						int time = (int) (31 - (System.currentTimeMillis() - entity.data.coupon.claimedAt) / (1000 * 24 * 3600));
-						intent.putExtra("time", time + "");
+						intent.putExtra("time", entity.data.coupon.claimedAt);
 						intent.putExtra("id", entity.data.coupon.id);
 						intent.putExtra("stores", (Serializable)entity.data.coupon.campaign.stores);
 						startActivity(intent);

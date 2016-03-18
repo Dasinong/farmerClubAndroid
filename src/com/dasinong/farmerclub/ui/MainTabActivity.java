@@ -109,6 +109,8 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 
 	private boolean isRetailer;
 
+	private String userId;
+
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_tab_layout);
@@ -117,8 +119,9 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 
 		initList();
 
+		userId = SharedPreferencesHelper.getString(this, Field.USER_ID, "");
 		checkAndUploadLog();
-
+		
 		String userType = SharedPreferencesHelper.getString(this, Field.USER_TYPE, SelectUserTypeActivity.FARMER);
 		int institutionId = SharedPreferencesHelper.getInt(this, Field.INSTITUTIONID, -1);
 		boolean isDaren = SharedPreferencesHelper.getBoolean(this, Field.ISDAREN, false);
@@ -181,10 +184,10 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 	private void checkAndUploadLog() {
 		List<File> fileList = new ArrayList<>();
 		String appFileDir = getFilesDir().getAbsolutePath();
-		File dir = new File(appFileDir + File.separator + "log");
+		File dir = new File(appFileDir + File.separator + userId);
 		String currentDay = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
 		int intCurrentDay = Integer.valueOf(currentDay);
-		if (dir.isDirectory() && dir.listFiles().length > 0) {
+		if (dir.exists() && dir.isDirectory() && dir.listFiles().length > 0) {
 			File[] files = dir.listFiles();
 			for (File file : files) {
 				int fileDay = Integer.valueOf(file.getName().substring(0, 8));
@@ -193,7 +196,10 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 				}
 			}
 		}
-
+		for (File file : fileList) {
+			System.out.println(file.getAbsolutePath());
+		}
+		
 		if (!fileList.isEmpty()) {
 			for (final File file : fileList) {
 				RequestService.getInstance().uploadLog(this, file, BaseEntity.class, new RequestListener() {
@@ -377,7 +383,9 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void locationNotify(LocationResult result) {
-
+				SharedPreferencesHelper.setString(MainTabActivity.this, Field.CURRENT_LAT, result.getLatitude() + "");
+				
+				SharedPreferencesHelper.setString(MainTabActivity.this, Field.CURRENT_LON, result.getLongitude() + "");
 				// Toast.makeText(MainTabActivity.this,
 				// result.getCity()+" -- "+result.getStreet(), 0).show();
 			}

@@ -1,36 +1,37 @@
 package com.dasinong.farmerclub.ui;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import android.os.Bundle;
+import android.support.v4.view.ViewPager;
 
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.MyCouponsEntity;
 import com.dasinong.farmerclub.entity.MyCouponsEntity.Coupon;
-import com.dasinong.farmerclub.entity.MyCouponsEntity.UseStatus;
-import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
+import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.adapter.MyCouponFragmentPagerAdapter;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.PagerSlidingTabStrip;
 import com.dasinong.farmerclub.ui.view.TopbarView;
-
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.view.View;
 
 public class MyCouponActivity extends BaseActivity {
 	
 	private TopbarView topBar;
 	private PagerSlidingTabStrip tabs;
 	private ViewPager pager;
+	private String lat;
+	private String lon;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_coupon);
+		
+		lat = SharedPreferencesHelper.getString(this, Field.CURRENT_LAT, "");
+		lon = SharedPreferencesHelper.getString(this, Field.CURRENT_LON, "");
 		
 		initView();
 		
@@ -53,7 +54,7 @@ public class MyCouponActivity extends BaseActivity {
 	
 	private void queryData() {
 		startLoadingDialog();
-		RequestService.getInstance().getCoupons(this, MyCouponsEntity.class , new RequestListener() {
+		RequestService.getInstance().getCoupons(this, lat, lon, MyCouponsEntity.class , new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {

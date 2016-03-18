@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import com.dasinong.farmerclub.entity.ScanProductEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 
 import android.R.fraction;
 import android.content.Intent;
@@ -37,6 +39,8 @@ public class ScanProductResultActivity extends BaseActivity implements OnClickLi
 	private Button btn_continue;
 
 	private String boxcode;
+	private String appFileDir;
+	private String userId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +48,9 @@ public class ScanProductResultActivity extends BaseActivity implements OnClickLi
 		setContentView(R.layout.activity_scan_product_result);
 
 		boxcode = getIntent().getStringExtra("boxcode");
+		
+		appFileDir = getFilesDir().getAbsolutePath();
+		userId = SharedPreferencesHelper.getString(this, Field.USER_ID, ""); 
 
 		initView();
 
@@ -68,55 +75,120 @@ public class ScanProductResultActivity extends BaseActivity implements OnClickLi
 	}
 
 	private void queryData() {
-		RequestService.getInstance().getWinsafeProductInfo(this, boxcode, ScanProductEntity.class, new RequestListener() {
+		RequestService.getInstance().getWinsafeProductInfo(this, boxcode, true, ScanProductEntity.class, new RequestListener() {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				if (resultData.isOk()) {
 					ScanProductEntity entity = (ScanProductEntity) resultData;
 					if (entity.data != null) {
-
-						String spName = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis())) + entity.data.proid;
-
-						int count = SharedPreferencesHelper.getInt(ScanProductResultActivity.this, spName, 0);
-
-						SharedPreferencesHelper.setInt(ScanProductResultActivity.this, spName, count + 1);
-
-						entity.data.count = String.valueOf(count + 1);
+						entity.data.count = "1";
 						setData(entity);
 					}
 				} else {
 					setData();
-					writeFailedFile();
+					writerFile(boxcode);
 				}
 			}
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				setData();
-				writeFailedFile();
+				writerFile(boxcode);
 			}
 		});
 	}
-
-	private void writeFailedFile() {
-		File dir = new File(getFilesDir().getAbsolutePath() + File.separator + "failed");
+	
+	private void writerFile(String resultString) {
+		File dir = new File(appFileDir + File.separator + userId);
 		if (!dir.exists()) {
 			dir.mkdir();
 		}
-		String fileName = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis())) + ".txt";
-		File file = new File(dir, fileName);
-		try {
-			FileWriter fw = new FileWriter(file, true);
-			BufferedWriter bw = new BufferedWriter(fw);
-			bw.write(boxcode);
-			bw.newLine();
-			bw.close();
-			fw.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+
+		String fileName = getFileName();
+		writFileData(fileName, resultString);
 	}
+	
+	private String getFileName() {
+		String fileName = null;
+		// 判断当前日期是否存在文件
+		File dir = new File(appFileDir + File.separator + userId);
+		String currentDay = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis()));
+		if (dir.isDirectory() && dir.listFiles().length > 0) {
+			File[] files = dir.listFiles();
+			for (File file : files) {
+				if (currentDay.equals(file.getName().substring(0, 8))) {
+					fileName = file.getName();
+				}
+			}
+		}
+		if (TextUtils.isEmpty(fileName)) {
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+			fileName = sdf.format(new Date(System.currentTimeMillis())) + ".txt";
+		}
+		return fileName;
+	}
+	
+	private void writFileData(String fileName, String resultString) {
+		String currentTime = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date(System.currentTimeMillis()));
+		String text = "*****" + currentTime + resultString + "7" + System.getProperty("line.separator");
+		File currentFile = new File(appFileDir + File.separator + userId + File.separator + fileName);
+		boolean isSuccess = false;
+		try {
+			
+			if(!currentFile.exists()){
+				currentFile.createNewFile();
+			}
+			
+			FileReader reader = new FileReader(currentFile);
+			BufferedReader br = new BufferedReader(reader);
+			String line = br.readLine();
+			while (line != null) {
+				if(line.contains(resultString)){
+					showToast("已扫过的二维码");
+					System.out.println("此处执行");
+					return;
+				}
+				line = br.readLine();
+			}
+			br.close();
+			reader.close();
+			
+			FileOutputStream fos = new FileOutputStream(currentFile, true);
+			byte[] bytes = text.getBytes();
+			fos.write(bytes);
+			fos.flush();
+			fos.close();
+			isSuccess = true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			isSuccess = false;
+		}
+		 if(isSuccess){
+			 showToast("网络异常，二维码信息已存储至本地");
+		 } else {
+			 showToast("扫描失败，请重新扫描");
+		 }
+	}
+
+//	private void writeFailedFile() {
+//		File dir = new File(getFilesDir().getAbsolutePath() + File.separator + "failed");
+//		if (!dir.exists()) {
+//			dir.mkdir();
+//		}
+//		String fileName = new SimpleDateFormat("yyyyMMdd").format(new Date(System.currentTimeMillis())) + ".txt";
+//		File file = new File(dir, fileName);
+//		try {
+//			FileWriter fw = new FileWriter(file, true);
+//			BufferedWriter bw = new BufferedWriter(fw);
+//			bw.write(boxcode);
+//			bw.newLine();
+//			bw.close();
+//			fw.close();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 
 	private void setData() {
 		setDataToView("", tv_name);

@@ -1,7 +1,9 @@
 package com.dasinong.farmerclub.ui;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,8 @@ import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.AllCouponEntity.CouponCampaign;
 import com.dasinong.farmerclub.entity.AllCouponEntity.Store;
 import com.dasinong.farmerclub.net.NetConfig;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
+import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.utils.GraphicUtils;
 import com.lidroid.xutils.BitmapUtils;
@@ -38,15 +42,23 @@ public class CouponQRCodeActivity extends BaseActivity {
 	private TopbarView topBar;
 	private List<Store> storeList;
 	private LinearLayout ll_exchange_place;
+	public static final long DAY_MS =  24 * 60 * 60 * 1000;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_coupon_qrcode);
 
+		boolean isDaren = SharedPreferencesHelper.getBoolean(this, Field.ISDAREN, false);
+
 		picUrl = getIntent().getStringExtra("picUrl");
 		name = getIntent().getStringExtra("name");
-		time = getIntent().getStringExtra("time");
+		long claimedTime = getIntent().getLongExtra("time", 0);
+		if (isDaren) {
+			time = time2String(claimedTime + 10 * DAY_MS, claimedTime + 30 * DAY_MS);
+		} else {
+			time = time2String(claimedTime, claimedTime + 30 * DAY_MS);
+		}
 		id = getIntent().getLongExtra("id", -1);
 		storeList = (List<Store>) getIntent().getSerializableExtra("stores");
 
@@ -126,8 +138,21 @@ public class CouponQRCodeActivity extends BaseActivity {
 		bitmapUtils.display(iv_pic, NetConfig.COUPON_IMAGE + picUrl);
 
 		tv_title.setText(name);
-		tv_time.setText("剩余时间：" + time + "天");
+		tv_time.setText("兑换日期：" + time);
 		bitmapUtils.display(iv_qrcode, NetConfig.COUPON_QRCODE_URL + id + ".png");
 		tv_coupon_id.setText("券号 " + id);
+	}
+
+	private String time2String(long start, long end) {
+		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
+		Date date = new Date();
+
+		date.setTime(start);
+		String strStart = sdf.format(date).toString();
+
+		date.setTime(end);
+		String strEnd = sdf.format(date).toString();
+
+		return strStart + "-" + strEnd;
 	}
 }

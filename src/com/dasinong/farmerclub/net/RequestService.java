@@ -367,8 +367,8 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.COUPON_CAMPAIGNS, params, SubUrl.COUPON_CAMPAIGNS, callBack, clazz);
 	}
 	
-	public void getCoupons(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getDefaultParams();
+	public void getCoupons(Context context,String lat,String lon, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetCouponsParams(lat, lon);
 		new NetRequest(context).get(RequestCode.GET_COUPONS, params, SubUrl.GET_COUPONS, callBack, clazz);
 	}
 	
@@ -382,8 +382,8 @@ public class RequestService {
 		new NetRequest(context).requestPost(RequestCode.REQUEST_COUPON, params, SubUrl.REQUEST_COUPON, callBack, clazz);
 	}
 	
-	public void claimCoupon(Context context, String campaignId,  Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getClaimCouponParams(campaignId);
+	public void claimCoupon(Context context, String campaignId, String lat, String lon, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getClaimCouponParams(campaignId, lat, lon);
 		new NetRequest(context).requestPost(RequestCode.CLAIM_COUPON, params, SubUrl.CLAIM_COUPON, callBack, clazz);
 	}
 	
@@ -411,8 +411,8 @@ public class RequestService {
 		new NetRequest(context).uploadLog(0, NetConfig.BASE_URL + "stockScan", file, clazz, callBack);
 	}
 	
-	public void getWinsafeProductInfo(Context context, String boxCode, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getGetWinsafeProductInfoParams(boxCode);
+	public void getWinsafeProductInfo(Context context, String boxCode,boolean stocking, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getGetWinsafeProductInfoParams(boxCode, stocking);
 		new NetRequest(context).get(RequestCode.GET_WINSAFE_PRODUCT_INFO, params, SubUrl.GET_WINSAFE_PRODUCT_INFO, callBack, clazz);
 	}
 	public void checkBSFStock(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
