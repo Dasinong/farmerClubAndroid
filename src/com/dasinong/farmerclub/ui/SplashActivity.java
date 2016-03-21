@@ -34,23 +34,22 @@ public class SplashActivity extends BaseActivity {
 
 		tv_version = (TextView) findViewById(R.id.tv_version);
 		splash_iv = (ImageView) findViewById(R.id.splash_iv);
-		
-//		autoLogin();
-		
+
+		autoLogin();
+
 		String versionName = AppInfoUtils.getVersionName(this);
 		serverInstitutionId = SharedPreferencesHelper.getInt(this, Field.INSTITUTIONID, 0);
 		appInstitutionId = AppInfoUtils.getInstitutionId(this);
-		
-		if(appInstitutionId == 0 && serverInstitutionId == 0){
+
+		if (appInstitutionId == 0 && serverInstitutionId == 0) {
 			setUserTag("普通");
-		} else if(appInstitutionId == 1 || serverInstitutionId == 1) {
+		} else if (appInstitutionId == 1 || serverInstitutionId == 1) {
 			splash_iv.setImageResource(R.drawable.splash_image_taoshi_club);
 			setUserTag("陶氏");
-		} else if (appInstitutionId == 3 || serverInstitutionId == 3){
+		} else if (appInstitutionId == 3 || serverInstitutionId == 3) {
 			splash_iv.setImageResource(R.drawable.splash_image_basf_club);
 			setUserTag("巴斯夫");
 		}
-		
 
 		if (!TextUtils.isEmpty(versionName)) {
 			tv_version.setText("当前版本：" + versionName);
@@ -58,7 +57,6 @@ public class SplashActivity extends BaseActivity {
 			tv_version.setVisibility(View.GONE);
 		}
 
-		
 		// 发送一个延时的消息
 		new Handler() {
 			public void handleMessage(android.os.Message msg) {
@@ -75,7 +73,7 @@ public class SplashActivity extends BaseActivity {
 					finish();
 				} else {
 					// 不是第一次进入应用,直接跳转到主界面
-					if(AccountManager.isLogin(SplashActivity.this)){
+					if (AccountManager.isLogin(SplashActivity.this)) {
 						Intent intent = new Intent(SplashActivity.this, MainTabActivity.class);
 						startActivity(intent);
 						finish();
@@ -92,7 +90,7 @@ public class SplashActivity extends BaseActivity {
 
 	private void setUserTag(final String channelTag) {
 		new Thread(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				try {
@@ -131,60 +129,26 @@ public class SplashActivity extends BaseActivity {
 
 	private void autoLogin() {
 		String phone = SharedPreferencesHelper.getString(this, Field.USER_PHONE, "");
-		String qqToken = SharedPreferencesHelper.getString(this, Field.QQ_TOKEN, "");
-		String weixinToken = SharedPreferencesHelper.getString(this, Field.WEIXIN_TOKEN, "");
-
-		String logKey = null;
-		logKey = TextUtils.isEmpty(phone) ? phone : "";
-		logKey = TextUtils.isEmpty(qqToken) ? qqToken : "";
-		logKey = TextUtils.isEmpty(weixinToken) ? weixinToken : "";
-		
 		String channel = AppInfoUtils.getChannelCode(this);
-		
+
 		if (!TextUtils.isEmpty(phone)) {
-			RequestService.getInstance().authcodeLoginReg(this, phone, channel, appInstitutionId+"", LoginRegEntity.class, new RequestListener() {
+			RequestService.getInstance().authcodeLoginReg(this, phone, channel, appInstitutionId + "", LoginRegEntity.class, new RequestListener() {
 
 				@Override
 				public void onSuccess(int requestCode, BaseEntity resultData) {
-					if(resultData.isOk()){
+					if (resultData.isOk()) {
 						LoginRegEntity entity = (LoginRegEntity) resultData;
-						AccountManager.saveAccount(SplashActivity.this, entity);
-					}
-				}
-				@Override
-				public void onFailed(int requestCode, Exception error, String msg) {
-				}
-			});
-		} else if (!TextUtils.isEmpty(qqToken)) {
-			RequestService.getInstance().qqAuthRegLog(this, qqToken, "", "", channel, appInstitutionId+"", BaseEntity.class, new RequestListener() {
-
-				@Override
-				public void onSuccess(int requestCode, BaseEntity resultData) {
-					if(resultData.isOk()){
-						LoginRegEntity entity = (LoginRegEntity) resultData;
-						AccountManager.saveAccount(SplashActivity.this, entity);
+						if (entity != null) {
+							AccountManager.saveAccount(SplashActivity.this, entity);
+						}
 					}
 				}
 
-				@Override
-				public void onFailed(int requestCode, Exception error, String msg) {
-				}
-			});
-		} else if (!TextUtils.isEmpty(weixinToken)) {
-			RequestService.getInstance().weixinAuthRegLog(this, weixinToken, "", "", channel,appInstitutionId+"", BaseEntity.class, new RequestListener() {
-				
-				@Override
-				public void onSuccess(int requestCode, BaseEntity resultData) {
-					if(resultData.isOk()){
-						LoginRegEntity entity = (LoginRegEntity) resultData;
-						AccountManager.saveAccount(SplashActivity.this, entity);
-					}
-				}
-				
 				@Override
 				public void onFailed(int requestCode, Exception error, String msg) {
 				}
 			});
 		}
+
 	}
 }

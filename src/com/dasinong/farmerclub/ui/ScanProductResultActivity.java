@@ -159,6 +159,12 @@ public class ScanProductResultActivity extends BaseActivity implements OnClickLi
 			fos.write(bytes);
 			fos.flush();
 			fos.close();
+//			FileWriter fw = new FileWriter(currentFile, true);
+//			BufferedWriter bw = new BufferedWriter(fw);
+//			bw.write(text);
+//			bw.newLine();
+//			bw.close();
+//			fw.close();
 			isSuccess = true;
 		} catch (Exception e) {
 			e.printStackTrace();
