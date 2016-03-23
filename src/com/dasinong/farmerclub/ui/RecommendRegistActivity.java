@@ -69,6 +69,7 @@ public class RecommendRegistActivity extends BaseActivity implements OnClickList
 		switch (v.getId()) {
 		case R.id.btn_scan:
 			Intent intent = new Intent(RecommendRegistActivity.this, CaptureActivity.class);
+			intent.putExtra("isForResult", true);
 			startActivityForResult(intent, 0);
 			break;
 		case R.id.btn_sure:
