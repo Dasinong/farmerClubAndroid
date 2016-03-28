@@ -82,7 +82,13 @@ public class BindActivity extends BaseActivity {
 					
 					AccountManager.saveAccount(BindActivity.this, entity);
 					
+					if(MainTabActivity.activity != null){
+						MainTabActivity.activity.finish();
+					}
 					finish();
+					
+					Intent intent = new Intent(BindActivity.this, SplashActivity.class);
+					startActivity(intent);
 					
 				} else {
 					showToast(resultData.getMessage());
