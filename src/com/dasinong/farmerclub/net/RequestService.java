@@ -419,5 +419,9 @@ public class RequestService {
 		Map<String, String> params = NetConfig.getDefaultParams();
 		new NetRequest(context).get(RequestCode.CHECK_BSF_STOCK, params, SubUrl.CHECK_BSF_STOCK, callBack, clazz);
 	}
+	public void stores(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getDefaultParams();
+		new NetRequest(context).get(RequestCode.STORES, params, SubUrl.STORES, callBack, clazz);
+	}
 	
 }

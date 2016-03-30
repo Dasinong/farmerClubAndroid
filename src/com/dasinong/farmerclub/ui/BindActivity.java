@@ -24,7 +24,7 @@ public class BindActivity extends BaseActivity {
 	private TopbarView topbar;
 	private EditText inputCode;
 	private Button btnSure;
-	private TextView tv_skip;
+	private TextView tvSkip;
 	private Button btn_scan;
 
 	@Override
@@ -41,9 +41,6 @@ public class BindActivity extends BaseActivity {
 		inputCode = (EditText) findViewById(R.id.et_input_recommend_code);
 		btnSure = (Button) findViewById(R.id.btn_sure);
 		btn_scan = (Button) findViewById(R.id.btn_scan);
-		tv_skip = (TextView) findViewById(R.id.tv_skip);
-		
-		tv_skip.setVisibility(View.GONE);
 		
 		btnSure.setOnClickListener(new OnClickListener() {
 
@@ -64,7 +61,6 @@ public class BindActivity extends BaseActivity {
 			@Override
 			public void onClick(View arg0) {
 				Intent intent = new Intent(BindActivity.this, CaptureActivity.class);
-				intent.putExtra("isForResult", true);
 				startActivityForResult(intent, 0);
 			}
 		});
@@ -82,13 +78,7 @@ public class BindActivity extends BaseActivity {
 					
 					AccountManager.saveAccount(BindActivity.this, entity);
 					
-					if(MainTabActivity.activity != null){
-						MainTabActivity.activity.finish();
-					}
 					finish();
-					
-					Intent intent = new Intent(BindActivity.this, SplashActivity.class);
-					startActivity(intent);
 					
 				} else {
 					showToast(resultData.getMessage());

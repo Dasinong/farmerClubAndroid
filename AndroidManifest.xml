@@ -185,6 +185,14 @@
             android:screenOrientation="portrait">
         </activity>
         <activity 
+            android:name="com.dasinong.farmerclub.ui.RetailerInfoSetActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity 
+            android:name="com.dasinong.farmerclub.ui.RetailerInfoActivity"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity 
             android:name="com.dasinong.farmerclub.ui.SearchBasfPesticideResultActivity"
             android:screenOrientation="portrait">
         </activity>

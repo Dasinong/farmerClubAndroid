@@ -66,7 +66,6 @@ public class MyInfoSetActivity extends BaseActivity {
 	private List<String> province;
 	private CityDaoImpl dao;
 	protected IsPassSetEntity entity;
-	private boolean isRetailer;
 	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -83,7 +82,6 @@ public class MyInfoSetActivity extends BaseActivity {
 	private void initData() {
 		editType = getIntent().getIntExtra("editType", EDIT_PHONE);
 		isNewPwd = getIntent().getBooleanExtra("isNewPwd", false);
-		isRetailer = getIntent().getBooleanExtra("isRetailer",false);
 	}
 
 	private void initView() {
@@ -105,11 +103,7 @@ public class MyInfoSetActivity extends BaseActivity {
 		case EDIT_PHONE:
 			mEditText.setVisibility(View.VISIBLE);
 
-			if(isRetailer){
-				mTopbarView.setCenterText("联系方式");
-			} else {
-				mTopbarView.setCenterText("手机号码");
-			}
+			mTopbarView.setCenterText("手机号码");
 			mEditText.setHint("11位电话号码");
 			mEditText.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_VARIATION_NORMAL);
 			break;
@@ -122,24 +116,14 @@ public class MyInfoSetActivity extends BaseActivity {
 			mEditText.setVisibility(View.VISIBLE);
 
 			mEditText.setVisibility(View.VISIBLE);
-			if(isRetailer){
-				mTopbarView.setCenterText("店铺名称");
-				mEditText.setHint("店铺名称");
-			} else {
-				mTopbarView.setCenterText("真实姓名");
-				mEditText.setHint("真实姓名");
-			}
+			mTopbarView.setCenterText("真实姓名");
+			mEditText.setHint("真实姓名");
 			break;
 		case EDIT_ADDRESS:
 			mSelectAreaLayout.setVisibility(View.VISIBLE);
 			mEditText.setVisibility(View.VISIBLE);
-			if(isRetailer){
-				mTopbarView.setCenterText("店铺地址");
-				mEditText.setHint("店铺详细地址");
-			} else {
-				mTopbarView.setCenterText("我的地址");
-				mEditText.setHint("您的详细地址");
-			}
+			mTopbarView.setCenterText("我的地址");
+			mEditText.setHint("您的详细地址");
 			initProvince();
 			break;
 		case EDIT_HOME_PHONE:

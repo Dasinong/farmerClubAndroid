@@ -29,6 +29,7 @@ import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.MyCouponsEntity.Coupon;
 import com.dasinong.farmerclub.entity.MyCouponsEntity.UseStatus;
 import com.dasinong.farmerclub.entity.RetailerCampaignEntity;
+import com.dasinong.farmerclub.entity.RetailerInfoEntity;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
 import com.dasinong.farmerclub.ui.BaseActivity;
@@ -38,6 +39,7 @@ import com.dasinong.farmerclub.ui.CouponQRCodeActivity;
 import com.dasinong.farmerclub.ui.MyCouponActivity;
 import com.dasinong.farmerclub.ui.MyInfoActivity;
 import com.dasinong.farmerclub.ui.RetailerCouponActivity;
+import com.dasinong.farmerclub.ui.RetailerInfoActivity;
 import com.dasinong.farmerclub.ui.SelectUserTypeActivity;
 import com.dasinong.farmerclub.ui.StorageManagerActivity;
 import com.dasinong.farmerclub.ui.adapter.CouponAdapter;
@@ -231,8 +233,7 @@ public class CouponFragment extends Fragment implements OnClickListener {
 			startActivity(retailerCouponIntent);
 			break;
 		case R.id.rl_retailer_info:
-			Intent infoIntent = new Intent(getActivity(), MyInfoActivity.class);
-			infoIntent.putExtra("isRetailer", true);
+			Intent infoIntent = new Intent(getActivity(), RetailerInfoActivity.class);
 			startActivity(infoIntent);
 			break;
 		case R.id.rl_storage_manager:

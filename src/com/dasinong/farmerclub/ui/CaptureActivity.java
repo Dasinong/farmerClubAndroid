@@ -183,16 +183,12 @@ public class CaptureActivity extends BaseActivity implements Callback {
 		} else {
 			if (resultString.contains("&")) {
 				String[] split = resultString.split("&");
-				String refCode = split[1].split("=")[1];
 				if ("refcode".equals(split[0].split("=")[1])) {
-					boolean isForResult = getIntent().getBooleanExtra("isForResult", false);
-					if(isForResult){
-						Intent intent = new Intent();
-						intent.putExtra("refcode", refCode);
-						setResult(RESULT_OK,intent);
-					} else {
-						sendRefQuery(refCode);
-					}
+					String refCode = split[1].split("=")[1];
+					Intent intent = new Intent();
+					intent.putExtra("refcode", refCode);
+					setResult(RESULT_OK,intent);
+//					sendRefQuery(refCode);
 				} else if ("coupon".equals(split[0].split("=")[1])) {
 					String userId = split[1].split("=")[1];
 					String couponId = split[2].split("=")[1];

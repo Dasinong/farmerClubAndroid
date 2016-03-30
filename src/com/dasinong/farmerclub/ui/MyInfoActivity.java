@@ -71,23 +71,12 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 
 	CropParams mCropParams = new CropParams();
 
-	private boolean isRetailer;
-
-	private TextView tv_des_name;
-
-	private TextView tv_des_addres;
-
-	private TextView tv_des_phone;
-
 	private String userId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_info);
-		
-		isRetailer = getIntent().getBooleanExtra("isRetailer", false);
-		
 		userId = SharedPreferencesHelper.getString(this, Field.USER_ID, "");
 
 		initView();
@@ -211,31 +200,12 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 		mHomephoneLayout = (RelativeLayout) this.findViewById(R.id.layout_home_phone);
 		mHomephoneText = (TextView) this.findViewById(R.id.textview_home_phone);
 		
-		tv_des_name = (TextView) findViewById(R.id.tv_des_name);
-		tv_des_addres = (TextView) findViewById(R.id.tv_des_addres);
-		tv_des_phone = (TextView) findViewById(R.id.tv_des_phone);
-
-		
 		mLogoutLayout = this.findViewById(R.id.layout_logout);
-		
-		if(isRetailer){
-			mResetPwdLayout.setVisibility(View.GONE);
-			mHomephoneLayout.setVisibility(View.GONE);
-			mLogoutLayout.setVisibility(View.GONE);
-			
-			tv_des_name.setText("店铺名称");
-			tv_des_addres.setText("店铺地址");
-			tv_des_phone.setText("联系方式");
-		}
 		
 	}
 
 	private void setUpView() {
-		if(isRetailer){
-			mTopbarView.setCenterText("店铺信息");
-		} else {
-			mTopbarView.setCenterText("个人信息");
-		}
+		mTopbarView.setCenterText("个人信息");
 		mTopbarView.setLeftView(true, true);
 		// mTopbarView.setRightText("提交");
 		// mTopbarView.setRightClickListener(new OnClickListener() {
@@ -502,7 +472,6 @@ public class MyInfoActivity extends BaseActivity implements OnClickListener, Cro
 	private void editInfo(int type) {
 		Intent intent = new Intent(this, MyInfoSetActivity.class);
 		intent.putExtra("editType", type);
-		intent.putExtra("isRetailer", isRetailer);
 		startActivityForResult(intent, type);
 	}
 

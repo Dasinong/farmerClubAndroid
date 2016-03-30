@@ -65,7 +65,6 @@
                 android:paddingRight="20dp" >
 
                 <TextView
-                   	android:id="@+id/tv_des_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -142,7 +141,6 @@
                 android:paddingRight="20dp" >
 
                 <TextView
-                    android:id="@+id/tv_des_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
@@ -181,7 +179,6 @@
                 android:paddingRight="20dp" >
 
                 <TextView
-                    android:id="@+id/tv_des_addres"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
