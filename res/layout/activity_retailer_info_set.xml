@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp" >
     </com.dasinong.farmerclub.ui.view.TopbarView>
-
-    <LinearLayout
+  
+    <!--       <LinearLayout
         android:id="@+id/layout_select_area"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -145,6 +145,29 @@
                 android:layout_marginRight="10dp"
                 android:src="@drawable/drop_down" />
         </RelativeLayout>
+    </LinearLayout>      -->
+
+
+    <LinearLayout
+        android:id="@+id/layout_select_area"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:orientation="vertical" >
+
+        <com.dasinong.farmerclub.ui.view.SelectAreaView
+            android:id="@+id/sav_area"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <EditText
+            android:id="@+id/et_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/text_bg"
+            android:hint="路名和门牌号"
+            android:padding="5dp" />
     </LinearLayout>
 
     <EditText

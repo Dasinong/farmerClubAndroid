@@ -17,6 +17,7 @@ import com.dasinong.farmerclub.entity.VillageInfo;
 import android.content.Context;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
@@ -190,6 +191,38 @@ public class SelectAreaView extends LinearLayout {
 		} else {
 			return villageMap.get((String) mVillageSp.getSelectedItem());
 		}
+	}
+	
+	public String getAddress(){
+		if (mProvinceSp.getSelectedItemPosition() == 0) {
+			Toast.makeText(context, "请选择省", Toast.LENGTH_SHORT).show();
+			return null;
+		}
+		if (mCitySp.getSelectedItemPosition() == 0) {
+			Toast.makeText(context, "请选择市", Toast.LENGTH_SHORT).show();
+			return null;
+		}
+		if (mAreaSp.getSelectedItemPosition() == 0) {
+			Toast.makeText(context, "请选择区", Toast.LENGTH_SHORT).show();
+			return null;
+		}
+		if (mTownsSp.getSelectedItemPosition() == 0) {
+			Toast.makeText(context, "请选择镇", Toast.LENGTH_SHORT).show();
+			return null;
+		}
+		if(mVillageSp.getVisibility() == View.VISIBLE){
+			if (mVillageSp.getSelectedItemPosition() == 0){
+				Toast.makeText(context, "请选择村", Toast.LENGTH_SHORT).show();
+				return null;
+			}
+		}
+		String province = (String) mProvinceSp.getSelectedItem();
+		String city = (String) mCitySp.getSelectedItem();
+		String area = (String) mAreaSp.getSelectedItem();
+		String towns = (String) mTownsSp.getSelectedItem();
+		String village = (String) mVillageSp.getSelectedItem();
+
+		return province + " " + city + " " + area + " " + towns + " " + village;
 	}
 
 	public interface OnGetVillagesListener {

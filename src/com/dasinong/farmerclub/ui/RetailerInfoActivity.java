@@ -36,7 +36,7 @@ public class RetailerInfoActivity extends BaseActivity implements OnClickListene
 		setContentView(R.layout.activity_retailer_info);
 
 		initView();
-		
+
 		initTopBar();
 
 		queryData();
@@ -49,7 +49,7 @@ public class RetailerInfoActivity extends BaseActivity implements OnClickListene
 	}
 
 	private void initView() {
-		
+
 		topbar = (TopbarView) findViewById(R.id.topbar);
 		layout_headview = (RelativeLayout) findViewById(R.id.layout_headview);
 		layout_phoneNumber = (RelativeLayout) findViewById(R.id.layout_phoneNumber);
@@ -94,7 +94,7 @@ public class RetailerInfoActivity extends BaseActivity implements OnClickListene
 		}
 		String headerUrl = SharedPreferencesHelper.getString(this, Field.PICTURE_ID, "");
 		BitmapUtils bitmapUtils = new BitmapUtils(this);
-		bitmapUtils.display(iv_headerview,  NetConfig.IMAGE_URL + headerUrl);
+		bitmapUtils.display(iv_headerview, NetConfig.IMAGE_URL + headerUrl);
 		bitmapUtils.configDefaultLoadFailedImage(R.drawable.header_default);
 		tv_phone_number.setText(entity.data.store.phone);
 		tv_name.setText(entity.data.store.name);
@@ -105,23 +105,43 @@ public class RetailerInfoActivity extends BaseActivity implements OnClickListene
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.layout_headview:
-			
+
 			break;
 		case R.id.layout_phoneNumber:
 			Intent phoneIntent = new Intent(this, RetailerInfoSetActivity.class);
 			phoneIntent.putExtra("editType", RetailerInfoSetActivity.EDIT_RETAILER_PHONE);
-			startActivity(phoneIntent);
+			startActivityForResult(phoneIntent, RetailerInfoSetActivity.EDIT_RETAILER_PHONE);
 			break;
 		case R.id.layout_name:
 			Intent nameIntent = new Intent(this, RetailerInfoSetActivity.class);
 			nameIntent.putExtra("editType", RetailerInfoSetActivity.EDIT_RETAILER_NAME);
-			startActivity(nameIntent);
+			startActivityForResult(nameIntent, RetailerInfoSetActivity.EDIT_RETAILER_NAME);
 			break;
 		case R.id.layout_address:
 			Intent addressIntent = new Intent(this, RetailerInfoSetActivity.class);
 			addressIntent.putExtra("editType", RetailerInfoSetActivity.EDIT_RETAILER_ADDRESS);
-			startActivity(addressIntent);
+			startActivityForResult(addressIntent, RetailerInfoSetActivity.EDIT_RETAILER_ADDRESS);
 			break;
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			String info = data.getStringExtra("info");
+			if (info != null) {
+				switch (requestCode) {
+				case RetailerInfoSetActivity.EDIT_RETAILER_PHONE:
+					tv_phone_number.setText(info);
+					break;
+				case RetailerInfoSetActivity.EDIT_RETAILER_NAME:
+					tv_name.setText(info);
+					break;
+				case RetailerInfoSetActivity.EDIT_RETAILER_ADDRESS:
+					tv_address.setText(info);
+					break;
+				}
+			}
 		}
 	}
 }
