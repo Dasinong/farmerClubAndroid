@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Set;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.hardware.Camera.Area;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,10 +16,13 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.dasinong.farmerclub.DsnApplication;
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.BaseEntity;
+import com.dasinong.farmerclub.entity.RetailerInfoEntity;
 import com.dasinong.farmerclub.entity.VillageInfo;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.RequestService;
@@ -42,14 +47,40 @@ public class SubmitBusinessmanInfo extends BaseActivity implements OnCheckedChan
 
 	private Set<Integer> typeSet = new HashSet<Integer>();
 	private EditText et_address;
+	private boolean isUpdata;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_businessman_info);
+		isUpdata = getIntent().getBooleanExtra("isUpdata", false);
 		initView();
+		if (isUpdata) {
+			queryData();
+		}
 		initTopBar();
 		initEvent();
+	}
+
+	private void queryData() {
+		startLoadingDialog();
+		RequestService.getInstance().stores(this, RetailerInfoEntity.class, new RequestListener() {
+
+			@Override
+			public void onSuccess(int requestCode, BaseEntity resultData) {
+				if (resultData.isOk()) {
+					RetailerInfoEntity entity = (RetailerInfoEntity) resultData;
+					setData(entity);
+				}
+
+				dismissLoadingDialog();
+			}
+
+			@Override
+			public void onFailed(int requestCode, Exception error, String msg) {
+				dismissLoadingDialog();
+			}
+		});
 	}
 
 	private void initView() {
@@ -66,31 +97,96 @@ public class SubmitBusinessmanInfo extends BaseActivity implements OnCheckedChan
 		et_description = (EditText) findViewById(R.id.et_description);
 	}
 
+	protected void setData(RetailerInfoEntity entity) {
+		et_store_name.setText(entity.data.store.name);
+		et_phone.setText(entity.data.store.phone);
+		et_contacts.setText(entity.data.store.contactName);
+		et_description.setText(entity.data.store.desc);
+		
+		if((entity.data.store.type & types[0]) > 0){
+			cb_seed.setChecked(true);
+		}
+		
+		if((entity.data.store.type & types[1]) > 0){
+			cb_fertilizer.setChecked(true);
+		}
+		
+		if((entity.data.store.type & types[2]) > 0){
+			cb_pesticides.setChecked(true);
+		}
+		
+		if((entity.data.store.type & types[3]) > 0){
+			cb_wholesale.setChecked(true);
+		}
+		
+		cb_seed.setClickable(false);
+		cb_fertilizer.setClickable(false);
+		cb_pesticides.setClickable(false);
+		cb_wholesale.setClickable(false);
+		
+
+		et_store_name.setEnabled(false);
+		et_phone.setEnabled(false);
+		et_contacts.setEnabled(false);
+		et_description.setEnabled(false);
+		
+		sav_area.setVisibility(View.GONE);
+		et_address.setText(entity.data.store.location + entity.data.store.streetAndNumber);
+		et_address.setEnabled(false);
+		
+	}
+
 	private void initTopBar() {
 		topBar.setCenterText("商户认证");
 		topBar.setLeftView(true, true);
-		topBar.setRightText("完成");
+		if (isUpdata) {
+			topBar.setRightText("编辑");
+		} else {
+			topBar.setRightText("完成");
+
+		}
+
 		topBar.setRightClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String name = et_store_name.getText().toString().trim();
-				String villageId = sav_area.getVillageId();
-				String address = et_address.getText().toString().trim();
-				String phone = et_phone.getText().toString().trim();
-				String contacts = et_contacts.getText().toString().trim();
-				String descripthon = et_description.getText().toString().trim();
-				if (TextUtils.isEmpty(name) || TextUtils.isEmpty(villageId) || TextUtils.isEmpty(address) || TextUtils.isEmpty(phone)
-						|| TextUtils.isEmpty(contacts) || TextUtils.isEmpty(descripthon) || typeSet.isEmpty()) {
-					showToast("请完善以上所有信息");
-					return;
+
+				if ("完成".equals(topBar.getRightText())) {
+					String name = et_store_name.getText().toString().trim();
+					String villageId = sav_area.getVillageId();
+					String address = et_address.getText().toString().trim();
+					String phone = et_phone.getText().toString().trim();
+					String contacts = et_contacts.getText().toString().trim();
+					String descripthon = et_description.getText().toString().trim();
+					if (TextUtils.isEmpty(name) || TextUtils.isEmpty(villageId) || TextUtils.isEmpty(address) || TextUtils.isEmpty(phone)
+							|| TextUtils.isEmpty(contacts) || TextUtils.isEmpty(descripthon) || typeSet.isEmpty()) {
+						showToast("请完善以上所有信息");
+						return;
+					}
+					int intType = 0;
+					for (int item : typeSet) {
+						intType += item;
+					}
+					String type = String.valueOf(intType);
+					sendQuery(name, descripthon, villageId, address, contacts, phone, type);
+				} else if("编辑".equals(topBar.getRightText())){
+					et_store_name.setEnabled(true);
+					et_phone.setEnabled(true);
+					et_contacts.setEnabled(true);
+					et_description.setEnabled(true);
+					et_address.setEnabled(true);
+					
+					cb_seed.setClickable(true);
+					cb_fertilizer.setClickable(true);
+					cb_pesticides.setClickable(true);
+					cb_wholesale.setClickable(true);
+					
+					sav_area.setVisibility(View.VISIBLE);
+					et_address.setText("");
+					
+					topBar.setRightText("完成");
 				}
-				int intType = 0;
-				for (int item : typeSet) {
-					intType += item;
-				}
-				String type = String.valueOf(intType);
-				sendQuery(name, descripthon, villageId, address, contacts, phone, type);
 			}
+
 		});
 	}
 
@@ -102,7 +198,11 @@ public class SubmitBusinessmanInfo extends BaseActivity implements OnCheckedChan
 					public void onSuccess(int requestCode, BaseEntity resultData) {
 						if (resultData.isOk()) {
 							showToast("恭喜您，认证成功");
-							goToNext();
+							if (isUpdata) {
+								finish();
+							} else {
+								goToNext();
+							}
 						} else {
 							showToast(R.string.please_check_netword);
 						}

@@ -129,4 +129,8 @@ public class TopbarView extends RelativeLayout {
 		}
 	}
 	
+	public String getRightText(){
+		return mRightText.getText().toString().trim();
+	}
+	
 }

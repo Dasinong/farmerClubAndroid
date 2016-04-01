@@ -103,7 +103,7 @@ public class SelectAreaView extends LinearLayout {
 			}
 		});
 	}
-
+	
 	protected void setCity(final String province2) {
 		List<String> city = dao.getCity(province2);
 		city.add(0, "请选择市");
