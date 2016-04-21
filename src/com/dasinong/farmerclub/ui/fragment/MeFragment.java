@@ -147,7 +147,7 @@ public class MeFragment extends Fragment implements OnClickListener {
 			mBindLayout.setVisibility(View.GONE);
 		}
 		
-		if(enableWelfare && isFarmer){
+		if((enableWelfare || serverInstitutionId == 100)&& isFarmer){
 			mMyCouponLayout.setVisibility(View.VISIBLE);
 		} else {
 			mMyCouponLayout.setVisibility(View.GONE);

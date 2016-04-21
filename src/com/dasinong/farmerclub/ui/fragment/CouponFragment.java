@@ -189,7 +189,7 @@ public class CouponFragment extends Fragment implements OnClickListener {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					CouponCampaign item = (CouponCampaign) parent.getItemAtPosition(position);
-					if (userCouponStatus.containsKey(item.id)) {
+					if (userCouponStatus.containsKey(item.id) && !"INSURANCE".equals(item.type)) {
 						Coupon coupon = userCouponStatus.get(item.id);
 						if (UseStatus.NOT_USED.equals(coupon.displayStatus)) {
 							Intent intent = new Intent(getActivity(), CouponQRCodeActivity.class);
@@ -203,12 +203,14 @@ public class CouponFragment extends Fragment implements OnClickListener {
 							Intent intent = new Intent(getActivity(), CouponDetailActivity.class);
 							intent.putExtra("campaignId", item.id);
 							intent.putExtra("isApply", false);
+							intent.putExtra("type", item.type);
 							startActivity(intent);
 						}
 					} else {
 						Intent intent = new Intent(getActivity(), CouponDetailActivity.class);
 						intent.putExtra("campaignId", item.id);
 						intent.putExtra("isApply", true);
+						intent.putExtra("type", item.type);
 						startActivity(intent);
 					}
 				}

@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -41,6 +42,10 @@ public class ApplyCouponActivity extends BaseActivity {
 	private TopbarView topBar;
 	private String lat;
 	private String lon;
+	private boolean isInsurance;
+	private LinearLayout ll_amount;
+	private EditText et_amount;
+	private String amount;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -48,6 +53,7 @@ public class ApplyCouponActivity extends BaseActivity {
 		setContentView(R.layout.activity_apply_coupon);
 		
 		int id = getIntent().getIntExtra("campaignId", -1);
+		isInsurance = getIntent().getBooleanExtra("isInsurance", false);
 		lat = SharedPreferencesHelper.getString(this, Field.CURRENT_LAT, "");
 		lon = SharedPreferencesHelper.getString(this, Field.CURRENT_LON, "");
 		if (id != -1) {
@@ -69,8 +75,16 @@ public class ApplyCouponActivity extends BaseActivity {
 		et_name = (EditText) findViewById(R.id.et_name);
 		et_crop = (EditText) findViewById(R.id.et_crop);
 		et_size = (EditText) findViewById(R.id.et_size);
+		ll_amount = (LinearLayout) findViewById(R.id.ll_amount);
+		et_amount = (EditText) findViewById(R.id.et_amount);
 		rg_experience = (RadioGroup) findViewById(R.id.rg_experience);
 		btn_submit = (Button) findViewById(R.id.btn_submit);
+		
+		if(isInsurance){
+			ll_amount.setVisibility(View.VISIBLE);
+		} else {
+			ll_amount.setVisibility(View.GONE);
+		}
 	}
 	
 	private void initEvent() {
@@ -80,7 +94,7 @@ public class ApplyCouponActivity extends BaseActivity {
 				startLoadingDialog();
 				if(checkNull()){
 //					String name, String company, String crop, String area, String yield,String experience, String productUseHistory, String contactNumber
-					RequestService.getInstance().requestCoupon(ApplyCouponActivity.this, name, "", crop, size, "0", experience, "", "", BaseEntity.class, new RequestListener(){
+					RequestService.getInstance().requestCoupon(ApplyCouponActivity.this, name, "", crop, size, "0", amount, experience, "", "", BaseEntity.class, new RequestListener(){
 						@Override
 						public void onSuccess(int requestCode, BaseEntity resultData) {
 							if(resultData.isOk()){
@@ -144,7 +158,9 @@ public class ApplyCouponActivity extends BaseActivity {
 		name = et_name.getText().toString().trim();
 		crop = et_crop.getText().toString().trim();
 		size = et_size.getText().toString().trim();
+		amount = et_amount.getText().toString().trim();
 		checkedId = rg_experience.getCheckedRadioButtonId();
+		
 		
 		
 		if(TextUtils.isEmpty(name)){
@@ -159,13 +175,11 @@ public class ApplyCouponActivity extends BaseActivity {
 			showToast("请填写面积");
 			return false;
 		}
-		if(TextUtils.isEmpty(name)){
-			showToast("请填写姓名");
-			return false;
-		}
-		if(TextUtils.isEmpty(name)){
-			showToast("请填写姓名");
-			return false;
+		if(isInsurance){
+			if(TextUtils.isEmpty(amount)){
+				showToast("请填写数量");
+				return false;
+			}
 		}
 		if(checkedId == -1){
 			showToast("请选择种植经验");

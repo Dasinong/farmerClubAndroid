@@ -63,6 +63,7 @@ public class CouponDetailActivity extends BaseActivity {
 	private boolean isDaren;
 	private String lon;
 	private String lat;
+	private String type;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -71,6 +72,7 @@ public class CouponDetailActivity extends BaseActivity {
 
 		isApplay = getIntent().getBooleanExtra("isApply", true);
 		int id = getIntent().getIntExtra("campaignId", -1);
+		type = getIntent().getStringExtra("type");
 		lon = SharedPreferencesHelper.getString(this, Field.CURRENT_LON, "");
 		lat = SharedPreferencesHelper.getString(this, Field.CURRENT_LAT, "");
 		isDaren = SharedPreferencesHelper.getBoolean(this, Field.ISDAREN, false);
@@ -100,11 +102,21 @@ public class CouponDetailActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
+				
+				if("INSURANCE".equals(type)){
+					Intent intent = new Intent(CouponDetailActivity.this, ApplyCouponActivity.class);
+					intent.putExtra("campaignId", campaignId);
+					intent.putExtra("isInsurance", true);
+					startActivity(intent);
+					return;
+				} 
+				
 				if (isDaren) {
 					claimCoupon();
 				} else {
 					Intent intent = new Intent(CouponDetailActivity.this, ApplyCouponActivity.class);
 					intent.putExtra("campaignId", campaignId);
+					intent.putExtra("isInsurance", false);
 					startActivity(intent);
 				}
 			}
@@ -270,8 +282,9 @@ public class CouponDetailActivity extends BaseActivity {
 				ll_exchange_place.addView(divider);
 			}
 		}
-
-		if (campaign.stores.isEmpty()) {
+		
+		// TODO 测试使用，正式上线删除
+		if (campaign.stores.isEmpty() && "SAMPLE".equals(type)) {
 			btn_apply.setClickable(false);
 			btn_apply.setBackgroundResource(R.color.color_999999);
 			btn_apply.setText("本区域暂未开放");

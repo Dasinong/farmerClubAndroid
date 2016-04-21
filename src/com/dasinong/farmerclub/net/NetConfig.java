@@ -279,6 +279,7 @@ public class NetConfig {
 		public static final String company = "company";
 		public static final String boxcode = "boxcode";
 		public static final String stocking = "stocking";
+		public static final String amount = "amount";
 
 	}
 
@@ -759,13 +760,14 @@ public class NetConfig {
 		paramsMap.put(Params.lon, lon);
 		return getBaseParams(true, paramsMap);
 	}
-	public static Map<String, String> getRequestCouponParams(String name, String company, String crop, String area, String yield,String experience, String productUseHistory, String contactNumber) {
+	public static Map<String, String> getRequestCouponParams(String name, String company, String crop, String area, String yield, String amount, String experience, String productUseHistory, String contactNumber) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.name, name);
 		paramsMap.put(Params.company, company);
 		paramsMap.put(Params.crop, crop);
 		paramsMap.put(Params.area, area);
 		paramsMap.put(Params.yield, yield);
+		paramsMap.put(Params.amount, amount);
 		paramsMap.put(Params.experience, experience);
 		paramsMap.put(Params.productUseHistory, productUseHistory);
 		paramsMap.put(Params.contactNumber, contactNumber);

@@ -127,7 +127,8 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 		boolean isDaren = SharedPreferencesHelper.getBoolean(this, Field.ISDAREN, false);
 		boolean enableWelfare = SharedPreferencesHelper.getBoolean(this, Field.ENABLEWELFARE, false);
 
-		if (enableWelfare) {
+		// TODO  临时解决方案
+		if (enableWelfare || institutionId == 100) {
 			fragmentList.add(2, CouponFragment.class);
 			mImageViewList.add(2, R.drawable.main_tab3_selector);
 			mTextViewList.add(2, "活动");
