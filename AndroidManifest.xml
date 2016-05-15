@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dasinong.farmerclub"
-    android:versionCode="5"
-    android:versionName="2.0" >
+    android:versionCode="6"
+    android:versionName="2.1" >
 
     <uses-sdk
         android:minSdkVersion="14"
@@ -53,7 +53,8 @@
     <uses-permission android:name="android.permission.BROADCAST_PACKAGE_INSTALL" />
     <uses-permission android:name="android.permission.BROADCAST_PACKAGE_REPLACED" />
     <uses-permission android:name="android.permission.RESTART_PACKAGES" />
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
     <application
         android:name=".DsnApplication"
         android:allowBackup="true"
@@ -127,10 +128,6 @@
             android:name=".ui.ReportHarmActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".ui.ScanQRCoderActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppBaseTheme" />
-        <activity
             android:name=".ui.CaptureActivity"
             android:configChanges="orientation|keyboardHidden"
             android:screenOrientation="portrait"
@@ -182,14 +179,6 @@
         </activity>
         <activity 
             android:name="com.dasinong.farmerclub.ui.BindActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity 
-            android:name="com.dasinong.farmerclub.ui.RetailerInfoSetActivity"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity 
-            android:name="com.dasinong.farmerclub.ui.RetailerInfoActivity"
             android:screenOrientation="portrait">
         </activity>
         <activity 
@@ -345,13 +334,13 @@
             android:value="d93fa15fb9105a72e0f2a3a0f4bf9547" >
         </meta-data>
         <!-- Umeng channel -->
-        <meta-data
-            android:name="UMENG_CHANNEL"
-            android:value="Tencent" />
-      	<!-- 企业标志码 -->
-        <meta-data
-            android:name="INSTITUTION_ID"
-            android:value="0" />
+        <!--<meta-data-->
+            <!--android:name="UMENG_CHANNEL"-->
+            <!--android:value="Tencent" />-->
+      	<!--&lt;!&ndash; 企业标志码 &ndash;&gt;-->
+        <!--<meta-data-->
+            <!--android:name="INSTITUTION_ID"-->
+            <!--android:value="0" />-->
 
         <activity
             android:name=".ui.soil.SoilInformationActivity"
@@ -373,10 +362,6 @@
             android:name=".ui.soil.SoilAllListActivity"
             android:label="@string/title_activity_soil_information"
             android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name=".ui.soil.SoilBaseActivity"
-            android:label="@string/title_activity_soil_base" >
         </activity>
         <activity
             android:name=".ui.WebBrowserActivity"

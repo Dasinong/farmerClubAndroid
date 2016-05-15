@@ -111,7 +111,7 @@ public class CouponDetailActivity extends BaseActivity {
 					return;
 				} 
 				
-				if (isDaren) {
+				if (isDaren || campaignId == 14) {
 					claimCoupon();
 				} else {
 					Intent intent = new Intent(CouponDetailActivity.this, ApplyCouponActivity.class);
@@ -284,7 +284,7 @@ public class CouponDetailActivity extends BaseActivity {
 		}
 		
 		// TODO 测试使用，正式上线删除
-		if (campaign.stores.isEmpty() && "SAMPLE".equals(type)) {
+		if (campaign.stores.isEmpty()) {
 			btn_apply.setClickable(false);
 			btn_apply.setBackgroundResource(R.color.color_999999);
 			btn_apply.setText("本区域暂未开放");

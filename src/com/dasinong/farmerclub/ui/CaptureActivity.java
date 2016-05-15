@@ -223,7 +223,7 @@ public class CaptureActivity extends BaseActivity implements Callback {
 				} else if ("2101".equals(resultData.getRespCode())) {
 					showToast("已使用的优惠券");
 				} else if ("2102".equals(resultData.getRespCode())) {
-					showToast("活动已过期");
+					showToast("请在有效时间内使用");
 				} else if ("2103".equals(resultData.getRespCode())) {
 					showToast("未授权扫描该优惠券");
 				} else if ("2014".equals(resultData.getRespCode())) {
