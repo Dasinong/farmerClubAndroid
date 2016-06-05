@@ -19,6 +19,7 @@ import com.lidroid.xutils.BitmapUtils;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -35,6 +36,8 @@ public class RedeemRecordsActivity extends BaseActivity {
 	private String time;
 	private String url;
 	private TopbarView topBar;
+	private LinearLayout ll_money;
+	private String type;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -42,6 +45,7 @@ public class RedeemRecordsActivity extends BaseActivity {
 		setContentView(R.layout.activity_redeem_records);
 		
 		int campaignId = getIntent().getIntExtra("campaignId", -1);
+		type = getIntent().getStringExtra("type");
 		if(campaignId != -1){
 			requestData(campaignId);
 		}
@@ -56,9 +60,9 @@ public class RedeemRecordsActivity extends BaseActivity {
 
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
-				if(resultData.isOk()){
+				if (resultData.isOk()) {
 					ScannedCouponsEntity entity = (ScannedCouponsEntity) resultData;
-					if(entity.data != null && entity.data.coupons != null && entity.data.campaign != null){
+					if (entity.data != null && entity.data.coupons != null && entity.data.campaign != null) {
 						couponList = entity.data.coupons;
 						title = entity.data.campaign.name;
 						time = time2String(entity.data.campaign.redeemTimeStart, entity.data.campaign.redeemTimeStart);
@@ -68,12 +72,12 @@ public class RedeemRecordsActivity extends BaseActivity {
 				}
 				dismissLoadingDialog();
 			}
-			
+
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
 				dismissLoadingDialog();
 			}
-		} );
+		});
 	}
 
 	private void initTopBar() {
@@ -112,8 +116,13 @@ public class RedeemRecordsActivity extends BaseActivity {
 		tv_title = (TextView) findViewById(R.id.tv_title);
 		tv_time = (TextView) findViewById(R.id.tv_time);
 		tv_count = (TextView) findViewById(R.id.tv_count);
+		ll_money = (LinearLayout) findViewById(R.id.ll_money);
 		tv_all_amount = (TextView) findViewById(R.id.tv_all_amount);
 		list = (TableLayout) findViewById(R.id.tl_table);
+
+		if("INSURANCE".equals(type)){
+			ll_money.setVisibility(View.GONE);
+		}
 	}
 
 	private String formatTime(long time) {

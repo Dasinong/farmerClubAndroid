@@ -100,7 +100,9 @@ public class BindActivity extends BaseActivity {
 	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		String refCode = data.getStringExtra("refcode");
-		setRefCode(refCode);
+		if(data != null){
+			String refCode = data.getStringExtra("refcode");
+			setRefCode(refCode);
+		}
 	}
 }

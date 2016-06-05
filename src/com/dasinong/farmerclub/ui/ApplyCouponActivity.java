@@ -20,11 +20,17 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
+import android.widget.SimpleAdapter;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 public class ApplyCouponActivity extends BaseActivity {
 	private EditText et_name;
@@ -44,14 +50,21 @@ public class ApplyCouponActivity extends BaseActivity {
 	private String lon;
 	private boolean isInsurance;
 	private LinearLayout ll_amount;
-	private EditText et_amount;
-	private String amount;
+	private EditText et_jd;
+	private String comment;
+	private Spinner spinner_crop;
+	private String [] crops = {"请选择","香蕉","芒果","其他"};
+    private TextView tv_warning;
+    private EditText et_kr;
+    private String jdCount;
+    private String krCount;
+    private RelativeLayout rl_select_crop;
 
-	@Override
+    @Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_apply_coupon);
-		
+
 		int id = getIntent().getIntExtra("campaignId", -1);
 		isInsurance = getIntent().getBooleanExtra("isInsurance", false);
 		lat = SharedPreferencesHelper.getString(this, Field.CURRENT_LAT, "");
@@ -72,18 +85,36 @@ public class ApplyCouponActivity extends BaseActivity {
 
 	private void initView() {
 		topBar = (TopbarView) findViewById(R.id.topbar);
+        tv_warning = (TextView) findViewById(R.id.tv_warning);
 		et_name = (EditText) findViewById(R.id.et_name);
 		et_crop = (EditText) findViewById(R.id.et_crop);
-		et_size = (EditText) findViewById(R.id.et_size);
-		ll_amount = (LinearLayout) findViewById(R.id.ll_amount);
-		et_amount = (EditText) findViewById(R.id.et_amount);
-		rg_experience = (RadioGroup) findViewById(R.id.rg_experience);
-		btn_submit = (Button) findViewById(R.id.btn_submit);
-		
+        rl_select_crop = (RelativeLayout) findViewById(R.id.rl_select_crop);
+        spinner_crop = (Spinner) findViewById(R.id.spinner_crop);
+        et_size = (EditText) findViewById(R.id.et_size);
+        ll_amount = (LinearLayout) findViewById(R.id.ll_amount);
+        et_jd = (EditText) findViewById(R.id.et_jd);
+        et_kr = (EditText) findViewById(R.id.et_kr);
+        rg_experience = (RadioGroup) findViewById(R.id.rg_experience);
+        btn_submit = (Button) findViewById(R.id.btn_submit);
+
 		if(isInsurance){
 			ll_amount.setVisibility(View.VISIBLE);
 		} else {
 			ll_amount.setVisibility(View.GONE);
+		}
+
+		if("15".equals(campaignId) ){
+			et_crop.setVisibility(View.GONE);
+            rl_select_crop.setVisibility(View.VISIBLE);
+            tv_warning.setVisibility(View.VISIBLE);
+		} else {
+			et_crop.setVisibility(View.VISIBLE);
+            rl_select_crop.setVisibility(View.GONE);
+            tv_warning.setVisibility(View.GONE);
+		}
+
+		if(spinner_crop.getVisibility() == View.VISIBLE){
+			spinner_crop.setAdapter(new ArrayAdapter<String>(this,R.layout.textview,crops));
 		}
 	}
 	
@@ -94,13 +125,20 @@ public class ApplyCouponActivity extends BaseActivity {
 				startLoadingDialog();
 				if(checkNull()){
 //					String name, String company, String crop, String area, String yield,String experience, String productUseHistory, String contactNumber
-					RequestService.getInstance().requestCoupon(ApplyCouponActivity.this, name, "", crop, size, "0", amount, experience, "", "", BaseEntity.class, new RequestListener(){
+					if(TextUtils.isEmpty(jdCount)){
+						jdCount = "0";
+					}
+					if (TextUtils.isEmpty(krCount)){
+						krCount = "0";
+					}
+					comment = "健达:"+jdCount+";"+"凯润:"+krCount;
+					RequestService.getInstance().requestCoupon(ApplyCouponActivity.this, name, "", crop, size, "0", comment, experience, "", "", BaseEntity.class, new RequestListener(){
 						@Override
 						public void onSuccess(int requestCode, BaseEntity resultData) {
 							if(resultData.isOk()){
 								dismissLoadingDialog();
 								claimCoupon();
-							} 
+							}
 							dismissLoadingDialog();
 						}
 
@@ -119,7 +157,7 @@ public class ApplyCouponActivity extends BaseActivity {
 	
 	private void claimCoupon() {
 		startLoadingDialog();
-		RequestService.getInstance().claimCoupon(this, campaignId, lat, lon, ClaimCouponEntity.class, new RequestListener() {
+		RequestService.getInstance().claimCoupon(this, campaignId, comment, lat, lon, ClaimCouponEntity.class, new RequestListener() {
 			
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -132,7 +170,10 @@ public class ApplyCouponActivity extends BaseActivity {
 						intent.putExtra("name", entity.data.coupon.campaign.name);
 						intent.putExtra("time", entity.data.coupon.claimedAt);
 						intent.putExtra("id", entity.data.coupon.id);
+						intent.putExtra("amount", entity.data.coupon.amount);
+						intent.putExtra("type" , entity.data.coupon.type);
 						intent.putExtra("stores", (Serializable)entity.data.coupon.campaign.stores);
+						intent.putExtra("comment",entity.data.coupon.comment);
 						startActivity(intent);
 						finish();
 					}
@@ -143,6 +184,8 @@ public class ApplyCouponActivity extends BaseActivity {
 					showToast("对不起，活动已过期");
 				}else if("2003".equals(resultData.getRespCode())){
 					showToast("对不起，该优惠券已经被抢光了");
+				} else if("2106".equals(resultData.getRespCode())){
+					showToast(resultData.getMessage());
 				}
 				dismissLoadingDialog();
 			}
@@ -156,9 +199,14 @@ public class ApplyCouponActivity extends BaseActivity {
 
 	protected boolean checkNull() {
 		name = et_name.getText().toString().trim();
-		crop = et_crop.getText().toString().trim();
+		if(et_crop.getVisibility() == View.VISIBLE){
+			crop = et_crop.getText().toString().trim();
+		} else {
+			crop = crops[spinner_crop.getSelectedItemPosition()];
+		}
 		size = et_size.getText().toString().trim();
-		amount = et_amount.getText().toString().trim();
+        jdCount = et_jd.getText().toString().trim();
+        krCount = et_kr.getText().toString().trim();
 		checkedId = rg_experience.getCheckedRadioButtonId();
 		
 		
@@ -167,7 +215,7 @@ public class ApplyCouponActivity extends BaseActivity {
 			showToast("请填写姓名");
 			return false;
 		}
-		if(TextUtils.isEmpty(crop)){
+		if(TextUtils.isEmpty(crop) || "请选择".equals(crop)){
 			showToast("请填写作物");
 			return false;
 		}
@@ -176,10 +224,25 @@ public class ApplyCouponActivity extends BaseActivity {
 			return false;
 		}
 		if(isInsurance){
-			if(TextUtils.isEmpty(amount)){
+			if(TextUtils.isEmpty(krCount) && TextUtils.isEmpty(jdCount)){
 				showToast("请填写数量");
 				return false;
-			}
+			} else {
+				if (TextUtils.isEmpty(krCount)){
+					if(Float.parseFloat(jdCount) < 1){
+						showToast("购买数量太少无优惠卷");
+						return false;
+					}
+                } else if (TextUtils.isEmpty(jdCount) ){
+					if(Float.parseFloat(krCount) < 3){
+						showToast("购买数量太少无优惠卷");
+						return false;
+					}
+                } else if (Float.parseFloat(krCount) < 3 && Float.parseFloat(jdCount) < 1){
+                    showToast("购买数量太少无优惠卷");
+                    return false;
+                }
+            }
 		}
 		if(checkedId == -1){
 			showToast("请选择种植经验");

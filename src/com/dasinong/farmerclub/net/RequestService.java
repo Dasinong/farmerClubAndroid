@@ -377,13 +377,13 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.COUPON_CAMPAIGNS, params, SubUrl.COUPON_CAMPAIGNS + "/" + id, callBack, clazz);
 	}
 	
-	public void requestCoupon(Context context, String name, String company, String crop, String area, String yield, String amount, String experience, String productUseHistory, String contactNumber,  Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getRequestCouponParams(name, company, crop, area, yield, amount, experience, productUseHistory, contactNumber);
+	public void requestCoupon(Context context, String name, String company, String crop, String area, String yield, String comment, String experience, String productUseHistory, String contactNumber,  Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getRequestCouponParams(name, company, crop, area, yield, comment, experience, productUseHistory, contactNumber);
 		new NetRequest(context).requestPost(RequestCode.REQUEST_COUPON, params, SubUrl.REQUEST_COUPON, callBack, clazz);
 	}
 	
-	public void claimCoupon(Context context, String campaignId, String lat, String lon, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getClaimCouponParams(campaignId, lat, lon);
+	public void claimCoupon(Context context, String campaignId,String comment, String lat, String lon, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getClaimCouponParams(campaignId, comment, lat, lon);
 		new NetRequest(context).requestPost(RequestCode.CLAIM_COUPON, params, SubUrl.CLAIM_COUPON, callBack, clazz);
 	}
 	

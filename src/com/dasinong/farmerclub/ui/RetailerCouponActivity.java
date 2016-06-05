@@ -97,6 +97,7 @@ public class RetailerCouponActivity extends BaseActivity {
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					Intent intent = new Intent(RetailerCouponActivity.this, RedeemRecordsActivity.class);
 					intent.putExtra("campaignId", campaigns.get(position).id);
+					intent.putExtra("type",campaigns.get(position).type);
 					startActivity(intent);
 				}
 			});

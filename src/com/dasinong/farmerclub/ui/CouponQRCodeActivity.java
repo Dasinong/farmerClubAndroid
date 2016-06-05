@@ -43,6 +43,10 @@ public class CouponQRCodeActivity extends BaseActivity {
 	private List<Store> storeList;
 	private LinearLayout ll_exchange_place;
 	public static final long DAY_MS =  24 * 60 * 60 * 1000;
+	private int amount;
+	private TextView tv_amount;
+	private String type;
+	private String comment;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -60,6 +64,9 @@ public class CouponQRCodeActivity extends BaseActivity {
 			time = time2String(claimedTime, claimedTime + 30 * DAY_MS);
 		}
 		id = getIntent().getLongExtra("id", -1);
+		amount = getIntent().getIntExtra("amount", 0);
+		type = getIntent().getStringExtra("type");
+		comment = getIntent().getStringExtra("comment");
 		storeList = (List<Store>) getIntent().getSerializableExtra("stores");
 
 		initView();
@@ -126,6 +133,7 @@ public class CouponQRCodeActivity extends BaseActivity {
 		iv_pic = (ImageView) findViewById(R.id.iv_pic);
 		tv_title = (TextView) findViewById(R.id.tv_title);
 		tv_time = (TextView) findViewById(R.id.tv_time);
+		tv_amount = (TextView) findViewById(R.id.tv_amount);
 		iv_qrcode = (ImageView) findViewById(R.id.iv_qrcode);
 		tv_coupon_id = (TextView) findViewById(R.id.tv_coupon_id);
 		ll_exchange_place = (LinearLayout) findViewById(R.id.ll_exchange_place);
@@ -139,6 +147,11 @@ public class CouponQRCodeActivity extends BaseActivity {
 
 		tv_title.setText(name);
 		tv_time.setText("兑换日期：" + time);
+		if("INSURANCE".equals(type)){
+			tv_amount.setVisibility(View.VISIBLE);
+			comment.replace("；","  ");
+			tv_amount.setText("你购买了：" + comment );
+		}
 		bitmapUtils.display(iv_qrcode, NetConfig.COUPON_QRCODE_URL + id + ".png");
 		tv_coupon_id.setText("券号 " + id);
 	}

@@ -44,264 +44,263 @@ import com.dasinong.farmerclub.utils.LocationUtils.LocationListener;
 import com.lidroid.xutils.BitmapUtils;
 
 public class CouponDetailActivity extends BaseActivity {
-	private LinearLayout ll_pics;
-	private LinearLayout ll_exchange_place;
-	private TopbarView topBar;
-	private Map<String, List<Store>> map;
-	private TextView tv_title;
-	private TextView tv_amount;
-	private TextView tv_claim;
-	private TextView tv_description;
-	private TextView tv_redeem;
-	private Button btn_apply;
-	private int campaignId;
-	private ImageView iv_top_image;
+    private LinearLayout ll_pics;
+    private LinearLayout ll_exchange_place;
+    private TopbarView topBar;
+    private Map<String, List<Store>> map;
+    private TextView tv_title;
+    private TextView tv_amount;
+    private TextView tv_claim;
+    private TextView tv_description;
+    private TextView tv_redeem;
+    private Button btn_apply;
+    private int campaignId;
+    private ImageView iv_top_image;
 
-	private String province;
-	private String city;
-	private boolean isApplay;
-	private boolean isDaren;
-	private String lon;
-	private String lat;
-	private String type;
+    private String province;
+    private String city;
+    private boolean isApplay;
+    private boolean isDaren;
+    private String lon;
+    private String lat;
+    private String type;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_coupon_detail);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_coupon_detail);
 
-		isApplay = getIntent().getBooleanExtra("isApply", true);
-		int id = getIntent().getIntExtra("campaignId", -1);
-		type = getIntent().getStringExtra("type");
-		lon = SharedPreferencesHelper.getString(this, Field.CURRENT_LON, "");
-		lat = SharedPreferencesHelper.getString(this, Field.CURRENT_LAT, "");
-		isDaren = SharedPreferencesHelper.getBoolean(this, Field.ISDAREN, false);
+        isApplay = getIntent().getBooleanExtra("isApply", true);
+        int id = getIntent().getIntExtra("campaignId", -1);
+        type = getIntent().getStringExtra("type");
+        lon = SharedPreferencesHelper.getString(this, Field.CURRENT_LON, "");
+        lat = SharedPreferencesHelper.getString(this, Field.CURRENT_LAT, "");
+        isDaren = SharedPreferencesHelper.getBoolean(this, Field.ISDAREN, false);
 
-		initView();
-		queryData(String.valueOf(id));
-		initEvent();
-	}
+        initView();
+        queryData(String.valueOf(id));
+        initEvent();
+    }
 
-	private void initView() {
-		iv_top_image = (ImageView) findViewById(R.id.iv_top_image);
-		ll_pics = (LinearLayout) findViewById(R.id.ll_pics);
-		ll_exchange_place = (LinearLayout) findViewById(R.id.ll_exchange_place);
-		topBar = (TopbarView) findViewById(R.id.topbar);
+    private void initView() {
+        iv_top_image = (ImageView) findViewById(R.id.iv_top_image);
+        ll_pics = (LinearLayout) findViewById(R.id.ll_pics);
+        ll_exchange_place = (LinearLayout) findViewById(R.id.ll_exchange_place);
+        topBar = (TopbarView) findViewById(R.id.topbar);
 
-		tv_title = (TextView) findViewById(R.id.tv_title);
-		tv_amount = (TextView) findViewById(R.id.tv_amount);
-		tv_claim = (TextView) findViewById(R.id.tv_claim);
-		tv_description = (TextView) findViewById(R.id.tv_description);
-		tv_redeem = (TextView) findViewById(R.id.tv_redeem);
-		btn_apply = (Button) findViewById(R.id.btn_apply);
+        tv_title = (TextView) findViewById(R.id.tv_title);
+        tv_amount = (TextView) findViewById(R.id.tv_amount);
+        tv_claim = (TextView) findViewById(R.id.tv_claim);
+        tv_description = (TextView) findViewById(R.id.tv_description);
+        tv_redeem = (TextView) findViewById(R.id.tv_redeem);
+        btn_apply = (Button) findViewById(R.id.btn_apply);
 
-	}
+    }
 
-	private void initEvent() {
-		btn_apply.setOnClickListener(new OnClickListener() {
+    private void initEvent() {
+        btn_apply.setOnClickListener(new OnClickListener() {
 
-			@Override
-			public void onClick(View v) {
-				
-				if("INSURANCE".equals(type)){
-					Intent intent = new Intent(CouponDetailActivity.this, ApplyCouponActivity.class);
-					intent.putExtra("campaignId", campaignId);
-					intent.putExtra("isInsurance", true);
-					startActivity(intent);
-					return;
-				} 
-				
-				if (isDaren || campaignId == 14) {
-					claimCoupon();
-				} else {
-					Intent intent = new Intent(CouponDetailActivity.this, ApplyCouponActivity.class);
-					intent.putExtra("campaignId", campaignId);
-					intent.putExtra("isInsurance", false);
-					startActivity(intent);
-				}
-			}
-		});
+            @Override
+            public void onClick(View v) {
 
-		if (!isApplay) {
-			btn_apply.setClickable(false);
-			btn_apply.setBackgroundResource(R.color.color_999999);
-			btn_apply.setText("您已参加过此活动");
-		}
-	}
+                if ("INSURANCE".equals(type)) {
+                    Intent intent = new Intent(CouponDetailActivity.this, ApplyCouponActivity.class);
+                    intent.putExtra("campaignId", campaignId);
+                    intent.putExtra("isInsurance", true);
+                    startActivity(intent);
+                    return;
+                }
 
-	private void claimCoupon() {
-		startLoadingDialog();
-		RequestService.getInstance().claimCoupon(this, String.valueOf(campaignId), lat, lon, ClaimCouponEntity.class, new RequestListener() {
+                if (isDaren || campaignId == 14) {
+                    claimCoupon();
+                } else {
+                    Intent intent = new Intent(CouponDetailActivity.this, ApplyCouponActivity.class);
+                    intent.putExtra("campaignId", campaignId);
+                    intent.putExtra("isInsurance", false);
+                    startActivity(intent);
+                }
+            }
+        });
 
-			@Override
-			public void onSuccess(int requestCode, BaseEntity resultData) {
-				if (resultData.isOk()) {
-					showToast("领取成功");
-					ClaimCouponEntity entity = (ClaimCouponEntity) resultData;
-					if (entity.data != null && entity.data.coupon != null && entity.data.coupon.campaign != null) {
-						Intent intent = new Intent(CouponDetailActivity.this, CouponQRCodeActivity.class);
-						intent.putExtra("picUrl", entity.data.coupon.campaign.pictureUrls.get(0));
-						intent.putExtra("name", entity.data.coupon.campaign.name);
-						intent.putExtra("time", entity.data.coupon.claimedAt);
-						intent.putExtra("id", entity.data.coupon.id);
-						intent.putExtra("stores", (Serializable) entity.data.coupon.campaign.stores);
-						startActivity(intent);
-						finish();
-					}
+        if (!isApplay) {
+            btn_apply.setClickable(false);
+            btn_apply.setBackgroundResource(R.color.color_999999);
+            btn_apply.setText("您已参加过此活动");
+        }
+    }
 
-				} else if ("2001".equals(resultData.getRespCode())) {
-					showToast("您已领取过了，请勿重复领取");
-				} else if ("2002".equals(resultData.getRespCode())) {
-					showToast("对不起，活动已过期");
-				} else if ("2003".equals(resultData.getRespCode())) {
-					showToast("对不起，该优惠券已经被抢光了");
-				}
-				dismissLoadingDialog();
-			}
+    private void claimCoupon() {
+        startLoadingDialog();
+        RequestService.getInstance().claimCoupon(this, String.valueOf(campaignId), "", lat, lon, ClaimCouponEntity.class, new RequestListener() {
 
-			@Override
-			public void onFailed(int requestCode, Exception error, String msg) {
-				dismissLoadingDialog();
-			}
-		});
-	}
+            @Override
+            public void onSuccess(int requestCode, BaseEntity resultData) {
+                if (resultData.isOk()) {
+                    showToast("领取成功");
+                    ClaimCouponEntity entity = (ClaimCouponEntity) resultData;
+                    if (entity.data != null && entity.data.coupon != null && entity.data.coupon.campaign != null) {
+                        Intent intent = new Intent(CouponDetailActivity.this, CouponQRCodeActivity.class);
+                        intent.putExtra("picUrl", entity.data.coupon.campaign.pictureUrls.get(0));
+                        intent.putExtra("name", entity.data.coupon.campaign.name);
+                        intent.putExtra("time", entity.data.coupon.claimedAt);
+                        intent.putExtra("id", entity.data.coupon.id);
+                        intent.putExtra("stores", (Serializable) entity.data.coupon.campaign.stores);
+                        startActivity(intent);
+                        finish();
+                    }
 
-	private void queryData(String id) {
-		startLoadingDialog();
+                } else if ("2001".equals(resultData.getRespCode())) {
+                    showToast("您已领取过了，请勿重复领取");
+                } else if ("2002".equals(resultData.getRespCode())) {
+                    showToast("对不起，活动已过期");
+                } else if ("2003".equals(resultData.getRespCode())) {
+                    showToast("对不起，该优惠券已经被抢光了");
+                }
+                dismissLoadingDialog();
+            }
 
-		RequestService.getInstance().couponCampaigns(this, id, province, city, lat, lon, CouponDetailEntity.class, new RequestListener() {
+            @Override
+            public void onFailed(int requestCode, Exception error, String msg) {
+                dismissLoadingDialog();
+            }
+        });
+    }
 
-			@Override
-			public void onSuccess(int requestCode, BaseEntity resultData) {
-				if (resultData.isOk()) {
-					CouponDetailEntity entity = (CouponDetailEntity) resultData;
-					if (entity.data != null && entity.data.campaign != null) {
-						campaignId = entity.data.campaign.id;
-						formatData(entity.data.campaign);
+    private void queryData(String id) {
+        startLoadingDialog();
 
-						initTopBar(entity.data.campaign.name);
-					}
-				}
-				dismissLoadingDialog();
-			}
+        RequestService.getInstance().couponCampaigns(this, id, province, city, lat, lon, CouponDetailEntity.class, new RequestListener() {
 
-			@Override
-			public void onFailed(int requestCode, Exception error, String msg) {
-				dismissLoadingDialog();
-			}
-		});
-	}
+            @Override
+            public void onSuccess(int requestCode, BaseEntity resultData) {
+                if (resultData.isOk()) {
+                    CouponDetailEntity entity = (CouponDetailEntity) resultData;
+                    if (entity.data != null && entity.data.campaign != null) {
+                        campaignId = entity.data.campaign.id;
+                        formatData(entity.data.campaign);
 
-	private void formatData(CouponCampaign campaign) {
-		map = new HashMap<String, List<Store>>();
-		if (campaign.stores != null && !campaign.stores.isEmpty()) {
-			for (int i = 0; i < campaign.stores.size(); i++) {
-				if (!map.containsKey(campaign.stores.get(i).province)) {
-					List<Store> list = new ArrayList<Store>();
-					list.add(campaign.stores.get(i));
-					map.put(campaign.stores.get(i).province, list);
-				} else {
-					map.get(campaign.stores.get(i).province).add(campaign.stores.get(i));
-				}
-			}
-		}
-		setData(campaign);
-	}
+                        initTopBar(entity.data.campaign.name);
+                    }
+                }
+                dismissLoadingDialog();
+            }
 
-	private void initTopBar(String title) {
-		topBar.setCenterText(title);
-		topBar.setLeftView(true, true);
-	}
+            @Override
+            public void onFailed(int requestCode, Exception error, String msg) {
+                dismissLoadingDialog();
+            }
+        });
+    }
 
-	private void setData(CouponCampaign campaign) {
-		BitmapUtils bitmapUtils = new BitmapUtils(this);
+    private void formatData(CouponCampaign campaign) {
+        map = new HashMap<String, List<Store>>();
+        if (campaign.stores != null && !campaign.stores.isEmpty()) {
+            for (int i = 0; i < campaign.stores.size(); i++) {
+                if (!map.containsKey(campaign.stores.get(i).province)) {
+                    List<Store> list = new ArrayList<Store>();
+                    list.add(campaign.stores.get(i));
+                    map.put(campaign.stores.get(i).province, list);
+                } else {
+                    map.get(campaign.stores.get(i).province).add(campaign.stores.get(i));
+                }
+            }
+        }
+        setData(campaign);
+    }
 
-		bitmapUtils.display(iv_top_image, NetConfig.COUPON_IMAGE + campaign.pictureUrls.get(0));
+    private void initTopBar(String title) {
+        topBar.setCenterText(title);
+        topBar.setLeftView(true, true);
+    }
 
-		tv_title.setText(campaign.name);
+    private void setData(CouponCampaign campaign) {
+        BitmapUtils bitmapUtils = new BitmapUtils(this);
 
-		String claimTime = time2String(campaign.claimTimeStart, campaign.claimTimeEnd);
+        bitmapUtils.display(iv_top_image, NetConfig.COUPON_IMAGE + campaign.pictureUrls.get(0));
 
-		tv_claim.setText(claimTime);
+        tv_title.setText(campaign.name);
 
-		tv_description.setText(campaign.description);
+        String claimTime = time2String(campaign.claimTimeStart, campaign.claimTimeEnd);
 
-		String redeemTime = time2String(campaign.redeemTimeStart, campaign.redeemTimeEnd);
+        tv_claim.setText(claimTime);
 
-		tv_redeem.setText(redeemTime);
+        tv_description.setText(campaign.description);
 
-		if (campaign.amount != 0) {
-			tv_amount.setText("¥" + campaign.amount + ".00");
-		} else {
-			tv_amount.setVisibility(View.GONE);
-		}
+        String redeemTime = time2String(campaign.redeemTimeStart, campaign.redeemTimeEnd);
 
-		for (int i = 1; i < campaign.pictureUrls.size(); i++) {
-			ImageView imageView = new ImageView(this);
+        tv_redeem.setText(redeemTime);
 
-			LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, GraphicUtils.dip2px(this, 250));
-			params.setMargins(0, 0, 0, GraphicUtils.dip2px(this, 5));
-			imageView.setScaleType(ScaleType.CENTER_CROP);
-			imageView.setLayoutParams(params);
+        if (campaign.amount != 0) {
+            tv_amount.setText("¥" + campaign.amount + ".00");
+        } else {
+            tv_amount.setVisibility(View.GONE);
+        }
 
-			bitmapUtils.display(imageView, NetConfig.COUPON_IMAGE + campaign.pictureUrls.get(i));
+        for (int i = 1; i < campaign.pictureUrls.size(); i++) {
+            ImageView imageView = new ImageView(this);
 
-			ll_pics.addView(imageView);
-		}
+            LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, GraphicUtils.dip2px(this, 250));
+            params.setMargins(0, 0, 0, GraphicUtils.dip2px(this, 5));
+            imageView.setScaleType(ScaleType.CENTER_CROP);
+            imageView.setLayoutParams(params);
 
-		Set<String> keySet = map.keySet();
-		for (String province : keySet) {
-			TextView tv = new TextView(this);
-			LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, GraphicUtils.dip2px(this, 32.5f));
-			tv.setText(province);
-			tv.setPadding(GraphicUtils.dip2px(this, 15), 0, 0, 0);
-			tv.setTextColor(getResources().getColor(R.color.color_666666));
-			tv.setBackgroundResource(R.color.color_F5F5F5);
-			tv.setGravity(Gravity.CENTER_VERTICAL);
-			tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
+            bitmapUtils.display(imageView, NetConfig.COUPON_IMAGE + campaign.pictureUrls.get(i));
 
-			tv.setLayoutParams(params);
-			ll_exchange_place.addView(tv);
+            ll_pics.addView(imageView);
+        }
 
-			for (Store store : map.get(province)) {
-				View view = View.inflate(this, R.layout.item_exchange_place, null);
-				TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
-				TextView tv_address = (TextView) view.findViewById(R.id.tv_address);
-				TextView tv_phone = (TextView) view.findViewById(R.id.tv_phone);
+        Set<String> keySet = map.keySet();
+        for (String province : keySet) {
+            TextView tv = new TextView(this);
+            LinearLayout.LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, GraphicUtils.dip2px(this, 32.5f));
+            tv.setText(province);
+            tv.setPadding(GraphicUtils.dip2px(this, 15), 0, 0, 0);
+            tv.setTextColor(getResources().getColor(R.color.color_666666));
+            tv.setBackgroundResource(R.color.color_F5F5F5);
+            tv.setGravity(Gravity.CENTER_VERTICAL);
+            tv.setTextSize(TypedValue.COMPLEX_UNIT_SP, 14);
 
-				tv_name.setText(store.name);
-				tv_address.setText(store.location);
-				tv_phone.setText(store.phone);
+            tv.setLayoutParams(params);
+            ll_exchange_place.addView(tv);
 
-				LinearLayout.LayoutParams dividerParams = new LayoutParams(LayoutParams.MATCH_PARENT, GraphicUtils.dip2px(this, 0.5f));
-				View divider = new View(this);
-				divider.setBackgroundResource(R.color.color_DBE3E5);
-				divider.setLayoutParams(dividerParams);
-				view.setPadding(0, GraphicUtils.dip2px(this, 15), 0, GraphicUtils.dip2px(this, 15));
-				ll_exchange_place.addView(view);
-				ll_exchange_place.addView(divider);
-			}
-		}
-		
-		// TODO 测试使用，正式上线删除
-		if (campaign.stores.isEmpty()) {
-			btn_apply.setClickable(false);
-			btn_apply.setBackgroundResource(R.color.color_999999);
-			btn_apply.setText("本区域暂未开放");
-		}
-	}
+            for (Store store : map.get(province)) {
+                View view = View.inflate(this, R.layout.item_exchange_place, null);
+                TextView tv_name = (TextView) view.findViewById(R.id.tv_name);
+                TextView tv_address = (TextView) view.findViewById(R.id.tv_address);
+                TextView tv_phone = (TextView) view.findViewById(R.id.tv_phone);
 
-	private String time2String(long start, long end) {
-		SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
-		Date date = new Date();
+                tv_name.setText(store.name);
+                tv_address.setText(store.location);
+                tv_phone.setText(store.phone);
 
-		date.setTime(start);
-		String strStart = sdf.format(date).toString();
+                LinearLayout.LayoutParams dividerParams = new LayoutParams(LayoutParams.MATCH_PARENT, GraphicUtils.dip2px(this, 0.5f));
+                View divider = new View(this);
+                divider.setBackgroundResource(R.color.color_DBE3E5);
+                divider.setLayoutParams(dividerParams);
+                view.setPadding(0, GraphicUtils.dip2px(this, 15), 0, GraphicUtils.dip2px(this, 15));
+                ll_exchange_place.addView(view);
+                ll_exchange_place.addView(divider);
+            }
+        }
 
-		date.setTime(end);
-		String strEnd = sdf.format(date).toString();
+        if (campaign.stores.isEmpty()) {
+            btn_apply.setClickable(false);
+            btn_apply.setBackgroundResource(R.color.color_999999);
+            btn_apply.setText("本区域暂未开放");
+        }
+    }
 
-		return strStart + "-" + strEnd;
-	}
+    private String time2String(long start, long end) {
+        SimpleDateFormat sdf = new SimpleDateFormat("MM月dd日");
+        Date date = new Date();
+
+        date.setTime(start);
+        String strStart = sdf.format(date).toString();
+
+        date.setTime(end);
+        String strEnd = sdf.format(date).toString();
+
+        return strStart + "-" + strEnd;
+    }
 
 }

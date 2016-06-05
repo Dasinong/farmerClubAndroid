@@ -26,63 +26,61 @@ import com.dasinong.farmerclub.utils.GraphicUtils;
 
 public class MyCouponFragment extends Fragment {
 
-	private int fragmentPosition;
-	private List<Coupon> notUsedCoupons = new ArrayList<Coupon>();
-	private List<Coupon> usedOrExpiredCoupons = new ArrayList<Coupon>();
+    private int fragmentPosition;
+    private List<Coupon> notUsedCoupons = new ArrayList<Coupon>();
+    private List<Coupon> usedOrExpiredCoupons = new ArrayList<Coupon>();
 
-	// public static Fragment newInstance(int position, List<Coupon> list) {
-	// MyCouponFragment fragment = new MyCouponFragment();
-	// Bundle bundle = new Bundle();
-	// bundle.putInt("position", position);
-	// bundle.putParcelableArrayList("list", list);
-	// fragment.setArguments(bundle);
-	// return fragment;
-	// }
+    public static Fragment newInstance(int position, List<Coupon> list) {
+        MyCouponFragment fragment = new MyCouponFragment(position, list);
+        return fragment;
+    }
 
-	public MyCouponFragment(int position, List<Coupon> list) {
-		super();
-		this.fragmentPosition = position;
-		for (Coupon coupon : list) {
-			if (UseStatus.NOT_USED.equals(coupon.displayStatus)) {
-				notUsedCoupons.add(coupon);
-			} else {
-				usedOrExpiredCoupons.add(coupon);
-			}
-		}
-	}
+    public MyCouponFragment(int position, List<Coupon> list) {
+        super();
+        this.fragmentPosition = position;
+        for (Coupon coupon : list) {
+            if (UseStatus.NOT_USED.equals(coupon.displayStatus)) {
+                notUsedCoupons.add(coupon);
+            } else {
+                usedOrExpiredCoupons.add(coupon);
+            }
+        }
+    }
 
-	@Override
-	public void onCreate(@Nullable Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-	@Override
-	@Nullable
-	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-		
-		ListView listView = new ListView(getActivity());
-		if (fragmentPosition == 0) {
-			listView.setAdapter(new MyCouponAdapter(getActivity(), notUsedCoupons, false));
-			listView.setOnItemClickListener(new OnItemClickListener() {
+    @Override
+    @Nullable
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-				@Override
-				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-					Intent intent = new Intent(getActivity(),CouponQRCodeActivity.class);
-					intent.putExtra("picUrl",notUsedCoupons.get(position).campaign.pictureUrls.get(0));
-					intent.putExtra("name", notUsedCoupons.get(position).campaign.name);
-					intent.putExtra("time", notUsedCoupons.get(position).claimedAt);
-					intent.putExtra("id", notUsedCoupons.get(position).id);
-					intent.putExtra("stores", (Serializable)notUsedCoupons.get(position).campaign.stores);
-					
-					startActivity(intent);
-				}
-			});
-		} else if (fragmentPosition == 1) {
-			listView.setAdapter(new MyCouponAdapter(getActivity(), usedOrExpiredCoupons, false));
-		}
-		
-		listView.setPadding(GraphicUtils.dip2px(getActivity(), 15), 0, GraphicUtils.dip2px(getActivity(), 15), 0);
+        ListView listView = new ListView(getActivity());
+        if (fragmentPosition == 0) {
+            listView.setAdapter(new MyCouponAdapter(getActivity(), notUsedCoupons, false));
+            listView.setOnItemClickListener(new OnItemClickListener() {
 
-		return listView;
-	}
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Intent intent = new Intent(getActivity(), CouponQRCodeActivity.class);
+                    intent.putExtra("picUrl", notUsedCoupons.get(position).campaign.pictureUrls.get(0));
+                    intent.putExtra("name", notUsedCoupons.get(position).campaign.name);
+                    intent.putExtra("time", notUsedCoupons.get(position).claimedAt);
+                    intent.putExtra("id", notUsedCoupons.get(position).id);
+                    intent.putExtra("amount", notUsedCoupons.get(position).amount);
+                    intent.putExtra("type" , notUsedCoupons.get(position).type);
+                    intent.putExtra("stores", (Serializable) notUsedCoupons.get(position).campaign.stores);
+                    intent.putExtra("comment",notUsedCoupons.get(position).comment);
+                    startActivity(intent);
+                }
+            });
+        } else if (fragmentPosition == 1) {
+            listView.setAdapter(new MyCouponAdapter(getActivity(), usedOrExpiredCoupons, false));
+        }
+
+        listView.setPadding(GraphicUtils.dip2px(getActivity(), 15), 0, GraphicUtils.dip2px(getActivity(), 15), 0);
+
+        return listView;
+    }
 }

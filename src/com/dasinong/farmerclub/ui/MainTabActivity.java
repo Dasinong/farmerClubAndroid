@@ -191,9 +191,11 @@ public class MainTabActivity extends BaseActivity implements OnClickListener {
 		if (dir.exists() && dir.isDirectory() && dir.listFiles().length > 0) {
 			File[] files = dir.listFiles();
 			for (File file : files) {
-				int fileDay = Integer.valueOf(file.getName().substring(0, 8));
-				if (fileDay < intCurrentDay) {
-					fileList.add(file);
+				if(file.getName().length() > 8){
+					int fileDay = Integer.valueOf(file.getName().substring(0, 8));
+					if (fileDay < intCurrentDay) {
+						fileList.add(file);
+					}
 				}
 			}
 		}

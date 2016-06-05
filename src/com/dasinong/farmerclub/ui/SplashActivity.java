@@ -49,6 +49,9 @@ public class SplashActivity extends BaseActivity {
 		} else if (appInstitutionId == 3 || serverInstitutionId == 3) {
 			splash_iv.setImageResource(R.drawable.splash_image_basf_club);
 			setUserTag("巴斯夫");
+		} else if (appInstitutionId == 4 || serverInstitutionId == 4){
+			splash_iv.setImageResource(R.drawable.splash_image_zn_club);
+			setUserTag("中农");
 		}
 
 		if (!TextUtils.isEmpty(versionName)) {
