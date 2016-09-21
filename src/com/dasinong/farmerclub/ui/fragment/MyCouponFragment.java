@@ -66,7 +66,9 @@ public class MyCouponFragment extends Fragment {
                     Intent intent = new Intent(getActivity(), CouponQRCodeActivity.class);
                     intent.putExtra("picUrl", notUsedCoupons.get(position).campaign.pictureUrls.get(0));
                     intent.putExtra("name", notUsedCoupons.get(position).campaign.name);
-                    intent.putExtra("time", notUsedCoupons.get(position).claimedAt);
+                    if(notUsedCoupons.get(position).campaign.id != 15){
+                        intent.putExtra("time", notUsedCoupons.get(position).claimedAt);
+                    }
                     intent.putExtra("id", notUsedCoupons.get(position).id);
                     intent.putExtra("amount", notUsedCoupons.get(position).amount);
                     intent.putExtra("type" , notUsedCoupons.get(position).type);

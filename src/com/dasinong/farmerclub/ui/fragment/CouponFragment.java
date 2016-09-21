@@ -58,6 +58,8 @@ public class CouponFragment extends Fragment implements OnClickListener {
 	private RelativeLayout rl_retailer_info;
 	private RelativeLayout rl_storage_manager;
 	private Map<Integer, Coupon> userCouponStatus;
+	private String lat;
+	private String lon;
 
 	@Override
 	public void onAttach(Activity activity) {
@@ -71,6 +73,8 @@ public class CouponFragment extends Fragment implements OnClickListener {
 	public void onCreate(@Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		String userType = SharedPreferencesHelper.getString(getActivity(), Field.USER_TYPE, SelectUserTypeActivity.FARMER);
+		lat = SharedPreferencesHelper.getString(getActivity(), Field.CURRENT_LAT, "");
+		lon = SharedPreferencesHelper.getString(getActivity(), Field.CURRENT_LON, "");
 		if (SelectUserTypeActivity.RETAILER.equals(userType)) {
 			isFarmer = false;
 		}
@@ -118,7 +122,7 @@ public class CouponFragment extends Fragment implements OnClickListener {
 
 	private void queryFarmerData() {
 		mBaseActivity.startLoadingDialog();
-		RequestService.getInstance().couponCampaigns(getActivity(), AllCouponEntity.class, new RequestListener() {
+		RequestService.getInstance().couponCampaigns(getActivity(),lat,lon, AllCouponEntity.class, new RequestListener() {
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
 				if (resultData.isOk()) {
@@ -190,15 +194,19 @@ public class CouponFragment extends Fragment implements OnClickListener {
 				@Override
 				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 					CouponCampaign item = (CouponCampaign) parent.getItemAtPosition(position);
+//					CouponCampaign item = campaigns.get(position);
 					if (userCouponStatus.containsKey(item.id) && !"INSURANCE".equals(item.type)) {
 						Coupon coupon = userCouponStatus.get(item.id);
 						if (UseStatus.NOT_USED.equals(coupon.displayStatus)) {
 							Intent intent = new Intent(getActivity(), CouponQRCodeActivity.class);
 							intent.putExtra("picUrl", item.pictureUrls.get(0));
 							intent.putExtra("name", item.name);
-							intent.putExtra("time", coupon.claimedAt);
+							if(item.id != 15){
+								intent.putExtra("time", coupon.claimedAt);
+							}
 							intent.putExtra("stores", (Serializable) item.stores);
 							intent.putExtra("id", coupon.id);
+							intent.putExtra("campaignId",coupon.campaignId);
 							startActivity(intent);
 						} else {
 							Intent intent = new Intent(getActivity(), CouponDetailActivity.class);

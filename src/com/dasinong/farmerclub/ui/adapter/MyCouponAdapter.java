@@ -55,7 +55,7 @@ public class MyCouponAdapter extends MyBaseAdapter<Coupon> {
 		if (UseStatus.USED.equals(list.get(pos).displayStatus)) {
 			date.setTime(list.get(pos).redeemedAt);
 			String usedDate = sdf.format(date).toString();
-			viewHolder.tv_time.setText("使用日期：" + usedDate);
+			viewHolder.tv_time.setText("扫描日期：" + usedDate);
 		} else if (UseStatus.EXPIRED.equals(list.get(pos).displayStatus)) {
 			date.setTime(list.get(pos).claimedAt + 31 * 24 * 3600 * 1000);
 			String overdueData = sdf.format(date).toString();
@@ -68,8 +68,12 @@ public class MyCouponAdapter extends MyBaseAdapter<Coupon> {
 			} else {
 				time = time2String(list.get(pos).claimedAt, list.get(pos).claimedAt + 30 * DAY_MS);
 			}
-			
-			viewHolder.tv_time.setText("兑换时间：" + time);
+			if(list.get(pos).campaign.id == 15){
+				viewHolder.tv_time.setVisibility(View.GONE);
+			} else {
+				viewHolder.tv_time.setVisibility(View.VISIBLE);
+				viewHolder.tv_time.setText("兑换时间：" + time);
+			}
 		}
 		return view;
 	}

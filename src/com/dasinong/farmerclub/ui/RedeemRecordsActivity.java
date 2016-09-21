@@ -38,13 +38,14 @@ public class RedeemRecordsActivity extends BaseActivity {
 	private TopbarView topBar;
 	private LinearLayout ll_money;
 	private String type;
+	private int campaignId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_redeem_records);
-		
-		int campaignId = getIntent().getIntExtra("campaignId", -1);
+
+		campaignId = getIntent().getIntExtra("campaignId", -1);
 		type = getIntent().getStringExtra("type");
 		if(campaignId != -1){
 			requestData(campaignId);
@@ -65,7 +66,7 @@ public class RedeemRecordsActivity extends BaseActivity {
 					if (entity.data != null && entity.data.coupons != null && entity.data.campaign != null) {
 						couponList = entity.data.coupons;
 						title = entity.data.campaign.name;
-						time = time2String(entity.data.campaign.redeemTimeStart, entity.data.campaign.redeemTimeStart);
+						time = time2String(entity.data.campaign.redeemTimeStart, entity.data.campaign.redeemTimeEnd);
 						url = entity.data.campaign.pictureUrls.get(0);
 						setData();
 					}
@@ -122,6 +123,10 @@ public class RedeemRecordsActivity extends BaseActivity {
 
 		if("INSURANCE".equals(type)){
 			ll_money.setVisibility(View.GONE);
+		}
+
+		if(campaignId == 15){
+			tv_time.setVisibility(View.GONE);
 		}
 	}
 

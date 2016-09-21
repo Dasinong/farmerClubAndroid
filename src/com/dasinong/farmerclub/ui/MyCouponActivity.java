@@ -16,6 +16,7 @@ import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.PagerSlidingTabStrip;
 import com.dasinong.farmerclub.ui.view.TopbarView;
+import com.dasinong.farmerclub.utils.AppInfoUtils;
 
 public class MyCouponActivity extends BaseActivity {
 	
@@ -24,6 +25,7 @@ public class MyCouponActivity extends BaseActivity {
 	private ViewPager pager;
 	private String lat;
 	private String lon;
+	private boolean isBASF = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -83,8 +85,15 @@ public class MyCouponActivity extends BaseActivity {
         tabs.setTextSize(32);
         tabs.setSelectedTextColorResource(R.color.color_2BAD2A);
         tabs.setSelectedTextSize(32);
-        
-        pager.setAdapter(new MyCouponFragmentPagerAdapter(getSupportFragmentManager(),coupons));
+
+		int institutionId = SharedPreferencesHelper.getInt(this,Field.INSTITUTIONID,0);
+		int localInstitutionId = AppInfoUtils.getInstitutionId(this);
+
+		if(institutionId == 3 || localInstitutionId == 3){
+			isBASF = true;
+		}
+
+        pager.setAdapter(new MyCouponFragmentPagerAdapter(getSupportFragmentManager(), coupons, isBASF));
         
         tabs.setViewPager(pager);
 	}

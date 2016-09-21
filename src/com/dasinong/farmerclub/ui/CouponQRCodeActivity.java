@@ -10,6 +10,8 @@ import java.util.Map;
 import java.util.Set;
 
 import android.os.Bundle;
+import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -17,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TableLayout.LayoutParams;
+import android.widget.Toast;
 
 import com.dasinong.farmerclub.R;
 import com.dasinong.farmerclub.entity.AllCouponEntity.CouponCampaign;
@@ -47,6 +50,7 @@ public class CouponQRCodeActivity extends BaseActivity {
 	private TextView tv_amount;
 	private String type;
 	private String comment;
+	private int campaignId;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -58,16 +62,20 @@ public class CouponQRCodeActivity extends BaseActivity {
 		picUrl = getIntent().getStringExtra("picUrl");
 		name = getIntent().getStringExtra("name");
 		long claimedTime = getIntent().getLongExtra("time", 0);
-		if (isDaren) {
-			time = time2String(claimedTime + 10 * DAY_MS, claimedTime + 30 * DAY_MS);
-		} else {
-			time = time2String(claimedTime, claimedTime + 30 * DAY_MS);
+		if(claimedTime != 0){
+			if (isDaren) {
+				time = time2String(claimedTime + 10 * DAY_MS, claimedTime + 30 * DAY_MS);
+			} else {
+				time = time2String(claimedTime, claimedTime + 30 * DAY_MS);
+			}
 		}
+
 		id = getIntent().getLongExtra("id", -1);
 		amount = getIntent().getIntExtra("amount", 0);
 		type = getIntent().getStringExtra("type");
 		comment = getIntent().getStringExtra("comment");
 		storeList = (List<Store>) getIntent().getSerializableExtra("stores");
+		campaignId = getIntent().getIntExtra("campaignId",0);
 
 		initView();
 
@@ -137,6 +145,16 @@ public class CouponQRCodeActivity extends BaseActivity {
 		iv_qrcode = (ImageView) findViewById(R.id.iv_qrcode);
 		tv_coupon_id = (TextView) findViewById(R.id.tv_coupon_id);
 		ll_exchange_place = (LinearLayout) findViewById(R.id.ll_exchange_place);
+
+		if("INSURANCE".equals(type)){
+			findViewById(R.id.ll_store).setVisibility(View.GONE);
+		}
+
+		Log.e(getClass().getName(),campaignId + "  当前campaignId");
+
+		if(campaignId == 38 || campaignId == 40){
+			findViewById(R.id.ll_store).setVisibility(View.GONE);
+		}
 	}
 
 	private void setData() {
@@ -146,7 +164,14 @@ public class CouponQRCodeActivity extends BaseActivity {
 		bitmapUtils.display(iv_pic, NetConfig.COUPON_IMAGE + picUrl);
 
 		tv_title.setText(name);
-		tv_time.setText("兑换日期：" + time);
+
+		if(TextUtils.isEmpty(time)){
+			tv_time.setVisibility(View.GONE);
+		} else {
+			tv_time.setVisibility(View.VISIBLE);
+			tv_time.setText("兑换日期：" + time);
+		}
+
 		if("INSURANCE".equals(type)){
 			tv_amount.setVisibility(View.VISIBLE);
 			comment.replace("；","  ");

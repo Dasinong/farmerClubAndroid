@@ -280,6 +280,7 @@ public class NetConfig {
 		public static final String boxcode = "boxcode";
 		public static final String stocking = "stocking";
 		public static final String comment = "comment";
+		public static final String postcode = "postcode";
 	}
 
 	public static class ResponseCode {
@@ -759,7 +760,7 @@ public class NetConfig {
 		paramsMap.put(Params.lon, lon);
 		return getBaseParams(true, paramsMap);
 	}
-	public static Map<String, String> getRequestCouponParams(String name, String company, String crop, String area, String yield, String comment, String experience, String productUseHistory, String contactNumber) {
+	public static Map<String, String> getRequestCouponParams(String name, String company, String crop, String area, String yield, String comment, String experience, String productUseHistory, String contactNumber,String postcode,String address) {
 		Map<String, String> paramsMap = new HashMap<String, String>();
 		paramsMap.put(Params.name, name);
 		paramsMap.put(Params.company, company);
@@ -770,6 +771,8 @@ public class NetConfig {
 		paramsMap.put(Params.experience, experience);
 		paramsMap.put(Params.productUseHistory, productUseHistory);
 		paramsMap.put(Params.contactNumber, contactNumber);
+		paramsMap.put(Params.postcode, postcode);
+		paramsMap.put(Params.address, address);
 		return getBaseParams(true, paramsMap);
 	}
 	public static Map<String, String> getClaimCouponParams(String campaignId,String comment, String lat, String lon) {

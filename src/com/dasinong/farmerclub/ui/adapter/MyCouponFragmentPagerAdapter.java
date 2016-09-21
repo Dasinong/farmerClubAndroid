@@ -14,9 +14,12 @@ public class MyCouponFragmentPagerAdapter extends FragmentPagerAdapter {
 	String[] titles = { "未使用", "已失效" };
 	private List<Coupon> list;
 
-	public MyCouponFragmentPagerAdapter(FragmentManager fm, List<Coupon> list) {
+	public MyCouponFragmentPagerAdapter(FragmentManager fm, List<Coupon> list, boolean isBASF) {
 		super(fm);
 		this.list = list;
+		if(isBASF){
+			titles[1] = "已完成";
+		}
 	}
 
 	@Override

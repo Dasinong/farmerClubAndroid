@@ -362,8 +362,8 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.GET_CROP_DETAILS, params, SubUrl.GET_CROP_DETAILS, callBack, clazz);
 	}
 	
-	public void couponCampaigns(Context context, Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getDefaultParams();
+	public void couponCampaigns(Context context,String lat,String lon, Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getCouponCampaignsParams("", "", lat, lon);
 		new NetRequest(context).get(RequestCode.COUPON_CAMPAIGNS, params, SubUrl.COUPON_CAMPAIGNS, callBack, clazz);
 	}
 	
@@ -377,8 +377,8 @@ public class RequestService {
 		new NetRequest(context).get(RequestCode.COUPON_CAMPAIGNS, params, SubUrl.COUPON_CAMPAIGNS + "/" + id, callBack, clazz);
 	}
 	
-	public void requestCoupon(Context context, String name, String company, String crop, String area, String yield, String comment, String experience, String productUseHistory, String contactNumber,  Class<? extends BaseEntity> clazz, RequestListener callBack) {
-		Map<String, String> params = NetConfig.getRequestCouponParams(name, company, crop, area, yield, comment, experience, productUseHistory, contactNumber);
+	public void requestCoupon(Context context, String name, String company, String crop, String area, String yield, String comment, String experience, String productUseHistory, String contactNumber,String postcode,String address,  Class<? extends BaseEntity> clazz, RequestListener callBack) {
+		Map<String, String> params = NetConfig.getRequestCouponParams(name, company, crop, area, yield, comment, experience, productUseHistory, contactNumber,postcode,address);
 		new NetRequest(context).requestPost(RequestCode.REQUEST_COUPON, params, SubUrl.REQUEST_COUPON, callBack, clazz);
 	}
 	

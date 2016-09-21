@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.dasinong.farmerclub"
-   android:versionCode="7"
-     android:versionName="2.2" >
+   android:versionCode="9"
+     android:versionName="2.4" >
 
     <uses-sdk
         android:minSdkVersion="14"

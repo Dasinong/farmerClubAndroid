@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -178,10 +179,20 @@ public class CaptureActivity extends BaseActivity implements Callback {
     }
 
     private void dispatchRequest(String resultString) {
-        if (resultString.startsWith("http://")) {
-            Intent intent = new Intent(this, WebViewActivity.class);
-            intent.putExtra("url", resultString);
-            startActivity(intent);
+        resultString = resultString.trim();
+        if (resultString.startsWith("http:/")) {
+            if((resultString.startsWith("http://winsafe.cn/?b=") || resultString.startsWith("http:/awinsafe.cn/?b=")) && !isFarmer){
+                int start = resultString.indexOf("b=") + 2;
+                resultString = resultString.substring(start ,start + 25);
+                System.out.println(resultString  + " resultString +++++++++++++++++++++  ");
+                Intent intent = new Intent(this, ScanProductResultActivity.class);
+                intent.putExtra("boxcode", resultString);
+                startActivity(intent);
+            } else {
+                Intent intent = new Intent(this, WebViewActivity.class);
+                intent.putExtra("url", resultString);
+                startActivity(intent);
+            }
         } else {
             if (resultString.contains("&")) {
                 String[] split = resultString.split("&");
@@ -216,7 +227,7 @@ public class CaptureActivity extends BaseActivity implements Callback {
             public void onSuccess(int requestCode, BaseEntity resultData) {
                 if (resultData.isOk()) {
 //                    showToast("使用成功");
-                    showToast(resultData.getMessage());
+                    Toast.makeText(CaptureActivity.this,resultData.getMessage(),Toast.LENGTH_LONG).show();
                     CurrentCouponInfoEntity entity = (CurrentCouponInfoEntity) resultData;
                     if (entity.data != null && entity.data.coupon != null) {
                         if(entity.data.coupon.campaignId != 15){

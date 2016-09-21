@@ -1,6 +1,5 @@
 package com.dasinong.farmerclub.ui;
 
-import java.io.FileDescriptor;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,8 +11,6 @@ import java.util.Set;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -31,7 +28,6 @@ import com.dasinong.farmerclub.entity.AllCouponEntity.Store;
 import com.dasinong.farmerclub.entity.BaseEntity;
 import com.dasinong.farmerclub.entity.ClaimCouponEntity;
 import com.dasinong.farmerclub.entity.CouponDetailEntity;
-import com.dasinong.farmerclub.entity.LocationResult;
 import com.dasinong.farmerclub.net.NetRequest.RequestListener;
 import com.dasinong.farmerclub.net.NetConfig;
 import com.dasinong.farmerclub.net.RequestService;
@@ -39,8 +35,6 @@ import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper;
 import com.dasinong.farmerclub.ui.manager.SharedPreferencesHelper.Field;
 import com.dasinong.farmerclub.ui.view.TopbarView;
 import com.dasinong.farmerclub.utils.GraphicUtils;
-import com.dasinong.farmerclub.utils.LocationUtils;
-import com.dasinong.farmerclub.utils.LocationUtils.LocationListener;
 import com.lidroid.xutils.BitmapUtils;
 
 public class CouponDetailActivity extends BaseActivity {
@@ -64,6 +58,7 @@ public class CouponDetailActivity extends BaseActivity {
     private String lon;
     private String lat;
     private String type;
+    private int id;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -71,7 +66,7 @@ public class CouponDetailActivity extends BaseActivity {
         setContentView(R.layout.activity_coupon_detail);
 
         isApplay = getIntent().getBooleanExtra("isApply", true);
-        int id = getIntent().getIntExtra("campaignId", -1);
+        id = getIntent().getIntExtra("campaignId", -1);
         type = getIntent().getStringExtra("type");
         lon = SharedPreferencesHelper.getString(this, Field.CURRENT_LON, "");
         lat = SharedPreferencesHelper.getString(this, Field.CURRENT_LAT, "");
@@ -84,6 +79,7 @@ public class CouponDetailActivity extends BaseActivity {
 
     private void initView() {
         iv_top_image = (ImageView) findViewById(R.id.iv_top_image);
+
         ll_pics = (LinearLayout) findViewById(R.id.ll_pics);
         ll_exchange_place = (LinearLayout) findViewById(R.id.ll_exchange_place);
         topBar = (TopbarView) findViewById(R.id.topbar);
@@ -94,6 +90,18 @@ public class CouponDetailActivity extends BaseActivity {
         tv_description = (TextView) findViewById(R.id.tv_description);
         tv_redeem = (TextView) findViewById(R.id.tv_redeem);
         btn_apply = (Button) findViewById(R.id.btn_apply);
+
+        if ("INSURANCE".equals(type)) {
+            findViewById(R.id.ll_redeem).setVisibility(View.GONE);
+            findViewById(R.id.ll_store).setVisibility(View.GONE);
+            ((TextView) findViewById(R.id.tv_claim_text)).setText("活动时间");
+            btn_apply.setText("立即申请");
+        }
+
+        if (id == 38 || id == 40) {
+            findViewById(R.id.ll_store).setVisibility(View.GONE);
+            findViewById(R.id.line).setVisibility(View.GONE);
+        }
 
     }
 
@@ -113,6 +121,11 @@ public class CouponDetailActivity extends BaseActivity {
 
                 if (isDaren || campaignId == 14) {
                     claimCoupon();
+                } else if (campaignId == 38 || campaignId == 40) {
+                    Intent intent = new Intent(CouponDetailActivity.this,ApplyTSCouponActivity.class);
+                    intent.putExtra("campaignId", campaignId);
+                    intent.putExtra("isInsurance", false);
+                    startActivity(intent);
                 } else {
                     Intent intent = new Intent(CouponDetailActivity.this, ApplyCouponActivity.class);
                     intent.putExtra("campaignId", campaignId);
@@ -142,8 +155,11 @@ public class CouponDetailActivity extends BaseActivity {
                         Intent intent = new Intent(CouponDetailActivity.this, CouponQRCodeActivity.class);
                         intent.putExtra("picUrl", entity.data.coupon.campaign.pictureUrls.get(0));
                         intent.putExtra("name", entity.data.coupon.campaign.name);
-                        intent.putExtra("time", entity.data.coupon.claimedAt);
+                        if (entity.data.coupon.campaign.id != 15) {
+                            intent.putExtra("time", entity.data.coupon.claimedAt);
+                        }
                         intent.putExtra("id", entity.data.coupon.id);
+                        intent.putExtra("campaignId",entity.data.coupon.campaignId);
                         intent.putExtra("stores", (Serializable) entity.data.coupon.campaign.stores);
                         startActivity(intent);
                         finish();
@@ -209,6 +225,10 @@ public class CouponDetailActivity extends BaseActivity {
     }
 
     private void initTopBar(String title) {
+        if ("INSURANCE".equals(type)) {
+            TextView centerTextView = topBar.getCenterTextView();
+            centerTextView.setMaxWidth(GraphicUtils.dip2px(this, 300));
+        }
         topBar.setCenterText(title);
         topBar.setLeftView(true, true);
     }

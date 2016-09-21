@@ -59,6 +59,7 @@
                     android:orientation="horizontal" >
 
                     <TextView
+                        android:id="@+id/tv_claim_text"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="申领时间："
@@ -105,6 +106,7 @@
                     android:textSize="16sp" />
 
                 <LinearLayout
+                    android:id="@+id/ll_redeem"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
@@ -135,26 +137,31 @@
                 </LinearLayout>
 
                 <View
+                    android:id="@+id/line"
                     android:layout_width="match_parent"
                     android:layout_height="10dp"
                     android:background="@color/color_EDEDED" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:layout_marginLeft="15dp"
-                    android:gravity="center_vertical"
-                    android:text="兑换地点"
-                    android:textColor="@color/color_666666"
-                    android:textSize="14sp" />
-
                 <LinearLayout
-                    android:id="@+id/ll_exchange_place"
+                    android:id="@+id/ll_store"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
-                </LinearLayout>
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:layout_marginLeft="15dp"
+                        android:gravity="center_vertical"
+                        android:text="兑换地点"
+                        android:textColor="@color/color_666666"
+                        android:textSize="14sp" />
 
+                    <LinearLayout
+                        android:id="@+id/ll_exchange_place"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+                    </LinearLayout>
+                </LinearLayout>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="0.5dp"

@@ -40,7 +40,12 @@ public class RetailerCouponAdapter extends MyBaseAdapter<CouponCampaign> {
 		
 		viewHolder.title.setText(list.get(pos).name);
 		String time = time2String(list.get(pos).redeemTimeStart,list.get(pos).redeemTimeEnd);
-		viewHolder.time.setText("使用时间：" + time);
+		if(list.get(pos).id == 15){
+			viewHolder.time.setVisibility(View.GONE);
+		} else {
+			viewHolder.time.setVisibility(View.VISIBLE);
+			viewHolder.time.setText("使用时间：" + time);
+		}
 		return view;
 	}
 	
