@@ -71,6 +71,8 @@ public class ApplyTSCouponActivity extends BaseActivity {
         btn_submit = (Button) findViewById(R.id.btn_submit);
         pb_loading = (ProgressBar) findViewById(R.id.pb_loading);
 
+        et_name.setText(SharedPreferencesHelper.getString(this, SharedPreferencesHelper.Field.USER_NAME,""));
+
     }
 
     private void setEvent() {
@@ -126,24 +128,25 @@ public class ApplyTSCouponActivity extends BaseActivity {
             public void onSuccess(int requestCode, BaseEntity resultData) {
                 if (resultData.isOk()) {
                     showToast("领取成功");
-                    ClaimCouponEntity entity = (ClaimCouponEntity) resultData;
-                    if (entity.data != null && entity.data.coupon != null && entity.data.coupon.campaign != null) {
-                        Intent intent = new Intent(ApplyTSCouponActivity.this, CouponQRCodeActivity.class);
-                        intent.putExtra("picUrl", entity.data.coupon.campaign.pictureUrls.get(0));
-                        intent.putExtra("name", entity.data.coupon.campaign.name);
+//                    ClaimCouponEntity entity = (ClaimCouponEntity) resultData;
+//                    if (entity.data != null && entity.data.coupon != null && entity.data.coupon.campaign != null) {
+//                        Intent intent = new Intent(ApplyTSCouponActivity.this, CouponQRCodeActivity.class);
+//                        intent.putExtra("picUrl", entity.data.coupon.campaign.pictureUrls.get(0));
+//                        intent.putExtra("name", entity.data.coupon.campaign.name);
+//
+//                        if (entity.data.coupon.campaign.id != 15) {
+//                            intent.putExtra("time", entity.data.coupon.claimedAt);
+//                        }
+//                        intent.putExtra("id", entity.data.coupon.id);
+//                        intent.putExtra("amount", entity.data.coupon.amount);
+//                        intent.putExtra("type", entity.data.coupon.type);
+//                        intent.putExtra("stores", (Serializable) entity.data.coupon.campaign.stores);
+//                        intent.putExtra("comment", entity.data.coupon.comment);
+//                        startActivity(intent);
+//                    }
 
-                        if (entity.data.coupon.campaign.id != 15) {
-                            intent.putExtra("time", entity.data.coupon.claimedAt);
-                        }
-                        intent.putExtra("id", entity.data.coupon.id);
-                        intent.putExtra("amount", entity.data.coupon.amount);
-                        intent.putExtra("type", entity.data.coupon.type);
-                        intent.putExtra("stores", (Serializable) entity.data.coupon.campaign.stores);
-                        intent.putExtra("comment", entity.data.coupon.comment);
-                        startActivity(intent);
-                        finish();
-                    }
-
+                    setResult(RESULT_OK);
+                    finish();
                 } else if ("2001".equals(resultData.getRespCode())) {
                     showToast("您已领取过了，请勿重复领取");
                 } else if ("2002".equals(resultData.getRespCode())) {

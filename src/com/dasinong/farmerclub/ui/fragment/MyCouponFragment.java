@@ -69,6 +69,7 @@ public class MyCouponFragment extends Fragment {
                     if(notUsedCoupons.get(position).campaign.id != 15){
                         intent.putExtra("time", notUsedCoupons.get(position).claimedAt);
                     }
+                    intent.putExtra("campaignId", notUsedCoupons.get(position).campaign.id);
                     intent.putExtra("id", notUsedCoupons.get(position).id);
                     intent.putExtra("amount", notUsedCoupons.get(position).amount);
                     intent.putExtra("type" , notUsedCoupons.get(position).type);

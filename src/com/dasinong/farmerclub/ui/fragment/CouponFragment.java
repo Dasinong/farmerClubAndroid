@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -80,6 +79,8 @@ public class CouponFragment extends Fragment implements OnClickListener {
 		}
 	}
 
+
+
 	@Override
 	@Nullable
 	public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -89,7 +90,7 @@ public class CouponFragment extends Fragment implements OnClickListener {
 			if (isFarmer) {
 				lv_coupon.setVisibility(View.VISIBLE);
 				ll_retail.setVisibility(View.GONE);
-				queryFarmerData();
+				queryFarmerData(true);
 			} else {
 				lv_coupon.setVisibility(View.GONE);
 				ll_retail.setVisibility(View.VISIBLE);
@@ -120,8 +121,10 @@ public class CouponFragment extends Fragment implements OnClickListener {
 
 	}
 
-	private void queryFarmerData() {
-		mBaseActivity.startLoadingDialog();
+	private void queryFarmerData(final boolean isShow) {
+		if(isShow){
+			mBaseActivity.startLoadingDialog();
+		}
 		RequestService.getInstance().couponCampaigns(getActivity(),lat,lon, AllCouponEntity.class, new RequestListener() {
 			@Override
 			public void onSuccess(int requestCode, BaseEntity resultData) {
@@ -132,12 +135,16 @@ public class CouponFragment extends Fragment implements OnClickListener {
 						getUserCouponStatus(entity.data.coupons);
 					}
 				}
-				mBaseActivity.dismissLoadingDialog();
+				if(isShow){
+					mBaseActivity.dismissLoadingDialog();
+				}
 			}
 
 			@Override
 			public void onFailed(int requestCode, Exception error, String msg) {
-				mBaseActivity.dismissLoadingDialog();
+				if(isShow){
+					mBaseActivity.dismissLoadingDialog();
+				}
 			}
 		});
 	}
@@ -198,16 +205,24 @@ public class CouponFragment extends Fragment implements OnClickListener {
 					if (userCouponStatus.containsKey(item.id) && !"INSURANCE".equals(item.type)) {
 						Coupon coupon = userCouponStatus.get(item.id);
 						if (UseStatus.NOT_USED.equals(coupon.displayStatus)) {
-							Intent intent = new Intent(getActivity(), CouponQRCodeActivity.class);
-							intent.putExtra("picUrl", item.pictureUrls.get(0));
-							intent.putExtra("name", item.name);
-							if(item.id != 15){
-								intent.putExtra("time", coupon.claimedAt);
+							if(item.id == 38 || item.id == 40){
+								Intent intent = new Intent(getActivity(), CouponDetailActivity.class);
+								intent.putExtra("campaignId", item.id);
+								intent.putExtra("isApply", false);
+								intent.putExtra("type", item.type);
+								startActivity(intent);
+							} else {
+								Intent intent = new Intent(getActivity(), CouponQRCodeActivity.class);
+								intent.putExtra("picUrl", item.pictureUrls.get(0));
+								intent.putExtra("name", item.name);
+								if (item.id != 15) {
+									intent.putExtra("time", coupon.claimedAt);
+								}
+								intent.putExtra("stores", (Serializable) item.stores);
+								intent.putExtra("id", coupon.id);
+								intent.putExtra("campaignId", coupon.campaignId);
+								startActivity(intent);
 							}
-							intent.putExtra("stores", (Serializable) item.stores);
-							intent.putExtra("id", coupon.id);
-							intent.putExtra("campaignId",coupon.campaignId);
-							startActivity(intent);
 						} else {
 							Intent intent = new Intent(getActivity(), CouponDetailActivity.class);
 							intent.putExtra("campaignId", item.id);
@@ -256,5 +271,10 @@ public class CouponFragment extends Fragment implements OnClickListener {
 	public void onResume() {
 		super.onResume();
 		MobclickAgent.onEvent(getActivity(), "CouponFragment");
+
+		if(isFarmer){
+			queryFarmerData(false);
+		}
+
 	}
 }

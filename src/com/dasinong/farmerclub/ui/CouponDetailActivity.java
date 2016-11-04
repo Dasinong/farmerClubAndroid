@@ -60,6 +60,8 @@ public class CouponDetailActivity extends BaseActivity {
     private String type;
     private int id;
 
+    public static final int GO_TO_TS_COUPON = 200;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -125,7 +127,7 @@ public class CouponDetailActivity extends BaseActivity {
                     Intent intent = new Intent(CouponDetailActivity.this,ApplyTSCouponActivity.class);
                     intent.putExtra("campaignId", campaignId);
                     intent.putExtra("isInsurance", false);
-                    startActivity(intent);
+                    startActivityForResult(intent,GO_TO_TS_COUPON);
                 } else {
                     Intent intent = new Intent(CouponDetailActivity.this, ApplyCouponActivity.class);
                     intent.putExtra("campaignId", campaignId);
@@ -138,7 +140,11 @@ public class CouponDetailActivity extends BaseActivity {
         if (!isApplay) {
             btn_apply.setClickable(false);
             btn_apply.setBackgroundResource(R.color.color_999999);
-            btn_apply.setText("您已参加过此活动");
+            if(id == 38 || id == 40){
+                btn_apply.setText("您已领取抽奖卷");
+            } else {
+                btn_apply.setText("您已参加过此活动");
+            }
         }
     }
 
@@ -323,4 +329,12 @@ public class CouponDetailActivity extends BaseActivity {
         return strStart + "-" + strEnd;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK){
+            btn_apply.setClickable(false);
+            btn_apply.setBackgroundResource(R.color.color_999999);
+            btn_apply.setText("您已领取抽奖卷");
+        }
+    }
 }
