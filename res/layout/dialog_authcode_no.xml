@@ -14,7 +14,6 @@
         
         <Button
             android:id="@+id/button_get_code_again"
-            android:layout_below="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:textColor="@color/color_1E6ABB"

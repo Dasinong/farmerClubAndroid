@@ -96,7 +96,7 @@ public class CouponDetailActivity extends BaseActivity {
         if ("INSURANCE".equals(type)) {
             findViewById(R.id.ll_redeem).setVisibility(View.GONE);
             findViewById(R.id.ll_store).setVisibility(View.GONE);
-            ((TextView) findViewById(R.id.tv_claim_text)).setText("活动时间");
+            ((TextView) findViewById(R.id.tv_claim_text)).setText("活动时间：");
             btn_apply.setText("立即申请");
         }
 
@@ -248,7 +248,12 @@ public class CouponDetailActivity extends BaseActivity {
 
         String claimTime = time2String(campaign.claimTimeStart, campaign.claimTimeEnd);
 
-        tv_claim.setText(claimTime);
+        if(id == 38 || id == 40){
+            ((TextView) findViewById(R.id.tv_claim_text)).setText("活动时间：");
+            tv_claim.setText("12月1日-8日、12月12日-16日");
+        } else {
+            tv_claim.setText(claimTime);
+        }
 
         tv_description.setText(campaign.description);
 

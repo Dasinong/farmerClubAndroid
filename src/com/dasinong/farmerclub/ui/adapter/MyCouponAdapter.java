@@ -68,7 +68,7 @@ public class MyCouponAdapter extends MyBaseAdapter<Coupon> {
 			} else {
 				time = time2String(list.get(pos).claimedAt, list.get(pos).claimedAt + 30 * DAY_MS);
 			}
-			if(list.get(pos).campaign.id == 15){
+			if(list.get(pos).campaign.id == 15 || list.get(pos).campaign.id == 38 || list.get(pos).campaign.id == 40 ){
 				viewHolder.tv_time.setVisibility(View.GONE);
 			} else {
 				viewHolder.tv_time.setVisibility(View.VISIBLE);

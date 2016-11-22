@@ -172,6 +172,11 @@ public class CouponQRCodeActivity extends BaseActivity {
 			tv_time.setText("兑换日期：" + time);
 		}
 
+		if(campaignId == 38 || campaignId == 40){
+			tv_time.setVisibility(View.VISIBLE);
+			tv_time.setText("兑换日期：12月1日-8日、12月12日-16日");
+		}
+
 		if("INSURANCE".equals(type)){
 			tv_amount.setVisibility(View.VISIBLE);
 			comment.replace("；","  ");

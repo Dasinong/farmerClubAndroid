@@ -37,6 +37,7 @@ public class ApplyTSCouponActivity extends BaseActivity {
     private TopbarView topBar;
     private boolean isInsurance;
     private String campaignId;
+    private EditText et_phone;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class ApplyTSCouponActivity extends BaseActivity {
         et_name = (EditText) findViewById(R.id.et_name);
         et_postcode = (EditText) findViewById(R.id.et_postcode);
         et_address = (EditText) findViewById(R.id.et_address);
+        et_phone = (EditText) findViewById(R.id.et_phone);
 
         btn_submit = (Button) findViewById(R.id.btn_submit);
         pb_loading = (ProgressBar) findViewById(R.id.pb_loading);
@@ -82,6 +84,7 @@ public class ApplyTSCouponActivity extends BaseActivity {
                 String name = et_name.getText().toString().trim();
                 String postcode = et_postcode.getText().toString().trim();
                 String address = et_address.getText().toString().trim();
+                String phone = et_phone.getText().toString().trim();
 
                 if(TextUtils.isEmpty(name)){
                     showToast("姓名不能为空");
@@ -97,9 +100,15 @@ public class ApplyTSCouponActivity extends BaseActivity {
                     showToast("地址不能为空");
                     return;
                 }
+
+                if(TextUtils.isEmpty(phone)){
+                    showToast("联系电话不能为空");
+                    return;
+                }
+
                 startLoadingDialog();
                 btn_submit.setClickable(false);
-                RequestService.getInstance().requestCoupon(ApplyTSCouponActivity.this, name,"" , "", "0", "0", "", "", "", "",postcode,address, BaseEntity.class, new NetRequest.RequestListener() {
+                RequestService.getInstance().requestCoupon(ApplyTSCouponActivity.this, name,"" , "", "0", "0", "", "", "", phone, postcode,address, BaseEntity.class, new NetRequest.RequestListener() {
                     @Override
                     public void onSuccess(int requestCode, BaseEntity resultData) {
                         if (resultData.isOk()) {
